@@ -14,7 +14,7 @@ namespace Api_Agendate_App.Controllers
                     id = 1,
                     usuario = "usuario",
                     contraseña = "contrasenia",
-                    nombreCompleto = "Leeroy Jenkins",
+                    nombreCompleto = "Leeroy Jenkinsss",
                     correoElectronico = "casilla@gmail.com.uy"
                 }
             };

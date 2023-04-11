@@ -16,6 +16,8 @@ namespace Api_Agendate_App.Controllers
                     contraseña = "Unacontrasenia",
                     nombreCompleto = "Leeroy Jenkinsss",
                     correoElectronico = "casilla@gmail.com.uy"
+
+
                 }
             };
 

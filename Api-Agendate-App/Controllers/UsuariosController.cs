@@ -12,10 +12,12 @@ namespace Api_Agendate_App.Controllers
             {
                 new MUsuarios {
                     id = 1,
-                    usuario = "usuario",
-                    contraseña = "contrasenia",
-                    nombreCompleto = "Estebaqweqwen",
-                    correoElectronico = "estebwqeqweqwean@gmail.com.uy"
+                    usuario = "Miusuario",
+                    contraseña = "Unacontrasenia",
+                    nombreCompleto = "Leeroy Jenkinsss",
+                    correoElectronico = "casilla@gmail.com.uy"
+
+
                 }
             };
 

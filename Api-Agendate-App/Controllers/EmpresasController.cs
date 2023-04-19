@@ -23,7 +23,7 @@ namespace Api_Agendate_App.Controllers
 
             new MEmpresas {
                 documentoIdentificatorio = "51217200", //Cedula
-                razonSocial = "Una Empresa con Cedula",
+                razonSocial = "Una Empresa con Cedula !",
                 correo = "UnaEmpresaConCedula@gmail.com",
                 nombrePropietario = "Un Empresario normal",
                 direccion = "8 de Octubre 1333",

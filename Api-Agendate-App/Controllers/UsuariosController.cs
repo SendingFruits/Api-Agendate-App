@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api_Agendate_App.Controllers
 {
     [ApiController]
-    [Route("api/obtenerUsuarios")]
+    [Route("api/Usuarios")]
     public class UsuariosController : ControllerBase
     {
          private static List<MUsuarios> usuarios = new List<MUsuarios>

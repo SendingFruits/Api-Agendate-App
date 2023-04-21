@@ -33,19 +33,33 @@ namespace Api_Agendate_App.Controllers
             }
         };
 
+        #region GETs...
         [HttpGet]
-        public async Task<ActionResult<List<MEmpresas>>> GetEmpresas()
+        public async Task<ActionResult<List<MEmpresas>>> GetAllEmpresas()
         {
             return Ok(empresas);
         }
 
+        [HttpGet ("{documentoIdentificatorio}")]
+        public async Task<ActionResult<List<MEmpresas>>> GetEmpresas(string documentoIdentificatorio)
+        {
+            var empresa = empresas.FirstOrDefault(e => e.documentoIdentificatorio == documentoIdentificatorio.Trim());
+            if (empresa == null)
+                return BadRequest("No se encontro la empresa.");
+            return Ok(empresa);
+        }
+        #endregion
+
+        #region POSTs...
         [HttpPost]
         public async Task<ActionResult<List<MEmpresas>>> AddEmpresas(MEmpresas p_Empresa)
         {
             empresas.Add(p_Empresa);
             return Ok(empresas);
         }
+        #endregion
 
+        #region UPDATEs...
         [HttpPut]
 
         public async Task<ActionResult<List<MEmpresas>>> UpdateEmpresas(MEmpresas p_Empresa)
@@ -66,5 +80,21 @@ namespace Api_Agendate_App.Controllers
             return Ok(empresas);
         }
 
+        #endregion
+
+        #region DELETEs...
+
+        [HttpDelete("{documentoIdentificatorio}")]
+
+        public async Task<ActionResult<MEmpresas>> DeleteEmpresa(string documentoIdentificatorio)
+        {
+            var empresa = empresas.FirstOrDefault(e => e.documentoIdentificatorio == documentoIdentificatorio.Trim());
+            if (empresa == null)
+                return BadRequest("No se encontro la empresa.");
+
+            empresas.Remove(empresa);
+            return Ok(empresas);
+        }
+        #endregion
     }
 }

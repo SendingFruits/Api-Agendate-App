@@ -18,7 +18,6 @@ namespace Api_Agendate_App.Controllers
                 fechaCreacion = DateTime.Now,
                 horaInicio = 9,
                 horaFin = 21,
-                diasAgenda = new bool[] {true,false,true,false,true,false,false},
                 activa = true
             },
             new MAgenda
@@ -29,7 +28,6 @@ namespace Api_Agendate_App.Controllers
                 fechaCreacion = DateTime.Now.AddDays(2),
                 horaInicio = 10,
                 horaFin = 15,
-                diasAgenda = new bool[] {true,true,false,false,false,false,false},
                 activa = false
             }
         };
@@ -73,7 +71,6 @@ namespace Api_Agendate_App.Controllers
             agenda.nombre = p_agenda.nombre;
             agenda.horaInicio = p_agenda.horaInicio;
             agenda.horaFin = p_agenda.horaFin;
-            agenda.diasAgenda = p_agenda.diasAgenda;
             agenda.activa = p_agenda.activa;
 
             return Ok(agenda);

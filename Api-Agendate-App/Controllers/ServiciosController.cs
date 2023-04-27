@@ -12,19 +12,27 @@ namespace Api_Agendate_App.Controllers
         {
             new MServicios
             {
+                id = 1,
                 Nombre = "Peluquería",
                 Tipo = "peluquería",
                 Descripcion= "Una Descripción muy espectacular",
                 FechaInicio= DateTime.Now,
                 FechaFin = DateTime.UtcNow
-
-                
+            },
+            new MServicios
+            {
+                id = 2,
+                Nombre = "Barberia",
+                Tipo = "peluquería",
+                Descripcion= "Una Descripción Awesome",
+                FechaInicio= DateTime.Now,
+                FechaFin = DateTime.UtcNow
             }
         };
 
 
           [HttpGet]
-        public async Task<ActionResult<List<MServicios>>> getServicios()
+        public async Task<ActionResult<List<MServicios>>> GetServicios()
         {
             return Ok(mServicios);
         }
@@ -36,15 +44,16 @@ namespace Api_Agendate_App.Controllers
             return Ok(mServicios);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<List<MServicios>>> RemoveServicio(MServicios unServicio)
+        [HttpDelete("{documentoIdentificatorio}")]
+        public async Task<ActionResult<List<MServicios>>> RemoveServicio(int p_id)
         {
-            mServicios.Remove(unServicio);
+            var servicio = mServicios.FirstOrDefault(s => s.id == p_id);
+            if (servicio == null)
+                return BadRequest("No se encontro el servicio.");
+
+            mServicios.Remove(servicio);
             return Ok(mServicios);
         }
-    
-      
-
 
     }
 }

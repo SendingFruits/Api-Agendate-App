@@ -16,7 +16,8 @@ namespace Api_Agendate_App.Controllers
                 titulo = "Nueva promocion",
                 descripcion = "Una descripcion clara",
                 fechaInicio = DateTime.Now,
-                fechaFin = DateTime.Now.AddDays(5)
+                fechaFin = DateTime.Now.AddDays(5),
+                servicioAsociado = new MServicios()
             },
             new MPromocion
             {
@@ -24,7 +25,8 @@ namespace Api_Agendate_App.Controllers
                 titulo = "Nueva Segunda promocion",
                 descripcion = "Otra descripcion clara",
                 fechaInicio = DateTime.Now,
-                fechaFin = DateTime.Now.AddDays(3)
+                fechaFin = DateTime.Now.AddDays(3),
+                servicioAsociado = new MServicios()
             }
         };
 

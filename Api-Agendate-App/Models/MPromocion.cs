@@ -8,7 +8,7 @@
         public DateTime fechaInicio { get; set; }
         public DateTime fechaFin { get; set; }
 
-        //MServicio 
+        public MServicios servicioAsociado { get; set; }
      
     }
 }

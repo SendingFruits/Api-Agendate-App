@@ -7,7 +7,7 @@
 
         public MEmpresas empresaCreadora { get; set; }
 
-        //private MServicio servicioAsociado {get; set;}
+        public MServicios servicioAsociado {get; set;}
 
         public DateTime fechaCreacion { get; set; }
 

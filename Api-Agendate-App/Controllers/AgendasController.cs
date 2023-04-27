@@ -5,7 +5,7 @@ namespace Api_Agendate_App.Controllers
 {
 
     [ApiController]
-    [Route("api/Empresas")]
+    [Route("api/Agendas")]
     public class AgendasController : ControllerBase
     {
         private static List<MAgenda> agendas = new List<MAgenda>()
@@ -18,7 +18,8 @@ namespace Api_Agendate_App.Controllers
                 fechaCreacion = DateTime.Now,
                 horaInicio = 9,
                 horaFin = 21,
-                activa = true
+                activa = true,
+                servicioAsociado = new MServicios()
             },
             new MAgenda
             {
@@ -28,7 +29,8 @@ namespace Api_Agendate_App.Controllers
                 fechaCreacion = DateTime.Now.AddDays(2),
                 horaInicio = 10,
                 horaFin = 15,
-                activa = false
+                activa = false,
+                servicioAsociado = new MServicios()
             }
         };
 
@@ -51,7 +53,7 @@ namespace Api_Agendate_App.Controllers
 
         #region POSTs...
         [HttpPost]
-        public async Task<ActionResult<List<MEmpresas>>> AddAgenda(MAgenda p_agenda)
+        public async Task<ActionResult<List<MAgenda>>> AddAgenda(MAgenda p_agenda)
         {
             agendas.Add(p_agenda);
             return Ok(agendas);
@@ -82,7 +84,7 @@ namespace Api_Agendate_App.Controllers
 
         [HttpDelete("{id}")]
 
-        public async Task<ActionResult<MEmpresas>> DeleteAgenda(int p_id)
+        public async Task<ActionResult<MAgenda>> DeleteAgenda(int p_id)
         {
             var agenda = agendas.FirstOrDefault(e => e.id == p_id);
             if (agenda == null)

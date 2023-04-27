@@ -2,6 +2,7 @@
 {
     public class MServicios
     {
+        public int id { get; set; }
         public string Nombre { get; set;}
 
         public string Tipo{get; set;}

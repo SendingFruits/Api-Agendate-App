@@ -8,9 +8,9 @@ namespace Api_Agendate_App.Controllers
     [Route("api/Promociones")]
     public class PromocionesController : ControllerBase
     {
-        private static List<MPromocion> promociones = new List<MPromocion>()
+        private static List<PromocionDTO> promociones = new List<PromocionDTO>()
         {
-            new MPromocion
+            new PromocionDTO
             {
                 id = 1,
                 titulo = "Nueva promocion",
@@ -18,7 +18,7 @@ namespace Api_Agendate_App.Controllers
                 fechaInicio = DateTime.Now,
                 fechaFin = DateTime.Now.AddDays(5)
             },
-            new MPromocion
+            new PromocionDTO
             {
                 id = 2,
                 titulo = "Nueva Segunda promocion",
@@ -30,13 +30,13 @@ namespace Api_Agendate_App.Controllers
 
         #region GETs...
         [HttpGet]
-        public async Task<ActionResult<List<MPromocion>>> GetAllPromociones()
+        public async Task<ActionResult<List<PromocionDTO>>> GetAllPromociones()
         {
             return Ok(promociones);
         }
 
         [HttpGet("{idPromocion}")]
-        public async Task<ActionResult<List<MPromocion>>> GetPromocion(int p_id)
+        public async Task<ActionResult<List<PromocionDTO>>> GetPromocion(int p_id)
         {
             var promocion = promociones.FirstOrDefault(e => e.id == p_id);
             if (promocion == null)
@@ -47,7 +47,7 @@ namespace Api_Agendate_App.Controllers
 
         #region POSTs...
         [HttpPost]
-        public async Task<ActionResult<List<MPromocion>>> AddPromocion(MPromocion p_promocion)
+        public async Task<ActionResult<List<PromocionDTO>>> AddPromocion(PromocionDTO p_promocion)
         {
             promociones.Add(p_promocion);
             return Ok(promociones);
@@ -57,7 +57,7 @@ namespace Api_Agendate_App.Controllers
         #region UPDATEs...
         [HttpPut]
 
-        public async Task<ActionResult<List<MPromocion>>> UpdatePromocion(MPromocion p_promocion)
+        public async Task<ActionResult<List<PromocionDTO>>> UpdatePromocion(PromocionDTO p_promocion)
         {
             var promocion = promociones.FirstOrDefault(x => x.id == p_promocion.id);
             if (promocion == null)
@@ -77,7 +77,7 @@ namespace Api_Agendate_App.Controllers
 
         [HttpDelete("{id}")]
 
-        public async Task<ActionResult<MPromocion>> DeletePromocion(int p_id)
+        public async Task<ActionResult<PromocionDTO>> DeletePromocion(int p_id)
         {
             var promocion = promociones.FirstOrDefault(e => e.id == p_id);
             if (promocion == null)

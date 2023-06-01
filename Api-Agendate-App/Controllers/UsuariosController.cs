@@ -8,9 +8,9 @@ namespace Api_Agendate_App.Controllers
     [Route("api/Usuarios")]
     public class UsuariosController : ControllerBase
     {
-         private static List<MUsuarios> usuarios = new List<MUsuarios>
+         private static List<UsuarioDTO> usuarios = new List<UsuarioDTO>
             {
-                new MUsuarios {
+                new UsuarioDTO {
                     id = 1,
                     usuario = "Miusuario",
                     contraseña = "Unacontrasenia",
@@ -22,13 +22,13 @@ namespace Api_Agendate_App.Controllers
             };
 
         [HttpGet]
-        public async Task<ActionResult<List<MUsuarios>>> GetUsuarios()
+        public async Task<ActionResult<List<UsuarioDTO>>> GetUsuarios()
         {
             return Ok(usuarios);
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<MUsuarios>>> AddUsuario(MUsuarios usu)
+        public async Task<ActionResult<List<UsuarioDTO>>> AddUsuario(UsuarioDTO usu)
         {
             usuarios.Add(usu);
             return Ok(usuarios);

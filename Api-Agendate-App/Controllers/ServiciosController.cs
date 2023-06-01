@@ -8,9 +8,9 @@ namespace Api_Agendate_App.Controllers
     public class ServiciosController: ControllerBase
     {
         
-        private List<MServicios> mServicios = new List<MServicios>
+        private List<ServicioDTO> mServicios = new List<ServicioDTO>
         {
-            new MServicios
+            new ServicioDTO
             {
                 Nombre = "Peluquería",
                 Tipo = "peluquería",
@@ -24,20 +24,20 @@ namespace Api_Agendate_App.Controllers
 
 
           [HttpGet]
-        public async Task<ActionResult<List<MServicios>>> getServicios()
+        public async Task<ActionResult<List<ServicioDTO>>> getServicios()
         {
             return Ok(mServicios);
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<MServicios>>> AddServicio(MServicios unServicio)
+        public async Task<ActionResult<List<ServicioDTO>>> AddServicio(ServicioDTO unServicio)
         {
             mServicios.Add(unServicio);
             return Ok(mServicios);
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<MServicios>>> RemoveServicio(MServicios unServicio)
+        public async Task<ActionResult<List<ServicioDTO>>> RemoveServicio(ServicioDTO unServicio)
         {
             mServicios.Remove(unServicio);
             return Ok(mServicios);

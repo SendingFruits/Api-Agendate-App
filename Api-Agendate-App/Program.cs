@@ -1,13 +1,7 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Logic.Data;
 using Microsoft.EntityFrameworkCore;
+using Logic.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
-
 
 //Configuracion servicios
 builder.Services.AddControllers();
@@ -16,16 +10,19 @@ builder.Services.AddSwaggerGen();
 
 //Injeccion de servicios
 ///Aca va el apartado de la carpeta Services
-///
 
 //Configurar el contexto de la base de datos
-builder.Services.AddScoped<DataContext>();
-
-
 builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BdConnectionString")));
+
+var app = builder.Build();
+
+//Para iniciar una base de datos la primera vez que se ejecute el proyecto.
+using (var scope = app.Services.CreateScope())  
 {
-    options.UseSqlServer(DataContext.GetConnectionString());
-});
+    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
+    Context.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {

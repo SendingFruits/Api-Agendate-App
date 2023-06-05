@@ -11,5 +11,6 @@
 
         public string correoElectronico { get; set; }
 
+        public string celular { get; set; }
     }
 }

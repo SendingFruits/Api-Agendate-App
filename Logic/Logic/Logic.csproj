@@ -15,4 +15,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BaseDeDatos\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using Api_Agendate_App.DTOs;
+using System.Numerics;
 
 namespace Api_Agendate_App.Models
 {

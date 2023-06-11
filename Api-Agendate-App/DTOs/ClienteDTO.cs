@@ -1,9 +1,9 @@
-﻿namespace Api_Agendate_App.Models
+﻿namespace Api_Agendate_App.DTOs
 {
     public class ClienteDTO : UsuarioDTO
     {
-        public string documento { get; set; }
+        public string Documento { get; set; }
 
-        public byte[] foto { get; set; }
+        public byte[] Foto { get; set; }
     }
 }

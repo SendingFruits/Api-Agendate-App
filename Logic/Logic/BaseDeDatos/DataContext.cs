@@ -8,5 +8,23 @@ namespace Logic.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<Servicio> Servicios { get; set; }
+
+        public DbSet<Usuario> Usuarios { get; set; }
+
+        public DbSet<Empresa> Empresas { get; set; }
+
+        public DbSet<Cliente> Clientes { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Usuario>()
+                .ToTable("Usuarios");
+
+            modelBuilder.Entity<Empresa>()
+                .ToTable("Empresas");
+
+            modelBuilder.Entity<Cliente>()
+                .ToTable("Clientes");
+        }
     }
 }

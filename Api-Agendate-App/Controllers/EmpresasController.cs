@@ -10,6 +10,10 @@ namespace Api_Agendate_App.Controllers
     [Route("api/Empresas")]
     public class EmpresasController : ControllerBase
     {
+       
+      
+
+      
         private readonly EmpresasService _empresasService;
         public EmpresasController(EmpresasService empresasService)
         {

@@ -8,7 +8,6 @@ namespace Api_Agendate_App.Controllers
     [Route("api/Promociones")]
     public class PromocionesController : ControllerBase
     {
-        
     }
 
 

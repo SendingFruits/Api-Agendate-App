@@ -9,18 +9,5 @@ namespace Api_Agendate_App.Controllers
     public class UsuariosController : ControllerBase
     {
 
-        [HttpGet]
-        public async Task<ActionResult<List<UsuarioDTO>>> GetUsuarios()
-        {
-            //
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<List<UsuarioDTO>>> AddUsuarioEmpresa(EmpresaDTO usu)
-        {
-            //Verificar si existe el usuario con el documento identificatorio
-            //Si no existe, lo agrego
-
-        }
     }
 }

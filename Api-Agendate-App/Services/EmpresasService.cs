@@ -25,7 +25,6 @@ namespace Api_Agendate_App.Services
 
         }
 
-        public Empresa Create(Empresa nuevaEmpresa)
         public APIRespuestas Create(Empresa nuevaEmpresa)
         {
             APIRespuestas respuestas = new APIRespuestas();

@@ -15,20 +15,29 @@ namespace Api_Agendate_App.Services
         }
 
 
-        public Cliente Login (string username, string password) 
-        public APIRespuestas Create(Cliente p_nuevoCliente)
+        public Cliente Login (string username, string password)
         {
-            var clientes = dataContext.Clientes.Where(cli=> cli.NombreUsuario== username&& cli.Contrasenia== password).FirstOrDefault();
+            var clientes = dataContext.Clientes.Where(cli => cli.NombreUsuario == username && cli.Contrasenia == password).FirstOrDefault();
             if (clientes == null)
-            APIRespuestas respuestas = new APIRespuestas();
-            var cliente = dataContext.Clientes.Where(cli => cli.Documento == p_nuevoCliente.Documento).FirstOrDefault();
-            if (cliente != null)
             {
                 return null;
             }
             return clientes;
+        }
+        public APIRespuestas Create(Cliente p_nuevoCliente)
+        {
+            APIRespuestas respuestas = new APIRespuestas();
+            var cliente = dataContext.Clientes.Where(cli => cli.Documento == p_nuevoCliente.Documento).FirstOrDefault();
+            if (cliente != null)
+            {
                 respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
                 return respuestas;
+            }
+
+            dataContext.Clientes.Add(p_nuevoCliente);
+            dataContext.SaveChanges();
+
+            return respuestas;
         }
 
     }

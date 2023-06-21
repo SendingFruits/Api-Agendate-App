@@ -11,6 +11,18 @@ namespace Api_Agendate_App.Services
             dataContext = p_dataContext;
         }
 
+        public Empresa Login(string username, string password)
+        {
+            var empresas= dataContext.Empresas.Where(empe=> empe.NombreUsuario== username && empe.Contrasenia==password).FirstOrDefault();
+
+            if (empresas==null)
+            {
+                return null;
+            }
+            return empresas;
+
+        }
+
         public Empresa Create(Empresa nuevaEmpresa)
         {
             var empresas = dataContext.Empresas.Where(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento).FirstOrDefault();

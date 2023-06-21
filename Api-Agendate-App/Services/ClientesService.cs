@@ -4,26 +4,26 @@ using Logic.Entities;
 
 namespace Api_Agendate_App.Services
 {
-    public class EmpresasService
+    public class ClientesService
     {
         private readonly Logic.Data.DataContext dataContext;
 
-        public EmpresasService(Logic.Data.DataContext p_dataContext)
+        public ClientesService(Logic.Data.DataContext p_dataContext)
         {
             dataContext = p_dataContext;
         }
 
-        public APIRespuestas Create(Empresa nuevaEmpresa)
+        public APIRespuestas Create(Cliente p_nuevoCliente)
         {
             APIRespuestas respuestas = new APIRespuestas();
-            var empresas = dataContext.Empresas.Where(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento).FirstOrDefault();
-            if (empresas != null)
+            var cliente = dataContext.Clientes.Where(cli => cli.Documento == p_nuevoCliente.Documento).FirstOrDefault();
+            if (cliente != null)
             {
                 respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
                 return respuestas;
             }
 
-            dataContext.Empresas.Add(nuevaEmpresa);
+            dataContext.Clientes.Add(p_nuevoCliente);
             dataContext.SaveChanges();
 
             return respuestas;

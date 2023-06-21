@@ -1,6 +1,6 @@
 ﻿namespace Api_Agendate_App.Services
 {
-    public class PromocionService
+    public class PromocionesService
     {
     }
 }

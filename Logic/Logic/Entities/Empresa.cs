@@ -12,8 +12,6 @@ namespace Logic.Entities
         
         public string RazonSocial { get; set; }
 
-        public string Correo { get; set; }
-
         public string NombrePropietario { get; set; }
 
         public string Rubro { get; set; }
@@ -24,9 +22,11 @@ namespace Logic.Entities
 
         public string Ciudad { get; set; }
 
-        public string UbicacionCoordenadas { get; set; }
+        public decimal Latitud { get; set; }
 
-        public byte[] Logo { get; set; }
+        public decimal Longitud { get; set; }
+
+        public byte[]? Logo { get; set; }
 
         public string Descripcion { get; set; }
 

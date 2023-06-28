@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Logic.Data;
+using Api_Agendate_App.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Injeccion de servicios
-///Aca va el apartado de la carpeta Services
+builder.Services.AddScoped<ClientesService>();
+builder.Services.AddScoped<EmpresasService>();
 
 //Configurar el contexto de la base de datos
 builder.Services.AddDbContext<DataContext>(options =>

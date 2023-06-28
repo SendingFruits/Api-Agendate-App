@@ -1,4 +1,6 @@
-﻿using Logic.Entities;
+﻿using Api_Agendate_App.Constantes;
+using Api_Agendate_App.Utilidades;
+using Logic.Entities;
 
 namespace Api_Agendate_App.Services
 {
@@ -23,18 +25,20 @@ namespace Api_Agendate_App.Services
 
         }
 
-        public Empresa Create(Empresa nuevaEmpresa)
+        public APIRespuestas Create(Empresa nuevaEmpresa)
         {
+            APIRespuestas respuestas = new APIRespuestas();
             var empresas = dataContext.Empresas.Where(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento).FirstOrDefault();
             if (empresas != null)
             {
-                return null;
+                respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                return respuestas;
             }
 
             dataContext.Empresas.Add(nuevaEmpresa);
             dataContext.SaveChanges();
 
-            return nuevaEmpresa;
+            return respuestas;
         }
     }
 }

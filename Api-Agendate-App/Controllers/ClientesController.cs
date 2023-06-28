@@ -5,26 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api_Agendate_App.Controllers
 {
-
     [ApiController]
-    [Route("api/Empresas")]
-    public class EmpresasController : ControllerBase
+    [Route("api/Clientes")]
+    public class ClientesController : ControllerBase
     {
-       
-      
-
-      
-        private readonly EmpresasService _empresasService;
-        public EmpresasController(EmpresasService empresasService)
+        private readonly ClientesService _clientesService;
+        public ClientesController(ClientesService clientesService)
         {
-            _empresasService = empresasService;
+        _clientesService = clientesService;
         }
 
         #region POSTs...
         [HttpPost]
-        public async Task<ActionResult<Empresa>> AddEmpresas(Empresa p_Empresa)
+        public async Task<ActionResult<Cliente>> AddCliente(Cliente p_Cliente)
         {
-            APIRespuestas respuesta =  _empresasService.Create(p_Empresa);
+            APIRespuestas respuesta = _clientesService.Create(p_Cliente);
             if (respuesta.codigo == 0)
             {
                 return Ok();
@@ -36,5 +31,5 @@ namespace Api_Agendate_App.Controllers
             }
         }
         #endregion
+        }
     }
-}

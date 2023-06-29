@@ -1,4 +1,5 @@
 ﻿using Api_Agendate_App.Constantes;
+using Api_Agendate_App.Models;
 using Api_Agendate_App.Utilidades;
 using Logic.Entities;
 
@@ -15,9 +16,9 @@ namespace Api_Agendate_App.Services
 
         public Empresa Login(string username, string password)
         {
-            var empresas= dataContext.Empresas.Where(empe=> empe.NombreUsuario== username && empe.Contrasenia==password).FirstOrDefault();
+            var empresas = dataContext.Empresas.Where(empe => empe.NombreUsuario == username && empe.Contrasenia == password).FirstOrDefault();
 
-            if (empresas==null)
+            if (empresas == null)
             {
                 return null;
             }
@@ -25,7 +26,7 @@ namespace Api_Agendate_App.Services
 
         }
 
-        public APIRespuestas Create(Empresa nuevaEmpresa)
+        public APIRespuestas Create(EmpresaDTO nuevaEmpresa)
         {
             APIRespuestas respuestas = new APIRespuestas();
             var empresas = dataContext.Empresas.Where(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento).FirstOrDefault();
@@ -34,11 +35,35 @@ namespace Api_Agendate_App.Services
                 respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
                 return respuestas;
             }
+            //IRepositorio.Create(nuevaEmpresa);
 
-            dataContext.Empresas.Add(nuevaEmpresa);
-            dataContext.SaveChanges();
+
+            // dataContext.Empresas.Add(nuevaEmpresa);
+            //dataContext.SaveChanges();
 
             return respuestas;
         }
+
+        public APIRespuestas Update(EmpresaDTO UpdateEmpresa)
+        {
+            APIRespuestas respuesta = new APIRespuestas();
+            var empresa = IEmpresa.Actualizar(UpdateEmpresa);
+            if (empresa != null)
+            {
+                respuesta.codigo = ConstantesDeErrores.Exito;
+                return respuesta;
+            }
+            return respuesta;
+
+        }
+        public APIRespuestas Obtener(decimal LongitudCli, decimal latituCli)
+        {
+            APIRespuestas respuesta= new APIRespuestas();
+            var listaEmpresas= IRepositorio obtener(where)
+
+        }
+
+
+
     }
 }

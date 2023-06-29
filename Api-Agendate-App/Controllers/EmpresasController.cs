@@ -1,4 +1,5 @@
-﻿using Api_Agendate_App.Services;
+﻿using Api_Agendate_App.Models;
+using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Logic.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace Api_Agendate_App.Controllers
 
         #region POSTs...
         [HttpPost]
-        public async Task<ActionResult<Empresa>> AddEmpresas(Empresa p_Empresa)
+        public async Task<ActionResult<Empresa>> AddEmpresas(EmpresaDTO p_Empresa)
         {
             APIRespuestas respuesta =  _empresasService.Create(p_Empresa);
             if (respuesta.codigo == 0)
@@ -36,5 +37,22 @@ namespace Api_Agendate_App.Controllers
             }
         }
         #endregion
+
+
+
+        [HttpPost]
+        public async Task<ActionResult<Empresa>> Actualizar (EmpresaDTO dTO)
+        {
+            APIRespuestas respuestas = _empresasService.Update(dTO);
+            if (respuestas.codigo == 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                respuestas.ObtenerMensaje(respuestas.codigo);
+                return BadRequest(respuestas.mensaje);
+            }
+        }
     }
 }

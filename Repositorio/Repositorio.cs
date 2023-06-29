@@ -43,12 +43,12 @@ namespace Repositorio
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<T>> ObtenerTodos(Expression<Func<T, bool>>? filto = null)
+        public async Task<IEnumerable<T>> ObtenerTodos(Expression<Func<T, bool>>? filtro = null)
         {
             IQueryable<T> query = dbSet;
-            if (filto != null)
+            if (filtro != null)
             {
-                query = query.Where(filto);
+                query = query.Where(filtro);
             }
             return await query.ToListAsync();
         }

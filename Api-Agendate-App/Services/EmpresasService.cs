@@ -1,7 +1,6 @@
 ﻿using Api_Agendate_App.Constantes;
 using Api_Agendate_App.Models;
 using Api_Agendate_App.Utilidades;
-using Logic.Entities;
 
 namespace Api_Agendate_App.Services
 {

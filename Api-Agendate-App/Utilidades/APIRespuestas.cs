@@ -7,6 +7,8 @@ namespace Api_Agendate_App.Utilidades
         public int codigo {  get; set; }
         public string mensaje { get; set; }
 
+        public object Resultado { get; set; }
+
         public APIRespuestas()
         {
            this.codigo = 0;
@@ -17,5 +19,7 @@ namespace Api_Agendate_App.Utilidades
         {
             this.mensaje = ConstantesDeErrores.DevolverMensaje(p_codigo);
         }
+
+
     }
 }

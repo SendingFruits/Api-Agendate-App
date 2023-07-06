@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api-Agendate-App", "Api-Agendate-App\Api-Agendate-App.csproj", "{AACD6DD7-F8A2-4823-B68B-0E299D496B61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic\Logic.csproj", "{47F992F6-AE59-4019-BF46-DDD7D3FE3088}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic\Logic.csproj", "{47F992F6-AE59-4019-BF46-DDD7D3FE3088}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositorio", "Repositorio\Repositorio.csproj", "{737F7B5D-86FC-4B85-AA5F-14ADF74CEE3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{47F992F6-AE59-4019-BF46-DDD7D3FE3088}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47F992F6-AE59-4019-BF46-DDD7D3FE3088}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47F992F6-AE59-4019-BF46-DDD7D3FE3088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{737F7B5D-86FC-4B85-AA5F-14ADF74CEE3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{737F7B5D-86FC-4B85-AA5F-14ADF74CEE3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{737F7B5D-86FC-4B85-AA5F-14ADF74CEE3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{737F7B5D-86FC-4B85-AA5F-14ADF74CEE3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

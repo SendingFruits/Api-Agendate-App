@@ -109,13 +109,13 @@ namespace Api_Agendate_App.Services
 
         public IEnumerable<EmpresaDTO> GetEmpresas()
         {
-           
-          /*
-                IEnumerable<Empresa> UsuarioList = _EmpRepo.ObtenerTodos();
-                IEnumerable<EmpresaDTO> EmpresasL = _Mapper.Map<IEnumerable<EmpresaDTO>>(UsuarioList).ToList();
-                return EmpresasL.ToList();
-         */
-               
+           throw new NotImplementedException();
+            /*
+                  IEnumerable<Empresa> UsuarioList = _EmpRepo.ObtenerTodos();
+                  IEnumerable<EmpresaDTO> EmpresasL = _Mapper.Map<IEnumerable<EmpresaDTO>>(UsuarioList).ToList();
+                  return EmpresasL.ToList();
+           */
+
         }
         public async Task<ActionResult<APIRespuestas>> ObtenerTodos(decimal LongitudCli, decimal latituCli)
         {

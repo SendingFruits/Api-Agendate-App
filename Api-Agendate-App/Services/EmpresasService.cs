@@ -1,67 +1,139 @@
 ﻿using Api_Agendate_App.Constantes;
 using Api_Agendate_App.Models;
 using Api_Agendate_App.Utilidades;
+using Logic.Entities;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Repositorio;
+using Repositorio.Interfases;
+using System.Collections.Generic;
 
 namespace Api_Agendate_App.Services
 {
+   
     public class EmpresasService
     {
-        private readonly Logic.Data.DataContext dataContext;
-
-        public EmpresasService(Logic.Data.DataContext p_dataContext)
+        private readonly IEmpresa _EmpRepo;
+        private readonly IMapper _Mapper;
+        private readonly APIRespuestas _respuestas;
+        public EmpresasService(IEmpresa EmpRepo, IMapper mapper, APIRespuestas respuestas)
         {
-            dataContext = p_dataContext;
+            _EmpRepo = EmpRepo;
+            _Mapper = mapper;
+            _respuestas = respuestas;
         }
 
-        public Empresa Login(string username, string password)
-        {
-            var empresas = dataContext.Empresas.Where(empe => empe.NombreUsuario == username && empe.Contrasenia == password).FirstOrDefault();
 
-            if (empresas == null)
+       public EmpresaDTO? Login(string username, string password)
+          { 
+              var empresas = _EmpRepo.Obtener(empe => empe.NombreUsuario == username && empe.Contrasenia == password);
+             
+              if (empresas == null)
+              {
+                 return null;
+              }
+              EmpresaDTO Encontre = _Mapper.Map<EmpresaDTO>(empresas);
+              return Encontre;
+
+           }
+
+        public APIRespuestas Create([FromBody]EmpresaDTO nuevaEmpresa)
+        {
+           
+            if (_EmpRepo.Obtener(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento) != null)
             {
-                return null;
+                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                return _respuestas;
             }
-            return empresas;
 
+            Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
+            _EmpRepo.Crear(E);
+
+           
+
+            return _respuestas;
         }
 
-        public APIRespuestas Create(EmpresaDTO nuevaEmpresa)
+        public APIRespuestas Update([FromBody]EmpresaDTO entidad)
         {
-            APIRespuestas respuestas = new APIRespuestas();
-            var empresas = dataContext.Empresas.Where(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento).FirstOrDefault();
-            if (empresas != null)
+            try
             {
-                respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
-                return respuestas;
+                if(_EmpRepo.Obtener(e=>e.Id == entidad.Id) != null)
+                {
+                         var empresa = new Empresa
+                         {
+                                        Id = entidad.Id,
+                                        Nombre = entidad.Nombre,
+                                        Logo = entidad.Logo,
+                                        Calle = entidad.Calle,
+                                        Celular = entidad.Celular,
+                                        Contrasenia = entidad.Contrasenia,
+                                        NombreUsuario = entidad.NombreUsuario,
+                                        RutDocumento = entidad.RutDocumento,
+                                        RazonSocial = entidad.RazonSocial,
+                                        Descripcion = entidad.Descripcion,
+                                        Apellido = entidad.Apellido,
+                                        Ciudad = entidad.Ciudad,
+                                        Correo = entidad.Correo,
+                                        Latitud = entidad.Latitud,
+                                        NumeroPuerta = entidad.NumeroPuerta,
+                                        Longitud = entidad.Longitud,
+                                        NombrePropietario = entidad.NombrePropietario,
+                                        Rubro = entidad.Rubro
+                         };
+            
+                                     _EmpRepo.Actualizar(empresa);
+                                   
+                                    
+                                     _respuestas.codigo = ConstantesDeErrores.Exito;
+               
+                                    
+
+                }
+                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+
+
             }
-            //IRepositorio.Create(nuevaEmpresa);
-
-
-            // dataContext.Empresas.Add(nuevaEmpresa);
-            //dataContext.SaveChanges();
-
-            return respuestas;
-        }
-
-        public APIRespuestas Update(EmpresaDTO UpdateEmpresa)
-        {
-
-            APIRespuestas respuesta = new APIRespuestas();
-            var empresa = IEmpresa.Actualizar(UpdateEmpresa);
-            if (empresa != null)
+            catch (Exception)
             {
-                respuesta.codigo = ConstantesDeErrores.Exito;
-                return respuesta;
+                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
+
             }
-            return respuesta;
+           
+           
+            return _respuestas;
 
         }
-        public APIRespuestas Obtener(decimal LongitudCli, decimal latituCli)
+
+
+
+        public IEnumerable<EmpresaDTO> GetEmpresas()
         {
-            APIRespuestas respuesta= new APIRespuestas();
-            var listaEmpresas= IRepositorio obtener(where)
-
+           
+          /*
+                IEnumerable<Empresa> UsuarioList = _EmpRepo.ObtenerTodos();
+                IEnumerable<EmpresaDTO> EmpresasL = _Mapper.Map<IEnumerable<EmpresaDTO>>(UsuarioList).ToList();
+                return EmpresasL.ToList();
+         */
+               
         }
+        public async Task<ActionResult<APIRespuestas>> ObtenerTodos(decimal LongitudCli, decimal latituCli)
+        {
+            try
+            {
+                IEnumerable<Empresa> EmpresasZona = await _EmpRepo.ObtenerTodos(e=>e.Longitud== LongitudCli || e.Latitud== latituCli);
+                _respuestas.Resultado = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona);
+                _respuestas.codigo= (int)System.Net.HttpStatusCode.OK;
+                return _respuestas;
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.Message;
+               
+            }
+            return _respuestas;
+        }
+    
 
 
 

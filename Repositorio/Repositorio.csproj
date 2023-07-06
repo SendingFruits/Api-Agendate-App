@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Logic\Logic\Logic.csproj" />
-    <ProjectReference Include="..\Api-Agendate-App\Api-Agendate-App.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
-﻿using Api_Agendate_App.Models;
+﻿
 using Logic.Data;
 using Logic.Entities;
-using Microsoft.AspNetCore.Mvc;
+
 using Repositorio.Interfases;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Repositorio.EntidadesDeRepositorio
 {
-    public class EmpresaRepositorio : Repositorio<EmpresaRepositorio>, IEmpresa
+    public class EmpresaRepositorio : Repositorio<Empresa>, IEmpresa
     {
         public readonly DataContext _db;
         public EmpresaRepositorio(DataContext db) : base(db)
@@ -22,7 +22,7 @@ namespace Repositorio.EntidadesDeRepositorio
         
 
 
-        public async Task<EmpresaDTO> Actualizar(EmpresaDTO entidad)
+        public async Task<Empresa> Actualizar(Empresa entidad)
         {
             Empresa e = new Empresa
             {

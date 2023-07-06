@@ -1,41 +1,112 @@
 ﻿using Api_Agendate_App.Constantes;
+using Api_Agendate_App.Models;
 using Api_Agendate_App.Utilidades;
+using AutoMapper;
+using Azure;
+using Logic.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Repositorio.Interfases;
+using Repositorio.IRepositorio;
 
 namespace Api_Agendate_App.Services
 {
     public class ClientesService
     {
-        private readonly Logic.Data.DataContext dataContext;
+        
+        private readonly IUsuario _UsuRepo;
+        private readonly IClienteRepositorio _CliRepo;
+        private readonly IMapper _Mapper;
+        private readonly APIRespuestas _respuestas;
 
-        public ClientesService(Logic.Data.DataContext p_dataContext)
+        public ClientesService(IUsuario UsuRepo,IMapper mapper, APIRespuestas respuestas, IClienteRepositorio cliRepo)
         {
-            dataContext = p_dataContext;
+            _Mapper = mapper;
+            _respuestas = respuestas;
+            _UsuRepo = UsuRepo;
+            _CliRepo = cliRepo;
         }
 
 
-        public Cliente Login (string username, string password)
+        public ClienteDTO Login(string username, string password)
         {
-            var clientes = dataContext.Clientes.Where(cli => cli.NombreUsuario == username && cli.Contrasenia == password).FirstOrDefault();
+            var clientes = _CliRepo.Obtener(cli => cli.NombreUsuario == username && cli.Contrasenia == password);
             if (clientes == null)
             {
                 return null;
             }
-            return clientes;
+            ClienteDTO unCliente = _Mapper.Map<ClienteDTO>(clientes);
+            return unCliente;
         }
-        public APIRespuestas Create(Cliente p_nuevoCliente)
+        public async Task<APIRespuestas> CreateAsync(ClienteDTO p_nuevoCliente)
         {
-            APIRespuestas respuestas = new APIRespuestas();
-            var cliente = dataContext.Clientes.Where(cli => cli.Documento == p_nuevoCliente.Documento).FirstOrDefault();
-            if (cliente != null)
+
+            try
             {
-                respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
-                return respuestas;
+                
+                if (await _CliRepo.Obtener(cli => cli.Documento == p_nuevoCliente.documento)!= null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                    return _respuestas;
+                }
+                Cliente cliente1= _Mapper.Map<Cliente>(p_nuevoCliente);
+               await _CliRepo.Crear(cliente1);
+               _respuestas.codigo = ConstantesDeErrores.Exito;
+
+
             }
+            catch (Exception )
+            {
 
-            dataContext.Clientes.Add(p_nuevoCliente);
-            dataContext.SaveChanges();
+                _respuestas.codigo= ConstantesDeErrores.ErrorInsertandoEntidad;
+            }
+           
+            return _respuestas;
+        }
 
-            return respuestas;
+        public async Task<ActionResult<APIRespuestas>> GetClientes()
+        {
+            try
+            {
+                IEnumerable<Cliente> UsuarioList = await _CliRepo.ObtenerTodos();
+                _respuestas.Resultado = _Mapper.Map<IEnumerable<ClienteDTO>>(UsuarioList);
+              
+                return _respuestas;
+
+            }
+            catch (Exception ex)
+            {
+
+                
+                _respuestas.mensaje =  ex.ToString() ;
+                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
+            }
+            return _respuestas;
+        }
+
+
+        public APIRespuestas Update( ClienteDTO p_Modificacion)
+        {
+
+            try
+            { 
+                if (_CliRepo.Obtener(c=> c.Id == p_Modificacion.Id)== null)
+                {
+                    _respuestas.codigo= ConstantesDeErrores.ErrorEntidadInexistente;
+                    return _respuestas;
+                }
+                Cliente cliente1 = _Mapper.Map<Cliente>(p_Modificacion);
+
+                _CliRepo.Actualizar(cliente1);
+                _respuestas.codigo = ConstantesDeErrores.Exito;
+
+            }
+            catch (Exception )
+            {
+
+               _respuestas.codigo= ConstantesDeErrores.ErrorInsertandoEntidad ;
+            }
+           
+            return _respuestas;
         }
 
     }

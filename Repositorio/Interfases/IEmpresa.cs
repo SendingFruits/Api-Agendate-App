@@ -1,4 +1,4 @@
-﻿using Api_Agendate_App.Models;
+﻿
 using Logic.Entities;
 using Repositorio.EntidadesDeRepositorio;
 using Repositorio.IRepositorio;
@@ -13,7 +13,7 @@ namespace Repositorio.Interfases
     public interface IEmpresa:IRepositorio<Empresa>
     {
 
-        public  Task<EmpresaDTO> Actualizar(EmpresaDTO entidad);
+        public  Task<Empresa> Actualizar(Empresa entidad);
 
 
     }

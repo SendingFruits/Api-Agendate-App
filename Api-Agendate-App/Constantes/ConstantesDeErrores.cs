@@ -5,6 +5,7 @@
         public const int Exito = 0;
         public const int ErrorEntidadExistente = 1;
         public const int ErrorInsertandoEntidad = 2;
+        public const int ErrorEntidadInexistente = 3;
 
         public static string DevolverMensaje(int codigoError)
         {
@@ -19,6 +20,9 @@
                     break;
                 case ErrorInsertandoEntidad:
                     mensaje = "Error insertando la entidad en el sistema";
+                    break;
+                case ErrorEntidadInexistente:
+                    mensaje = "La entidad no existe";
                     break;
             }
             return mensaje;

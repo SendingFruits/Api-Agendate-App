@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Repositorio.IRepositorio
 {
-    public interface IClienteRepositorio : IRepositorio<ClienteRepositorio>
+    public interface IClienteRepositorio : IRepositorio<Cliente>
     {
 
-        Task<ClienteRepositorio> Actualizar(ClienteRepositorio entidad);
+        Task<Cliente> Actualizar(Cliente entidad);
     }
 }

@@ -16,6 +16,8 @@ namespace Logic.Entities
 
         public string Nombre { get; set; }
 
+        public string Tipo { get; set; }
+
         public string Descripcion { get; set; }
 
         public DateTime FechaInicio { get; set; }
@@ -24,8 +26,9 @@ namespace Logic.Entities
 
         public double Costo { get; set; }
 
-        public string Frecuencia { get; set; }
+        public int Cupos { get; set; }
+        public int Frecuencia { get; set; }
 
-        //Public virtual Empresa; Se agrega la referencia cuando se cree Empresa.
+        public virtual Empresa empresa { get; set; }//Se agrega la referencia cuando se cree Empresa.
     }
 }

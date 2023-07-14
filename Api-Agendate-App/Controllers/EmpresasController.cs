@@ -39,6 +39,25 @@ namespace Api_Agendate_App.Controllers
             return _respuestas;
         }
 
+
+        [HttpGet ("Obtener Empresas cerca")]
+        public async Task<ActionResult<APIRespuestas>> ObtenerEmpresas(decimal longitud, decimal latitud)
+        {
+            try
+            {
+                IEnumerable<EmpresaDTO> ListEmp = (IEnumerable<EmpresaDTO>)_empresasService.ObtenerTodos(longitud,latitud);
+                _respuestas.Resultado = ListEmp;
+                _respuestas.codigo = Constantes.ConstantesDeErrores.Exito;
+                return Ok(_respuestas);
+
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+
+            }
+            return _respuestas;
+        }
         #region POSTs...
         [HttpPost]
         public async Task<ActionResult<EmpresaDTO>> AddEmpresas(EmpresaDTO p_Empresa)
@@ -62,6 +81,7 @@ namespace Api_Agendate_App.Controllers
         [HttpPut ]
         public async Task<ActionResult<APIRespuestas>> Actualizar (EmpresaDTO dTO)
         {
+
             APIRespuestas respuestas = _empresasService.Update(dTO);
             if (respuestas.codigo == 0)
             {
@@ -74,7 +94,21 @@ namespace Api_Agendate_App.Controllers
             }
           
         }
+        [HttpDelete]
+        public async Task<ActionResult<APIRespuestas>> Eliminar(EmpresaDTO dTO)
+        {
+            APIRespuestas respuestas= _empresasService.Delete(dTO);
+            if(respuestas.codigo==0)
+            {
+                return Ok(respuestas);
 
+            }
+            else
+            {
+                respuestas.ObtenerMensaje(respuestas.codigo);
+                return BadRequest(respuestas.mensaje);
+            }
+        }
 
 
     }

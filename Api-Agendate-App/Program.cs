@@ -39,8 +39,9 @@ builder.Services.AddScoped<IUsuario, UsuarioRepositorio>();
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IEmpresa, EmpresaRepositorio>();
 
+builder.Services.AddScoped<IServicios, ServicioRepositorios>();
 
- var app = builder.Build();
+var app = builder.Build();
 
 
         //Para migrar los cambios a una base de datos, la primera vez que se ejecute la API.

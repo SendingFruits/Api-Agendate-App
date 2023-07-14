@@ -30,20 +30,22 @@ namespace Api_Agendate_App.Services
         public ClienteDTO Login(string username, string password)
         {
             var clientes = _CliRepo.Obtener(cli => cli.NombreUsuario == username && cli.Contrasenia == password);
-            if (clientes == null)
+            if (clientes != null)
             {
-                return null;
+                ClienteDTO unCliente = _Mapper.Map<ClienteDTO>(clientes);
+                return unCliente;
+               
             }
-            ClienteDTO unCliente = _Mapper.Map<ClienteDTO>(clientes);
-            return unCliente;
+            return null;
         }
         public async Task<APIRespuestas> CreateAsync(ClienteDTO p_nuevoCliente)
         {
 
             try
             {
+                var esta = await _CliRepo.Obtener(cli => cli.Documento == p_nuevoCliente.documento);
                 
-                if (await _CliRepo.Obtener(cli => cli.Documento == p_nuevoCliente.documento)!= null)
+                if (esta!= null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
                     return _respuestas;
@@ -88,15 +90,16 @@ namespace Api_Agendate_App.Services
         {
 
             try
-            { 
-                if (_CliRepo.Obtener(c=> c.Id == p_Modificacion.Id)== null)
+            {
+                var esta =  _CliRepo.Obtener(c => c.Id == p_Modificacion.Id);
+                if (esta== null)
                 {
                     _respuestas.codigo= ConstantesDeErrores.ErrorEntidadInexistente;
                     return _respuestas;
                 }
                 Cliente cliente1 = _Mapper.Map<Cliente>(p_Modificacion);
 
-                _CliRepo.Actualizar(cliente1);
+               _CliRepo.Actualizar(cliente1);
                 _respuestas.codigo = ConstantesDeErrores.Exito;
 
             }
@@ -109,5 +112,28 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
+        public APIRespuestas Delete(int Id)
+        {
+
+            try
+            {
+                var existe = _CliRepo.Obtener(cli => cli.Id ==Id);
+                if (existe != null)
+                {
+                     Cliente C = _Mapper.Map<Cliente>(existe);
+                    _CliRepo.Remover(C);
+                    _respuestas.codigo = ConstantesDeErrores.Exito;
+                    return _respuestas;
+                }
+
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+               
+            }
+         
+            return _respuestas;
+        }
     }
 }

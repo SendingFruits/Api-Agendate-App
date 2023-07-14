@@ -14,9 +14,25 @@ namespace Repositorio
 
         public async Task<Cliente> Actualizar(Cliente entidad)
         {
-            throw new NotImplementedException();
-            _db.Clientes.Add(entidad);
-            await _db.SaveChangesAsync();
+            var Buscar= _db.Clientes.FirstOrDefault(s=> s.Id== entidad.Id);
+            if (Buscar != null)
+            {
+                Cliente C = new Cliente
+                {
+                    Id = entidad.Id,
+                    Nombre = entidad.Nombre,
+                    Foto = entidad.Foto,
+                    Apellido = entidad.Apellido,
+                    Celular = entidad.Celular,
+                    Contrasenia = entidad.Contrasenia,
+                    Correo = entidad.Correo,
+                    Documento = entidad.Documento,
+                    NombreUsuario = entidad.NombreUsuario
+                };
+                 _db.Entry(C).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                 await _db.SaveChangesAsync();
+            }
+           
             return entidad;
         }
     }

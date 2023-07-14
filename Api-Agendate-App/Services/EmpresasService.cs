@@ -39,8 +39,9 @@ namespace Api_Agendate_App.Services
 
         public APIRespuestas Create([FromBody]EmpresaDTO nuevaEmpresa)
         {
+            var Existe = _EmpRepo.Obtener(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento);
            
-            if (_EmpRepo.Obtener(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento) != null)
+            if (Existe != null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
                 return _respuestas;
@@ -49,7 +50,7 @@ namespace Api_Agendate_App.Services
             Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
             _EmpRepo.Crear(E);
 
-           
+            _respuestas.codigo = ConstantesDeErrores.Exito;
 
             return _respuestas;
         }
@@ -58,7 +59,8 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                if(_EmpRepo.Obtener(e=>e.Id == entidad.Id) != null)
+                var Actualizo = _EmpRepo.Obtener(e => e.Id == entidad.Id);
+                if (Actualizo != null)
                 {
                          var empresa = new Empresa
                          {
@@ -107,34 +109,58 @@ namespace Api_Agendate_App.Services
 
 
 
-        public IEnumerable<EmpresaDTO> GetEmpresas()
-        {
-           throw new NotImplementedException();
-            /*
-                  IEnumerable<Empresa> UsuarioList = _EmpRepo.ObtenerTodos();
-                  IEnumerable<EmpresaDTO> EmpresasL = _Mapper.Map<IEnumerable<EmpresaDTO>>(UsuarioList).ToList();
-                  return EmpresasL.ToList();
-           */
-
-        }
-        public async Task<ActionResult<APIRespuestas>> ObtenerTodos(decimal LongitudCli, decimal latituCli)
+        public async Task <IEnumerable<EmpresaDTO>> GetEmpresas()
         {
             try
             {
-                IEnumerable<Empresa> EmpresasZona = await _EmpRepo.ObtenerTodos(e=>e.Longitud== LongitudCli || e.Latitud== latituCli);
-                _respuestas.Resultado = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona);
-                _respuestas.codigo= (int)System.Net.HttpStatusCode.OK;
-                return _respuestas;
+                IEnumerable<Empresa> EmpresasZona = await _EmpRepo.ObtenerTodos();
+                IEnumerable<EmpresaDTO> Lista = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona);
+                _respuestas.Resultado = Lista;
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.Message;
+
+            }
+            return (IEnumerable<EmpresaDTO>)_respuestas.Resultado;
+
+        }
+        public async Task<IEnumerable<EmpresaDTO>> ObtenerTodos(decimal LongitudCli, decimal latituCli)
+        {
+            try
+            {
+                IEnumerable<Empresa> EmpresasZona = await _EmpRepo.ObtenerTodos(e=>e.Longitud >=  LongitudCli || e.Latitud<= latituCli);
+                IEnumerable <EmpresaDTO> Lista = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona);
+                _respuestas.Resultado = Lista;
+                return Lista;
             }
             catch (Exception ex)
             {
                 _respuestas.mensaje = ex.Message;
                
             }
+            return (IEnumerable<EmpresaDTO>)_respuestas.Resultado;
+        }
+
+        public APIRespuestas Delete([FromBody] EmpresaDTO NEmpresa)
+        {
+            var existe = _EmpRepo.Obtener(cli => cli.RutDocumento == NEmpresa.RutDocumento);
+            if (existe != null)
+            {
+                Empresa C = _Mapper.Map<Empresa>(NEmpresa);
+                _EmpRepo.Remover(C);
+                _respuestas.codigo = ConstantesDeErrores.Exito;
+                return _respuestas;
+            }
+
+
+
+
+            _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+
             return _respuestas;
         }
-    
-
 
 
     }

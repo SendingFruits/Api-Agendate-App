@@ -13,12 +13,11 @@ namespace Repositorio.EntidadesDeRepositorio
             _db = db;
         }
 
-        public async Task<Usuario> Actualizar(Usuario entidad)
+        public async Task<Usuario> Actualizar(Usuario n)
         {
-            entidad.Celular = entidad.Celular;
-            _db.Usuarios.Add(entidad);
+            _db.Entry(n).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             await _db.SaveChangesAsync();
-            return entidad;
+            return n;
         }
     }
 }

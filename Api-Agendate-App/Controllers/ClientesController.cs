@@ -35,7 +35,7 @@ namespace Api_Agendate_App.Controllers
         [HttpPut ("ActualizarClienete")]
         public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)
         {
-            APIRespuestas respuestas = _clientesService.Update(_cliente);
+            APIRespuestas respuestas =  _clientesService.Update(_cliente);
 
             if(respuestas.codigo==0)
             {
@@ -48,7 +48,23 @@ namespace Api_Agendate_App.Controllers
             }
         }
         #endregion
+        [HttpDelete]
+        public async Task<ActionResult<APIRespuestas>> Eliminar(int Id)
+        {
 
+
+            APIRespuestas respuestas = _clientesService.Delete(Id);
+            if (respuestas.codigo == 0)
+            {
+                return Ok(respuestas);
+
+            }
+            else
+            {
+                respuestas.ObtenerMensaje(respuestas.codigo);
+                return BadRequest(respuestas.mensaje);
+            }
+        }
 
     }
 

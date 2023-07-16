@@ -1,6 +1,8 @@
 ﻿
 using Api_Agendate_App.Models;
 using Api_Agendate_App.Services;
+using Api_Agendate_App.Utilidades;
+using Logic.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,9 +26,7 @@ namespace Api_Agendate_App.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UsuarioDTO>>> GetUsuarios()
         {
-            List<UsuarioDTO> list= new List<UsuarioDTO>();
-            return list.ToList();
-            //
+          throw new NotImplementedException();
         }
         
 
@@ -34,13 +34,16 @@ namespace Api_Agendate_App.Controllers
 
         public async Task<ActionResult<List<UsuarioDTO>>> LoginUsuario(string usuario, string contrasenia)
         {
-            var usuarioU = _cienteService.Login(usuario, contrasenia);
-           
+           UsuarioDTO usuarioU = _cienteService.Login(usuario, contrasenia);
+           if (usuarioU == null)
+            {
+               usuarioU= _empresasService.Login(usuario, contrasenia);
+            }
 
 
             if(usuarioU != null)
             { 
-                return Ok(usuario);
+                return Ok(usuarioU);
                 
             }
           
@@ -52,15 +55,7 @@ namespace Api_Agendate_App.Controllers
             
         }
 
-      /*  [HttpPost]
-        public async Task<ActionResult<List<UsuarioDTO>>> AddUsuarioEmpresa(EmpresaDTO usu)
-        {
-            //Verificar si existe el usuario con el documento identificatorio
-            //Si no existe, lo agrego
-
-        }
-       
-        */
+    
         
     }
 }

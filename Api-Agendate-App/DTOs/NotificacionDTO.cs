@@ -1,4 +1,7 @@
-﻿namespace Api_Agendate_App.Models
+﻿using Logic.Entities;
+using System.ComponentModel.DataAnnotations;
+
+namespace Api_Agendate_App.Models
 {
     public class NotificacionDTO
     {
@@ -10,6 +13,7 @@
         public DateTime fechaEnvio { get; set; }
 
         public string cuerpo { get; set; }
+
 
     }
 }

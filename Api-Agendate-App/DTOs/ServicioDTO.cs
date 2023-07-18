@@ -15,8 +15,7 @@
 
         public decimal costo { get; set; }
 
-        public int cupos { get; set; } 
-
+        public int cupos { get; set; }
 
         public int frecuencia { get; set; }
 

@@ -25,6 +25,9 @@ namespace Logic.Data
 
             modelBuilder.Entity<Cliente>()
                 .ToTable("Clientes");
+
+            modelBuilder.Entity<Servicio>()
+                .ToTable("Servicios");
         }
     }
 }

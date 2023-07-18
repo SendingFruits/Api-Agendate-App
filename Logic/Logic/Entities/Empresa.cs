@@ -26,7 +26,7 @@ namespace Logic.Entities
 
         public decimal Longitud { get; set; }
 
-        public byte[]? Logo { get; set; }
+        //public byte[]? Logo { get; set; }
 
         public string Descripcion { get; set; }
 

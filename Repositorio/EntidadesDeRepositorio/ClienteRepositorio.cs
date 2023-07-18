@@ -21,7 +21,7 @@ namespace Repositorio
                 {
                     Id = entidad.Id,
                     Nombre = entidad.Nombre,
-                    Foto = entidad.Foto,
+                    //Foto = entidad.Foto,
                     Apellido = entidad.Apellido,
                     Celular = entidad.Celular,
                     Contrasenia = entidad.Contrasenia,

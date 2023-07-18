@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Securiry\**" />
+    <Content Remove="Securiry\**" />
+    <EmbeddedResource Remove="Securiry\**" />
+    <None Remove="Securiry\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
@@ -19,10 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Repositorio\Repositorio.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Securiry\" />
   </ItemGroup>
 
 </Project>

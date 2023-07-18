@@ -31,7 +31,7 @@ namespace Repositorio.EntidadesDeRepositorio
                     {
                         Id= entidad.Id,
                         Nombre = entidad.Nombre,
-                        Logo= entidad.Logo,
+                        //Logo= entidad.Logo,
                         Calle= entidad.Calle,
                         Celular= entidad.Celular,
                         Contrasenia= entidad.Contrasenia,

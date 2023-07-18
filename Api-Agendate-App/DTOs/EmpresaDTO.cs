@@ -22,7 +22,7 @@ namespace Api_Agendate_App.Models
 
         public decimal Longitud { get; set; }
 
-        public byte[]? Logo { get; set; }
+        //public byte[]? Logo { get; set; }
 
         public string Descripcion { get; set; }
     }

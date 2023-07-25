@@ -47,7 +47,7 @@ namespace Api_Agendate_App.Services
             if (existe != null)
             { 
                 Servicio S = _Mapper.Map<Servicio>(existe);
-                _ServRepo.Remover(S);
+                //_ServRepo.Remover(S);
                 _respuestas.codigo = ConstantesDeErrores.Exito;
                 return _respuestas;
             }

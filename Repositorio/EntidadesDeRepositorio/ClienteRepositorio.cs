@@ -12,28 +12,32 @@ namespace Repositorio
             _db = db;
         }
 
-        public async Task<Cliente> Actualizar(Cliente entidad)
+        public async Task<Cliente> Actualizar(Cliente p_entidad)
         {
-            var Buscar= _db.Clientes.FirstOrDefault(s=> s.Id== entidad.Id);
-            if (Buscar != null)
+            var clienteBD = _db.Clientes.FirstOrDefault(s=> s.NombreUsuario== p_entidad.NombreUsuario);
+            if (clienteBD != null)
             {
-                Cliente C = new Cliente
-                {
-                    Id = entidad.Id,
-                    Nombre = entidad.Nombre,
-                    //Foto = entidad.Foto,
-                    Apellido = entidad.Apellido,
-                    Celular = entidad.Celular,
-                    Contrasenia = entidad.Contrasenia,
-                    Correo = entidad.Correo,
-                    Documento = entidad.Documento,
-                    NombreUsuario = entidad.NombreUsuario
-                };
-                 _db.Entry(C).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                 await _db.SaveChangesAsync();
+                ActualizarAtributos(ref clienteBD, p_entidad);
+                await Modificar(clienteBD);
             }
            
-            return entidad;
+            return p_entidad;
+        }
+
+        private void ActualizarAtributos (ref Cliente entidadBase, Cliente entidadModificada)
+        {
+            try
+            {
+                entidadBase.Nombre = entidadModificada.Nombre;
+                entidadBase.Apellido = entidadModificada.Apellido;
+                entidadBase.Correo = entidadModificada.Correo;
+                entidadBase.Celular = entidadModificada.Celular;
+                entidadBase.Documento = entidadModificada.Documento;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
         }
     }
 }

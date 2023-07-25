@@ -12,18 +12,19 @@ namespace Logic.Entities
     [Index(nameof(NombreUsuario), IsUnique = true)]
     public class Usuario
     {
-
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(Order = 1)]
-        public int Id { get; set; }
-
-        [Column(Order = 2)]
         [Required(ErrorMessage = "El campo No puede ser nulo o vacio")]
         [StringLength(100, ErrorMessage = "Sólo se aceptan 100 caracteres")]
         public string NombreUsuario { get; set; }
 
+        [Column(Order = 2)]
+        [Required(ErrorMessage = "Se Requiere un Nombre")]
+        public string Nombre { get; set; }
+
         [Column(Order = 3)]
+        public string Apellido { get; set; }
+
         [Required(ErrorMessage = "El campo No puede ser nulo o vacio")]
         [StringLength(100, ErrorMessage = "Sólo se aceptan 100 caracteres")]
         public string Contrasenia { get; set; }
@@ -33,10 +34,6 @@ namespace Logic.Entities
 
         [Required(ErrorMessage = "El camnpo No puede ser nulo o vacio")]
         public string Correo { get; set; }
-        [Required(ErrorMessage = "Se Requiere un Nombre")]
-        public string Nombre { get; set; }
-
-        public string Apellido { get; set; }
 
     }
 }

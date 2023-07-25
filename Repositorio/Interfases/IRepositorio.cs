@@ -10,7 +10,7 @@ namespace Repositorio.IRepositorio
 
         Task<T> Obtener(Expression<Func<T, bool>>? filto = null, bool tracker = true);
 
-        Task Remover(T entidad);
+        Task Remover(string nombreUsuario);
 
         Task Grabar();
 

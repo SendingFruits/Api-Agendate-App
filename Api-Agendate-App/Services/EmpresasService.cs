@@ -59,12 +59,11 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var Actualizo = _EmpRepo.Obtener(e => e.Id == entidad.Id);
+                var Actualizo = _EmpRepo.Obtener(e => e.NombreUsuario == entidad.NombreUsuario);
                 if (Actualizo != null)
                 {
                          var empresa = new Empresa
                          {
-                                        Id = entidad.Id,
                                         Nombre = entidad.Nombre,
                                         //Logo = entidad.Logo,
                                         Calle = entidad.Calle,
@@ -149,7 +148,7 @@ namespace Api_Agendate_App.Services
             if (existe != null)
             {
                 Empresa C = _Mapper.Map<Empresa>(NEmpresa);
-                _EmpRepo.Remover(C);
+                //_EmpRepo.Remover(C);
                 _respuestas.codigo = ConstantesDeErrores.Exito;
                 return _respuestas;
             }

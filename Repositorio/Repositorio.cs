@@ -22,6 +22,12 @@ namespace Repositorio
             await Grabar();
         }
 
+        public async Task Modificar(T entidad)
+        {
+            dbSet.Update(entidad);
+            await Grabar();
+        }
+
         public async Task Grabar()
         {
             await _Db.SaveChangesAsync();
@@ -53,9 +59,10 @@ namespace Repositorio
             return await query.ToListAsync();
         }
 
-        public async Task Remover(T entidad)
+        public async Task Remover(string nombreUsuario)
         {
-            dbSet.Remove(entidad);
+            var entity = await dbSet.FindAsync(nombreUsuario);
+            dbSet.Remove(entity);
             await Grabar();
         }
     }

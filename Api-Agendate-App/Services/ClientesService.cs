@@ -52,7 +52,7 @@ namespace Api_Agendate_App.Services
                 }
                 Cliente cliente1= _Mapper.Map<Cliente>(p_nuevoCliente);
                await _CliRepo.Crear(cliente1);
-               _respuestas.codigo = ConstantesDeErrores.Exito;
+               _respuestas.codigo = 0;
 
 
             }
@@ -100,7 +100,7 @@ namespace Api_Agendate_App.Services
                 Cliente cliente1 = _Mapper.Map<Cliente>(p_Modificacion);
 
                _CliRepo.Actualizar(cliente1);
-               _respuestas.codigo = ConstantesDeErrores.Exito;
+               _respuestas.codigo = 0;
 
             }
             catch (Exception )
@@ -117,7 +117,7 @@ namespace Api_Agendate_App.Services
             try
             {
                 await _CliRepo.Remover(p_NombreUsuario);
-                _respuestas.codigo = ConstantesDeErrores.Exito;
+                _respuestas.codigo = 0;
                 return _respuestas;
 
             }

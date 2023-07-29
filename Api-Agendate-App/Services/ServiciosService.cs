@@ -33,7 +33,7 @@ namespace Api_Agendate_App.Services
             Servicio S = _Mapper.Map<Servicio>(NuevoServicio);
             _ServRepo.Crear(S);
 
-            _respuestas.codigo = ConstantesDeErrores.Exito;
+            _respuestas.codigo = 0;
 
 
 
@@ -48,7 +48,7 @@ namespace Api_Agendate_App.Services
             { 
                 Servicio S = _Mapper.Map<Servicio>(existe);
                 //_ServRepo.Remover(S);
-                _respuestas.codigo = ConstantesDeErrores.Exito;
+                _respuestas.codigo = 0;
                 return _respuestas;
             }
 
@@ -93,7 +93,7 @@ namespace Api_Agendate_App.Services
                     _ServRepo.Actualizar(S);
 
 
-                    _respuestas.codigo = ConstantesDeErrores.Exito;
+                    _respuestas.codigo = 0;
 
 
 

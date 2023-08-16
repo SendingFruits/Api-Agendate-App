@@ -22,6 +22,25 @@ namespace Api_Agendate_App.Controllers
             _empresasService = empresasService;
             _respuestas = respuestas;
         }
+        [HttpGet("Login")]
+
+        public async Task<ActionResult<APIRespuestas>> Login(string nom, string cont)
+        {
+
+            var respuesta = _empresasService.Login(nom, cont);
+            if (respuesta == null)
+            { 
+                return NotFound();
+            }
+            else
+            {
+                _respuestas.Resultado= respuesta;
+               
+                return Ok(_respuestas.Resultado);
+
+            }
+
+        }
         [HttpGet]
         public async Task<ActionResult> GetEmpresas()
         {

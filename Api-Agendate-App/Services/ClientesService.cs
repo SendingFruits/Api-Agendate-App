@@ -29,14 +29,23 @@ namespace Api_Agendate_App.Services
 
         public ClienteDTO Login(string username, string password)
         {
-            var clientes = _CliRepo.Obtener(cli => cli.NombreUsuario == username && cli.Contrasenia == password);
-            if (clientes != null)
+            try
             {
-                ClienteDTO unCliente = _Mapper.Map<ClienteDTO>(clientes);
+                var clientes = _CliRepo.Obtener(cli => cli.NombreUsuario == username && cli.Contrasenia == password);
+                
+                ClienteDTO unCliente = _Mapper.Map<ClienteDTO>(clientes); 
                 return unCliente;
-               
+
+
             }
-            return null;
+            catch (Exception ex)
+            {
+
+                throw new Exception ("Cliente no encontrado"+ ex) ;
+            }
+            
+          
+          
         }
         public async Task<APIRespuestas> CreateAsync(ClienteDTO p_nuevoCliente)
         {
@@ -70,8 +79,8 @@ namespace Api_Agendate_App.Services
             try
             {
                 IEnumerable<Cliente> UsuarioList = await _CliRepo.ObtenerTodos();
-                _respuestas.Resultado = _Mapper.Map<IEnumerable<ClienteDTO>>(UsuarioList);
-              
+                IEnumerable<ClienteDTO> UsuariosList = _Mapper.Map<IEnumerable<ClienteDTO>>(UsuarioList);
+               _respuestas.Resultado= UsuariosList;
                 return _respuestas;
 
             }
@@ -116,6 +125,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
+                //No preguntamos si existe antes de mandarlo a borrar 
                 await _CliRepo.Remover(p_NombreUsuario);
                 _respuestas.codigo = 0;
                 return _respuestas;

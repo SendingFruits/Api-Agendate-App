@@ -1,15 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Api_Agendate_App.Models
 {
     public class UsuarioDTO
-    {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-      
-        public int Id { get; set; }
-
-      
+    { 
         [Required(ErrorMessage = "El campo No puede ser nulo o vacio")]
         [StringLength(100, ErrorMessage = "Sólo se aceptan 100 caracteres")]
         public string NombreUsuario { get; set; }

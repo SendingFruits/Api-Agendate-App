@@ -49,11 +49,9 @@ namespace Api_Agendate_App.Controllers
         }
         #endregion
         [HttpDelete]
-        public async Task<ActionResult<APIRespuestas>> Eliminar(int Id)
+        public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)
         {
-
-
-            APIRespuestas respuestas = _clientesService.Delete(Id);
+            APIRespuestas respuestas = await _clientesService.Delete(p_NombreUsuario);
             if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);

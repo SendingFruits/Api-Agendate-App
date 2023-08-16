@@ -27,7 +27,7 @@ namespace Api_Agendate_App.Controllers
             {
                 IEnumerable<ServicioDTO> ListEmp = (IEnumerable<ServicioDTO>)_serviciosService.GetSErvicios();
                 _respuestas.Resultado = ListEmp;
-                _respuestas.codigo = Constantes.ConstantesDeErrores.Exito;
+                _respuestas.codigo = 0;
                 return Ok(_respuestas);
 
             }

@@ -24,12 +24,11 @@ namespace Repositorio.EntidadesDeRepositorio
 
         public async Task<Empresa> Actualizar(Empresa entidad)
         {
-            var Encontre = _db.Empresas.FirstOrDefault(Emp => Emp.Id == entidad.Id);
+            var Encontre = _db.Empresas.FirstOrDefault(Emp => Emp.NombreUsuario == entidad.NombreUsuario);
             if (Encontre!=null)
             {   
                 Empresa e = new Empresa
                     {
-                        Id= entidad.Id,
                         Nombre = entidad.Nombre,
                         //Logo= entidad.Logo,
                         Calle= entidad.Calle,

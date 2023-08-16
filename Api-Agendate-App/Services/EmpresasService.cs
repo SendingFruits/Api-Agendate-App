@@ -37,95 +37,81 @@ namespace Api_Agendate_App.Services
 
            }
 
-        public APIRespuestas Create([FromBody]EmpresaDTO nuevaEmpresa)
+        public async Task<APIRespuestas> CreateAsync(EmpresaDTO nuevaEmpresa)
         {
-            var Existe = _EmpRepo.Obtener(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento);
-           
-            if (Existe != null)
+            try
             {
-                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
-                return _respuestas;
+                var existe = await _EmpRepo.Obtener(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento);
+
+                if (existe != null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                    return _respuestas;
+                }
+
+                Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
+                await _EmpRepo.Crear(E);
+
+                _respuestas.codigo = 0;
+
+            }
+            catch (Exception ex)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
             }
 
-            Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
-            _EmpRepo.Crear(E);
-
-            _respuestas.codigo = ConstantesDeErrores.Exito;
 
             return _respuestas;
         }
 
-        public APIRespuestas Update([FromBody]EmpresaDTO entidad)
+        public APIRespuestas Update(EmpresaDTO entidad)
         {
             try
             {
-                var Actualizo = _EmpRepo.Obtener(e => e.Id == entidad.Id);
-                if (Actualizo != null)
+                var empresaBD = _EmpRepo.Obtener(c => c.NombreUsuario == entidad.NombreUsuario);
+                if (empresaBD == null)
                 {
-                         var empresa = new Empresa
-                         {
-                                        Id = entidad.Id,
-                                        Nombre = entidad.Nombre,
-                                        //Logo = entidad.Logo,
-                                        Calle = entidad.Calle,
-                                        Celular = entidad.Celular,
-                                        Contrasenia = entidad.Contrasenia,
-                                        NombreUsuario = entidad.NombreUsuario,
-                                        RutDocumento = entidad.RutDocumento,
-                                        RazonSocial = entidad.RazonSocial,
-                                        Descripcion = entidad.Descripcion,
-                                        Apellido = entidad.Apellido,
-                                        Ciudad = entidad.Ciudad,
-                                        Correo = entidad.Correo,
-                                        Latitud = entidad.Latitud,
-                                        NumeroPuerta = entidad.NumeroPuerta,
-                                        Longitud = entidad.Longitud,
-                                        NombrePropietario = entidad.NombrePropietario,
-                                        Rubro = entidad.Rubro
-                         };
-            
-                                     _EmpRepo.Actualizar(empresa);
-                                   
-                                    
-                                     _respuestas.codigo = ConstantesDeErrores.Exito;
-               
-                                    
-
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    return _respuestas;
                 }
-                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                Empresa empresaFinal = _Mapper.Map<Empresa>(entidad);
 
+                _EmpRepo.Actualizar(empresaFinal);
+                _respuestas.codigo = 0;
 
             }
             catch (Exception)
             {
+
                 _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
-
             }
-           
-           
-            return _respuestas;
 
+            return _respuestas;
         }
 
-
-
-        public async Task <IEnumerable<EmpresaDTO>> GetEmpresas()
+        public async Task<APIRespuestas> GetEmpresas()
         {
             try
             {
-                IEnumerable<Empresa> EmpresasZona = await _EmpRepo.ObtenerTodos();
-                IEnumerable<EmpresaDTO> Lista = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona);
+                var EmpresasZona = await _EmpRepo.ObtenerTodos();
+                if (!EmpresasZona.Any())
+                {
+                    _respuestas.Resultado = null;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                }
+                var Lista = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona).ToList();
                 _respuestas.Resultado = Lista;
-                return Lista;
+                return _respuestas;
             }
             catch (Exception ex)
             {
                 _respuestas.mensaje = ex.Message;
 
             }
-            return (IEnumerable<EmpresaDTO>)_respuestas.Resultado;
+            return _respuestas;
 
         }
+
         public async Task<IEnumerable<EmpresaDTO>> ObtenerTodos(decimal LongitudCli, decimal latituCli)
         {
             try
@@ -143,21 +129,25 @@ namespace Api_Agendate_App.Services
             return (IEnumerable<EmpresaDTO>)_respuestas.Resultado;
         }
 
-        public APIRespuestas Delete([FromBody] EmpresaDTO NEmpresa)
+        public async Task<APIRespuestas> Delete(string p_NombreUsuario)
         {
-            var existe = _EmpRepo.Obtener(cli => cli.RutDocumento == NEmpresa.RutDocumento);
-            if (existe != null)
+            try
             {
-                Empresa C = _Mapper.Map<Empresa>(NEmpresa);
-                _EmpRepo.Remover(C);
-                _respuestas.codigo = ConstantesDeErrores.Exito;
-                return _respuestas;
+                var existe = _EmpRepo.Obtener(emp => emp.NombreUsuario == p_NombreUsuario);
+                if (existe == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    return _respuestas;
+
+                }
+                await _EmpRepo.Remover(p_NombreUsuario);
+                _respuestas.codigo = 0;
+                
             }
-
-
-
-
-            _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+            catch (Exception ex)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+            }
 
             return _respuestas;
         }

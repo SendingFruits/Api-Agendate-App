@@ -52,23 +52,21 @@ builder.Services.AddScoped<IServicios, ServicioRepositorios>();
 
 var app = builder.Build();
 
-/*<<<<<<< Updated upstream
 
 //Para migrar los cambios a una base de datos, la primera vez que se ejecute la API.
 //Tambien aplica si la base de datos que tenemos creada en el motor, no tiene ninguna tabla.
 //Con este Using, creara las tablas segun el DataContext y/o aplicara los cambios nuevos o los de las migrations.
 //En caso que existan las mismas en la carpeta del proyecto. 
 
-using (var scope = app.Services.CreateScope())
 
 //Para iniciar una base de datos la primera vez que se ejecute el proyecto.
-*/
+
 //using (var scope = app.Services.CreateScope())
-/* Stashed changes
-{
-    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
-    Context.Database.Migrate();
-}*/
+
+//{
+//    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
+//    Context.Database.Migrate();
+//}
 
 if (app.Environment.IsDevelopment())
         {

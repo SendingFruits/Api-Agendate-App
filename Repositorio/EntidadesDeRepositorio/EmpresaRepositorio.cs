@@ -19,9 +19,6 @@ namespace Repositorio.EntidadesDeRepositorio
             _db= db;
         }
 
-
-
-
         public async Task<Empresa> Actualizar(Empresa entidad)
         {
             var Encontre = _db.Empresas.FirstOrDefault(Emp => Emp.NombreUsuario == entidad.NombreUsuario);
@@ -41,9 +38,7 @@ namespace Repositorio.EntidadesDeRepositorio
                         Apellido= entidad.Apellido,
                         Ciudad= entidad.Ciudad,
                         Correo= entidad.Correo,
-                        Latitud= entidad.Latitud,
                         NumeroPuerta= entidad.NumeroPuerta,
-                        Longitud= entidad.Longitud,
                         NombrePropietario= entidad.NombrePropietario,
                         Rubro= entidad.Rubro
 

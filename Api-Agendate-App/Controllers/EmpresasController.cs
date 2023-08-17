@@ -67,12 +67,12 @@ namespace Api_Agendate_App.Controllers
         }
 
 
-        [HttpGet ("Obtener Empresas cerca")]
-        public async Task<ActionResult<APIRespuestas>> ObtenerEmpresas(decimal longitud, decimal latitud)
+        [HttpGet("Obtener Empresas cerca")]
+        public async Task<ActionResult<APIRespuestas>> ObtenerEmpresas()
         {
             try
             {
-                IEnumerable<EmpresaDTO> ListEmp = (IEnumerable<EmpresaDTO>)_empresasService.ObtenerTodos(longitud,latitud);
+                IEnumerable<EmpresaDTO> ListEmp = (IEnumerable<EmpresaDTO>)_empresasService.ObtenerTodos();
                 _respuestas.Resultado = ListEmp;
                 _respuestas.codigo = 0;
                 return Ok(_respuestas);

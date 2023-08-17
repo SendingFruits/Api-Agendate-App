@@ -15,6 +15,8 @@ namespace Logic.Data
 
         public DbSet<Cliente> Clientes { get; set; }
 
+        public DbSet<Location> Locations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>()
@@ -28,6 +30,9 @@ namespace Logic.Data
 
             modelBuilder.Entity<Servicio>()
                 .ToTable("Servicios");
+
+            modelBuilder.Entity<Location>()
+                .ToTable("Locations");
         }
     }
 }

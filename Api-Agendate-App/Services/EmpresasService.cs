@@ -112,11 +112,11 @@ namespace Api_Agendate_App.Services
 
         }
 
-        public async Task<IEnumerable<EmpresaDTO>> ObtenerTodos(decimal LongitudCli, decimal latituCli)
+        public async Task<IEnumerable<EmpresaDTO>> ObtenerTodos()
         {
             try
             {
-                IEnumerable<Empresa> EmpresasZona = await _EmpRepo.ObtenerTodos(e=>e.Longitud >=  LongitudCli || e.Latitud<= latituCli);
+                IEnumerable<Empresa> EmpresasZona = await _EmpRepo.ObtenerTodos();
                 IEnumerable <EmpresaDTO> Lista = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona);
                 _respuestas.Resultado = Lista;
                 return Lista;

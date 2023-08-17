@@ -22,6 +22,25 @@ namespace Api_Agendate_App.Controllers
             _empresasService = empresasService;
             _respuestas = respuestas;
         }
+        [HttpGet("Login")]
+
+        public async Task<ActionResult<APIRespuestas>> Login(string nom, string cont)
+        {
+
+            var respuesta = _empresasService.Login(nom, cont);
+            if (respuesta == null)
+            { 
+                return NotFound();
+            }
+            else
+            {
+                _respuestas.Resultado= respuesta;
+               
+                return Ok(_respuestas.Resultado);
+
+            }
+
+        }
         [HttpGet]
         public async Task<ActionResult> GetEmpresas()
         {
@@ -48,12 +67,12 @@ namespace Api_Agendate_App.Controllers
         }
 
 
-        [HttpGet ("Obtener Empresas cerca")]
-        public async Task<ActionResult<APIRespuestas>> ObtenerEmpresas(decimal longitud, decimal latitud)
+        [HttpGet("Obtener Empresas cerca")]
+        public async Task<ActionResult<APIRespuestas>> ObtenerEmpresas()
         {
             try
             {
-                IEnumerable<EmpresaDTO> ListEmp = (IEnumerable<EmpresaDTO>)_empresasService.ObtenerTodos(longitud,latitud);
+                IEnumerable<EmpresaDTO> ListEmp = (IEnumerable<EmpresaDTO>)_empresasService.ObtenerTodos();
                 _respuestas.Resultado = ListEmp;
                 _respuestas.codigo = 0;
                 return Ok(_respuestas);

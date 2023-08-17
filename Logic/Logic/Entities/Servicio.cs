@@ -27,8 +27,9 @@ namespace Logic.Entities
         public double Costo { get; set; }
 
         public int Cupos { get; set; }
+
         public int Frecuencia { get; set; }
 
-        public virtual Empresa empresa { get; set; }//Se agrega la referencia cuando se cree Empresa.
+        public virtual Empresa empresa { get; set; }
     }
 }

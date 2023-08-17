@@ -2,6 +2,7 @@
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Logic.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api_Agendate_App.Controllers
@@ -11,16 +12,35 @@ namespace Api_Agendate_App.Controllers
     public class ClientesController : ControllerBase
     {
         private readonly ClientesService _clientesService;
+
         public ClientesController(ClientesService clientesService)
         {
-        _clientesService = clientesService;
+            _clientesService = clientesService;
         }
+        [HttpGet("Login")]
 
+        public async Task<ActionResult> Login(string nom, string cont)
+        {
+
+            var respuestas = _clientesService.Login(nom, cont);
+            if (respuestas == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                APIRespuestas aPIRespuestas = new APIRespuestas();
+                aPIRespuestas.Resultado = respuestas;
+                return Ok(aPIRespuestas.Resultado);
+
+            }
+
+        }
         #region POSTs...
         [HttpPost]
         public async Task<ActionResult<ClienteDTO>> AddCliente(ClienteDTO p_Cliente)
         {
-            APIRespuestas respuesta =  await _clientesService.CreateAsync(p_Cliente);
+            APIRespuestas respuesta = await _clientesService.CreateAsync(p_Cliente);
             if (respuesta.codigo == 0)
             {
                 return Ok();
@@ -32,12 +52,15 @@ namespace Api_Agendate_App.Controllers
             }
         }
 
-        [HttpPut ("ActualizarClienete")]
+
+        [Authorize]
+
+        [HttpPut("ActualizarClienete")]
         public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)
         {
-            APIRespuestas respuestas =  _clientesService.Update(_cliente);
+            APIRespuestas respuestas = _clientesService.Update(_cliente);
 
-            if(respuestas.codigo==0)
+            if (respuestas.codigo == 0)
             {
                 return Ok();
             }
@@ -48,6 +71,9 @@ namespace Api_Agendate_App.Controllers
             }
         }
         #endregion
+
+        [Authorize]
+
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)
         {

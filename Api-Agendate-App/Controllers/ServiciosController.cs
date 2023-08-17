@@ -21,24 +21,73 @@ namespace Api_Agendate_App.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<APIRespuestas>> GetServicios()
+        public async Task<ActionResult> GetServicios()
         {
             try
             {
-                IEnumerable<ServicioDTO> ListEmp = (IEnumerable<ServicioDTO>)_serviciosService.GetSErvicios();
-                _respuestas.Resultado = ListEmp;
+                var respuesta = await _serviciosService.GetSErvicios();
+                if (respuesta == null)
+                {
+                    _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
+                    _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
+                }
+                _respuestas.Resultado = respuesta.ToList();
                 _respuestas.codigo = 0;
-                return Ok(_respuestas);
+
+                return Ok(_respuestas.Resultado);
 
             }
             catch (Exception)
             {
                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
+                return BadRequest(_respuestas);
+            }
+           
+        }
+        [HttpGet("Buscar Servicio por empresa")]
+        public async Task<ActionResult>GetServicioporEmpresa(string NomEmp)
+        {
+            try
+            {
+                var respuesta = await _serviciosService.ObtenerServEmp(NomEmp);
+                if (respuesta == null)
+                {
+                    _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
+                    _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
+                }
+                _respuestas.Resultado = respuesta;
+                _respuestas.codigo = 0;
+
+                return Ok(_respuestas.Resultado);
 
             }
-            return _respuestas;
-        }
+            catch (Exception)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
+                return BadRequest(_respuestas);
+            }
+            /* try
+             {
+                 var respuesta = await _serviciosService.ObtenerServEmp(idEmp);
+                 if (respuesta == null)
+                 {
+                     _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
+                     _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
+                 }
+                 _respuestas.Resultado = respuesta;
+                 _respuestas.codigo = 0;
 
+                 return Ok(_respuestas.Resultado);
+             }
+             catch (Exception)
+             {
+                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+                 _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
+                 return BadRequest(_respuestas);
+             }*/
+        }
 
         [HttpPost]
         public async Task<ActionResult<ServicioDTO>> AddServicio(ServicioDTO p_Servicio)

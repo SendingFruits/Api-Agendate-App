@@ -21,13 +21,6 @@ namespace Logic.Entities
         public string NumeroPuerta { get; set; }
 
         public string Ciudad { get; set; }
-
-        public decimal Latitud { get; set; }
-
-        public decimal Longitud { get; set; }
-
-        //public byte[]? Logo { get; set; }
-
         public string Descripcion { get; set; }
 
     }

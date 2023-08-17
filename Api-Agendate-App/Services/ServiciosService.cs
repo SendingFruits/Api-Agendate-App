@@ -25,7 +25,7 @@ namespace Api_Agendate_App.Services
         public APIRespuestas Create([FromBody] ServicioDTO NuevoServicio)
         {
             var Existe = _ServRepo.Obtener(ser => ser.Id == NuevoServicio.Id);
-            if ( Existe != null)
+            if (Existe != null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
                 return _respuestas;
@@ -45,7 +45,7 @@ namespace Api_Agendate_App.Services
         {
             var existe = _ServRepo.Obtener(ser => ser.Id == id);
             if (existe != null)
-            { 
+            {
                 Servicio S = _Mapper.Map<Servicio>(existe);
                 //_ServRepo.Remover(S);
                 _respuestas.codigo = 0;
@@ -89,7 +89,7 @@ namespace Api_Agendate_App.Services
                      };*/
 
 
-                    Servicio S = _Mapper.Map < Servicio >( entidad);
+                    Servicio S = _Mapper.Map<Servicio>(entidad);
                     _ServRepo.Actualizar(S);
 
 
@@ -115,6 +115,7 @@ namespace Api_Agendate_App.Services
 
 
 
+
         public async Task<IEnumerable<ServicioDTO>> GetSErvicios()
         {
             try
@@ -132,7 +133,24 @@ namespace Api_Agendate_App.Services
             return (IEnumerable<ServicioDTO>)_respuestas.Resultado;
 
         }
-      
 
+        internal async Task<ActionResult<ServicioDTO>> ObtenerServEmp(string Nomb)
+        {
+            try
+            {
+                
+                var Servis =await  _ServRepo.ObtenerTodos(i => i.empresa.Nombre == Nomb);
+                
+                ServicioDTO EServ = _Mapper.Map<ServicioDTO>(Servis);
+                _respuestas.Resultado = EServ;
+                return EServ;
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.Message;
+                return null;
+            }
+           
+        }
     }
 }

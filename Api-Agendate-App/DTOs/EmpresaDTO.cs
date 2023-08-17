@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using Api_Agendate_App.DTOs;
+using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace Api_Agendate_App.Models
 {
@@ -18,9 +20,8 @@ namespace Api_Agendate_App.Models
 
         public string Ciudad { get; set; }
 
-        public decimal Latitud { get; set; }
-
-        public decimal Longitud { get; set; }
+        [JsonIgnore]
+        public Location? Location { get; set; }
 
         //public byte[]? Logo { get; set; }
 

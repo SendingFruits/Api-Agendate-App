@@ -31,25 +31,25 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var clientes = _CliRepo.Obtener(cli => cli.NombreUsuario == username && cli.Contrasenia == password);
+                var clienteRepo = _CliRepo.Obtener(cli => cli.NombreUsuario == username && cli.Contrasenia == password);
                 
-                ClienteDTO unCliente = _Mapper.Map<ClienteDTO>(clientes); 
-                return unCliente;
+                if (clienteRepo == null) 
+                {
+                    return null;
+                }
 
+                ClienteDTO cliente = _Mapper.Map<ClienteDTO>(clienteRepo);
+                return cliente;
 
             }
             catch (Exception ex)
             {
-
-                throw new Exception ("Cliente no encontrado"+ ex) ;
+                throw new Exception ("Ocurrio un error al intentar encontrar el cliente: " + ex) ;
             }
             
-          
-          
         }
         public async Task<APIRespuestas> CreateAsync(ClienteDTO p_nuevoCliente)
         {
-
             try
             {
                 var esta = await _CliRepo.Obtener(cli => cli.Documento == p_nuevoCliente.documento);
@@ -62,15 +62,12 @@ namespace Api_Agendate_App.Services
                 Cliente cliente1= _Mapper.Map<Cliente>(p_nuevoCliente);
                await _CliRepo.Crear(cliente1);
                _respuestas.codigo = 0;
-
-
             }
             catch (Exception )
             {
 
                 _respuestas.codigo= ConstantesDeErrores.ErrorInsertandoEntidad;
             }
-           
             return _respuestas;
         }
 
@@ -86,18 +83,14 @@ namespace Api_Agendate_App.Services
             }
             catch (Exception ex)
             {
-
-                
                 _respuestas.mensaje =  ex.ToString() ;
                 _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
             }
             return _respuestas;
         }
 
-
-        public APIRespuestas Update( ClienteDTO p_Modificacion)
+        public APIRespuestas Update(ClienteDTO p_Modificacion)
         {
-
             try
             {
                 var esta =  _CliRepo.Obtener(c => c.NombreUsuario == p_Modificacion.NombreUsuario);
@@ -115,9 +108,8 @@ namespace Api_Agendate_App.Services
             catch (Exception )
             {
 
-               _respuestas.codigo= ConstantesDeErrores.ErrorInsertandoEntidad ;
+               _respuestas.codigo= ConstantesDeErrores.ErrorInsertandoEntidad;
             }
-           
             return _respuestas;
         }
 
@@ -129,14 +121,11 @@ namespace Api_Agendate_App.Services
                 await _CliRepo.Remover(p_NombreUsuario);
                 _respuestas.codigo = 0;
                 return _respuestas;
-
             }
             catch (Exception)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
-               
             }
-         
             return _respuestas;
         }
     }

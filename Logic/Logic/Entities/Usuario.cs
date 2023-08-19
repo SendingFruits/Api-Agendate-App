@@ -39,5 +39,7 @@ namespace Logic.Entities
         [Required(ErrorMessage = "El camnpo No puede ser nulo o vacio")]
         public string Correo { get; set; }
 
+        public string TipoUsuario { get; set; }
+
     }
 }

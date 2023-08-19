@@ -20,9 +20,6 @@ namespace Api_Agendate_App.Models
 
         public string Ciudad { get; set; }
 
-        [JsonIgnore]
-        public Location? Location { get; set; }
-
         //public byte[]? Logo { get; set; }
 
         public string Descripcion { get; set; }

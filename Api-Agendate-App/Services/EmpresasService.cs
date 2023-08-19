@@ -10,7 +10,6 @@ using System.Collections.Generic;
 
 namespace Api_Agendate_App.Services
 {
-   
     public class EmpresasService
     {
         private readonly IEmpresa _EmpRepo;
@@ -23,19 +22,17 @@ namespace Api_Agendate_App.Services
             _respuestas = respuestas;
         }
 
-
-       public EmpresaDTO? Login(string username, string password)
-          { 
-              var empresas = _EmpRepo.Obtener(empe => empe.NombreUsuario == username && empe.Contrasenia == password);
+        public async Task<EmpresaDTO> Login(string username, string password)
+       { 
+            var empresaRepo = await _EmpRepo.Obtener(empe => empe.NombreUsuario == username && empe.Contrasenia == password);
              
-              if (empresas == null)
-              {
-                 return null;
-              }
-              EmpresaDTO Encontre = _Mapper.Map<EmpresaDTO>(empresas);
-              return Encontre;
-
-           }
+            if (empresaRepo == null)
+            {
+                return null;
+            }
+            var empresa = _Mapper.Map<EmpresaDTO>(empresaRepo);
+            return empresa;
+       }
 
         public async Task<APIRespuestas> CreateAsync(EmpresaDTO nuevaEmpresa)
         {
@@ -59,8 +56,6 @@ namespace Api_Agendate_App.Services
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
             }
-
-
             return _respuestas;
         }
 
@@ -82,10 +77,8 @@ namespace Api_Agendate_App.Services
             }
             catch (Exception)
             {
-
                 _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
             }
-
             return _respuestas;
         }
 
@@ -109,7 +102,6 @@ namespace Api_Agendate_App.Services
 
             }
             return _respuestas;
-
         }
 
         public async Task<IEnumerable<EmpresaDTO>> ObtenerTodos()
@@ -124,7 +116,6 @@ namespace Api_Agendate_App.Services
             catch (Exception ex)
             {
                 _respuestas.mensaje = ex.Message;
-               
             }
             return (IEnumerable<EmpresaDTO>)_respuestas.Resultado;
         }
@@ -148,10 +139,7 @@ namespace Api_Agendate_App.Services
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
             }
-
             return _respuestas;
         }
-
-
     }
 }

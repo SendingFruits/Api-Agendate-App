@@ -101,6 +101,7 @@ namespace Api_Agendate_App.Controllers
             }
           
         }
+
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)
         {
@@ -116,7 +117,6 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(respuestas.mensaje);
             }
         }
-
 
     }
 }

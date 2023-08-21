@@ -35,36 +35,23 @@ namespace Api_Agendate_App.Controllers
         
 
         [HttpGet("Login")]
-
-        public async Task<ActionResult> LoginUsuario(string usuario, string contra)
+        public async Task<ActionResult> LoginUsuario(string usuario, string contrasenia)
         {
-           if (string.IsNullOrWhiteSpace(usuario) && string.IsNullOrWhiteSpace(contra))
+            if (string.IsNullOrWhiteSpace(usuario) && string.IsNullOrWhiteSpace(contrasenia))
                 return BadRequest("El usuario o la contraseña no pueden ser vacíos.");
 
-            UsuarioDTO usuarioU = _clienteService.Login(usuario,Utilidad.EncriptarClave(contra));
-           if (usuarioU == null)
-           {
-                usuarioU = await _empresasService.Login(usuario,  Utilidad.EncriptarClave(contra));
-           }
+            UsuarioDTO usuarioU = await _clienteService.Login(usuario,Utilidad.EncriptarClave(contrasenia));
+            if (usuarioU == null)
+            {
+                usuarioU = await _empresasService.Login(usuario,  Utilidad.EncriptarClave(contrasenia));
+            } 
 
-           if (usuarioU != null)
-           {
-               return Ok(usuarioU);
-           }
+            if (usuarioU != null)
+            {
+                return Ok(usuarioU);
+            }
           
-           return BadRequest("Usuario no encontrado verifique identidades");
-           
+            return BadRequest("Usuario no encontrado verifique identidades");
         }
-       [HttpPost]
-        public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
-        {
-            APIRespuestas a = new APIRespuestas();
-            usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
-           
-               a  = await _clienteService.CreateAsync(usuario);
-               return Ok(a.Resultado);
-        }
-    
-        
     }
 }

@@ -27,11 +27,11 @@ namespace Api_Agendate_App.Services
         }
 
 
-        public ClienteDTO Login(string username, string password)
+        public async Task<ClienteDTO> Login(string username, string password)
         {
             try
             {
-                var clienteRepo = _CliRepo.Obtener(cli => cli.NombreUsuario == username && cli.Contrasenia == password);
+                var clienteRepo = await _CliRepo.Obtener(cli => cli.NombreUsuario == username && cli.Contrasenia == password);
                 
                 if (clienteRepo == null) 
                 {

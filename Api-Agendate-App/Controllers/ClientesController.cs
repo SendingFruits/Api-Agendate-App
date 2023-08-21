@@ -36,6 +36,18 @@ namespace Api_Agendate_App.Controllers
             }
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
+        {
+            APIRespuestas a = new APIRespuestas();
+            usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
+
+            a = await _clientesService.CreateAsync(usuario);
+            return Ok(a.Resultado);
+
+
+        }
         #region POSTs...
         [HttpPost]
         public async Task<ActionResult<ClienteDTO>> AddCliente(ClienteDTO p_Cliente)

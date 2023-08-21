@@ -41,6 +41,20 @@ namespace Api_Agendate_App.Controllers
             }
 
         }
+
+        [HttpPost("RegistraseEmpresa")]
+        public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO usuario)
+        {
+            APIRespuestas a = new APIRespuestas();
+            usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
+
+            a = await _empresasService.CreateAsync(usuario);
+            return Ok(a.Resultado);
+
+
+        }
+
+
         [HttpGet]
         public async Task<ActionResult> GetEmpresas()
         {
@@ -72,7 +86,7 @@ namespace Api_Agendate_App.Controllers
         {
             try
             {
-                IEnumerable<EmpresaDTO> ListEmp = (IEnumerable<EmpresaDTO>)_empresasService.ObtenerTodos();
+                IEnumerable<EmpresaDTO> ListEmp =(IEnumerable<EmpresaDTO>)_empresasService.ObtenerTodos();
                 _respuestas.Resultado = ListEmp;
                 _respuestas.codigo = 0;
                 return Ok(_respuestas);

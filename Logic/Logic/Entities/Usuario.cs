@@ -36,8 +36,10 @@ namespace Logic.Entities
         [Required(ErrorMessage = "Debe colocar un Celular ")]
         public string Celular { get; set; }
 
-        [Required(ErrorMessage = "El camnpo No puede ser nulo o vacio")]
+        [Required(ErrorMessage = "El campo No puede ser nulo o vacio")]
         public string Correo { get; set; }
+
+        public string TipoUsuario { get; set; }
 
     }
 }

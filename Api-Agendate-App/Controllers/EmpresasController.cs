@@ -22,7 +22,7 @@ namespace Api_Agendate_App.Controllers
             _empresasService = empresasService;
             _respuestas = respuestas;
         }
-        [HttpGet("Login")]
+
 
         public async Task<ActionResult<APIRespuestas>> Login(string nom, string cont)
         {
@@ -53,7 +53,6 @@ namespace Api_Agendate_App.Controllers
 
 
         }
-
 
         [HttpGet]
         public async Task<ActionResult> GetEmpresas()
@@ -133,6 +132,7 @@ namespace Api_Agendate_App.Controllers
             }
           
         }
+
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)
         {
@@ -148,7 +148,6 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(respuestas.mensaje);
             }
         }
-
 
     }
 }

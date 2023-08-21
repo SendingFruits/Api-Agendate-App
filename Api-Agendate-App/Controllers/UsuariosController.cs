@@ -18,12 +18,12 @@ namespace Api_Agendate_App.Controllers
     {
         
         private readonly EmpresasService _empresasService;
-        private readonly ClientesService _cienteService;
+        private readonly ClientesService _clienteService;
       
         public UsuariosController (EmpresasService empresasService, ClientesService cienteService)
         {
             _empresasService = empresasService;
-            _cienteService = cienteService;
+            _clienteService = cienteService;
             
         }
 
@@ -35,65 +35,23 @@ namespace Api_Agendate_App.Controllers
         
 
         [HttpGet("Login")]
-
-        public async Task<ActionResult> LoginUsuario(string usuario, string contra)
+        public async Task<ActionResult> LoginUsuario(string usuario, string contrasenia)
         {
-            
-            UsuarioDTO usuarioU =  _cienteService.Login(usuario,Utilidad.EncriptarClave(contra));
-           if (usuarioU == null)
-            {
-               usuarioU= _empresasService.Login(usuario,  Utilidad.EncriptarClave(contra));
-            }
+            if (string.IsNullOrWhiteSpace(usuario) && string.IsNullOrWhiteSpace(contrasenia))
+                return BadRequest("El usuario o la contraseña no pueden ser vacíos.");
 
+            UsuarioDTO usuarioU = await _clienteService.Login(usuario,Utilidad.EncriptarClave(contrasenia));
+            if (usuarioU == null)
+            {
+                usuarioU = await _empresasService.Login(usuario,  Utilidad.EncriptarClave(contrasenia));
+            } 
 
             if (usuarioU != null)
             {
-                //Encomtre el usuario
-                //Creo un objeto para almacenar al usuario 
-                List<Claim> claims = new List<Claim>() {
-                new Claim(ClaimTypes.Name, usuarioU.NombreUsuario)
-               };
-                //Registrando el usuario con una estructura por defecto 
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                AuthenticationProperties authProperties = new AuthenticationProperties()
-                {
-                    AllowRefresh = true
-                };
-                //Registro como iniciado session al usuario
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties
-
-                    );
-
                 return Ok(usuarioU);
-                
             }
           
-            else
-            {
-                return BadRequest("Usuario no encontrado verifique identidades");
-            }
-           
-            
+            return BadRequest("Usuario no encontrado verifique identidades");
         }
-       [HttpPost]
-        public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
-        {
-            APIRespuestas a = new APIRespuestas();
-            usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
-           
-               a  = await _cienteService.CreateAsync(usuario);
-               return Ok(a.Resultado);
-            
-          
-          
-            
-
-
-        }
-    
-        
     }
 }

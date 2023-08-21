@@ -17,7 +17,41 @@ namespace Api_Agendate_App.Controllers
         {
             _clientesService = clientesService;
         }
+
         
+
+        [HttpGet("Login")]
+
+        public async Task<ActionResult> Login(string nom, string cont)
+        {
+
+            var respuestas = _clientesService.Login(nom, cont);
+            if (respuestas == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                APIRespuestas aPIRespuestas = new APIRespuestas();
+                aPIRespuestas.Resultado = respuestas;
+                return Ok(aPIRespuestas.Resultado);
+
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
+        {
+            APIRespuestas a = new APIRespuestas();
+            usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
+
+            a = await _clientesService.CreateAsync(usuario);
+            return Ok(a.Resultado);
+
+
+        }
+
         #region POSTs...
         [HttpPost]
         public async Task<ActionResult<ClienteDTO>> AddCliente(ClienteDTO p_Cliente)

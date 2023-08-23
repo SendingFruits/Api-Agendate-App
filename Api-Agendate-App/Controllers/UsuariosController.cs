@@ -9,6 +9,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Repositorio.EntidadesDeRepositorio;
+using Api_Agendate_App.Constantes;
 
 namespace Api_Agendate_App.Controllers
 {
@@ -27,31 +28,28 @@ namespace Api_Agendate_App.Controllers
             
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<UsuarioDTO>>> GetUsuarios()
+        [HttpPost("Login")]
+        public async Task<ActionResult> LoginUsuario(string pUsuario, string pContrasenia)
         {
-          throw new NotImplementedException();
-        }
-        
+            APIRespuestas resp = new APIRespuestas();
 
-        [HttpGet("Login")]
-        public async Task<ActionResult> LoginUsuario(string usuario, string contrasenia)
-        {
-            if (string.IsNullOrWhiteSpace(usuario) && string.IsNullOrWhiteSpace(contrasenia))
-                return BadRequest("El usuario o la contraseña no pueden ser vacíos.");
-
-            UsuarioDTO usuarioU = await _clienteService.Login(usuario,Utilidad.EncriptarClave(contrasenia));
-            if (usuarioU == null)
+            if (string.IsNullOrWhiteSpace(pUsuario) && string.IsNullOrWhiteSpace(pContrasenia))
             {
-                usuarioU = await _empresasService.Login(usuario,  Utilidad.EncriptarClave(contrasenia));
+                return BadRequest("Las credenciales de ingreso no pueden ser vacías");
+            }
+                
+            UsuarioDTO usuario = await _clienteService.Login(pUsuario, Utilidad.EncriptarClave(pContrasenia));
+            if (usuario == null)
+            {
+                usuario = await _empresasService.Login(pUsuario,  Utilidad.EncriptarClave(pContrasenia));
             } 
 
-            if (usuarioU != null)
+            if (usuario == null)
             {
-                return Ok(usuarioU);
+                return BadRequest("Usuario no encontrado verifique identidades");
             }
-          
-            return BadRequest("Usuario no encontrado verifique identidades");
+
+            return Ok(usuario);
         }
     }
 }

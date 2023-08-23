@@ -18,29 +18,8 @@ namespace Api_Agendate_App.Controllers
             _clientesService = clientesService;
         }
 
-        
 
-        [HttpGet("Login")]
-
-        public async Task<ActionResult> Login(string nom, string cont)
-        {
-
-            var respuestas = _clientesService.Login(nom, cont);
-            if (respuestas == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                APIRespuestas aPIRespuestas = new APIRespuestas();
-                aPIRespuestas.Resultado = respuestas;
-                return Ok(aPIRespuestas.Resultado);
-
-            }
-
-        }
-
-        [HttpPost]
+        [HttpPost("RegistrarCliente")]
         public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
         {
             APIRespuestas a = new APIRespuestas();
@@ -48,30 +27,9 @@ namespace Api_Agendate_App.Controllers
 
             a = await _clientesService.CreateAsync(usuario);
             return Ok(a.Resultado);
-
-
         }
 
-        #region POSTs...
-        [HttpPost]
-        public async Task<ActionResult<ClienteDTO>> AddCliente(ClienteDTO p_Cliente)
-        {
-            APIRespuestas respuesta = await _clientesService.CreateAsync(p_Cliente);
-            if (respuesta.codigo == 0)
-            {
-                return Ok();
-            }
-            else
-            {
-                respuesta.ObtenerMensaje(respuesta.codigo);
-                return BadRequest(respuesta.mensaje);
-            }
-        }
-
-
-        [Authorize]
-
-        [HttpPut("ActualizarClienete")]
+        [HttpPut("ActualizarCliente")]
         public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)
         {
             APIRespuestas respuestas = _clientesService.Update(_cliente);
@@ -86,9 +44,6 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(respuestas.mensaje);
             }
         }
-        #endregion
-
-        [Authorize]
 
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)

@@ -23,26 +23,7 @@ namespace Api_Agendate_App.Controllers
             _respuestas = respuestas;
         }
 
-
-        public async Task<ActionResult<APIRespuestas>> Login(string nom, string cont)
-        {
-
-            var respuesta = _empresasService.Login(nom, cont);
-            if (respuesta == null)
-            { 
-                return NotFound();
-            }
-            else
-            {
-                _respuestas.Resultado= respuesta;
-               
-                return Ok(_respuestas.Resultado);
-
-            }
-
-        }
-
-        [HttpPost("RegistraseEmpresa")]
+        [HttpPost("RegistrarEmpresa")]
         public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO usuario)
         {
             APIRespuestas a = new APIRespuestas();
@@ -50,11 +31,9 @@ namespace Api_Agendate_App.Controllers
 
             a = await _empresasService.CreateAsync(usuario);
             return Ok(a.Resultado);
-
-
         }
 
-        [HttpGet]
+        [HttpGet("ObtenerEmpresas")]
         public async Task<ActionResult> GetEmpresas()
         {
             try
@@ -80,15 +59,15 @@ namespace Api_Agendate_App.Controllers
         }
 
 
-        [HttpGet("Obtener Empresas cerca")]
-        public async Task<ActionResult<APIRespuestas>> ObtenerEmpresas()
+        [HttpGet("ObtenerEmpresasMapa")]
+        public async Task<ActionResult<APIRespuestas>> GetEmpresasMapa()
         {
             try
             {
-                IEnumerable<EmpresaDTO> ListEmp =(IEnumerable<EmpresaDTO>)_empresasService.ObtenerTodos();
-                _respuestas.Resultado = ListEmp;
-                _respuestas.codigo = 0;
-                return Ok(_respuestas);
+                var respuesta = await _empresasService.GetEmpresasMapa();
+                _respuestas.Resultado = respuesta.Resultado;
+                _respuestas.codigo = respuesta.codigo;
+                return Ok(_respuestas.Resultado);
 
             }
             catch (Exception)
@@ -96,7 +75,7 @@ namespace Api_Agendate_App.Controllers
                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
 
             }
-            return _respuestas;
+            return Ok(_respuestas.Resultado);
         }
         
         #region POSTs...

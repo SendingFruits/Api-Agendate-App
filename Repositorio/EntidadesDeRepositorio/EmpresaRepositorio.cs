@@ -28,7 +28,6 @@ namespace Repositorio.EntidadesDeRepositorio
                     {
                         Nombre = entidad.Nombre,
                         //Logo= entidad.Logo,
-                        Calle= entidad.Calle,
                         Celular= entidad.Celular,
                         Contrasenia= entidad.Contrasenia,
                         NombreUsuario= entidad.NombreUsuario,
@@ -38,7 +37,7 @@ namespace Repositorio.EntidadesDeRepositorio
                         Apellido= entidad.Apellido,
                         Ciudad= entidad.Ciudad,
                         Correo= entidad.Correo,
-                        NumeroPuerta= entidad.NumeroPuerta,
+                        Direccion = entidad.Direccion,
                         NombrePropietario= entidad.NombrePropietario,
                         Rubro= entidad.Rubro
 

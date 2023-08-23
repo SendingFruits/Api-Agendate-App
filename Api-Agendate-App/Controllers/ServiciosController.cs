@@ -45,7 +45,8 @@ namespace Api_Agendate_App.Controllers
             }
            
         }
-        [HttpGet("Buscar Servicio por empresa")]
+
+        [HttpGet("BuscarServicioPorEmpresa")]
         public async Task<ActionResult>GetServicioporEmpresa(string NomEmp)
         {
             try
@@ -68,25 +69,6 @@ namespace Api_Agendate_App.Controllers
                 _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
                 return BadRequest(_respuestas);
             }
-            /* try
-             {
-                 var respuesta = await _serviciosService.ObtenerServEmp(idEmp);
-                 if (respuesta == null)
-                 {
-                     _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
-                     _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
-                 }
-                 _respuestas.Resultado = respuesta;
-                 _respuestas.codigo = 0;
-
-                 return Ok(_respuestas.Resultado);
-             }
-             catch (Exception)
-             {
-                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
-                 _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
-                 return BadRequest(_respuestas);
-             }*/
         }
 
         [HttpPost]
@@ -108,6 +90,7 @@ namespace Api_Agendate_App.Controllers
 
            
         }
+
         [HttpPut]
             public async Task<ActionResult<APIRespuestas>> Actualizar(ServicioDTO dTO)
             {

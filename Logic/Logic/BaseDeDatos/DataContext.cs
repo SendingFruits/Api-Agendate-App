@@ -17,6 +17,11 @@ namespace Logic.Data
 
         public DbSet<Location> Locations { get; set; }
 
+        public DbSet<Notificacion> Notificaciones { get; set; }
+
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>()

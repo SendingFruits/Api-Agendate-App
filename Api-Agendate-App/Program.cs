@@ -9,7 +9,10 @@ using Repositorio.Interfases;
 using Api_Agendate_App.Utilidades;
 using Logic.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.JsonWebTokens;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +39,31 @@ builder.Services.AddScoped<PromocionesService>();
 builder.Services.AddScoped<ReservaService>();
 builder.Services.AddScoped<ServiciosService>();
 
+//Implementacion JWT
+//todo esto es para obtener nuestra clave secreta y convertirla en byte
+builder.Configuration.AddJsonFile("appsettings.json");
+var secretKey = builder.Configuration.GetSection("settings").GetSection("secretkey").ToString();
+var keyBytes= Encoding.UTF8.GetBytes(secretKey);
+//hasta aca 
+//aqui implementa Jwt
+builder.Services.AddAuthentication(config =>
+{
+    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(config =>
+{
+    config.RequireHttpsMetadata = false;
+    config.SaveToken = true;
+    config.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        //Una validacion por usuario
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+    };
+});
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -47,7 +75,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddScoped<IUsuario, UsuarioRepositorio>();
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IEmpresa, EmpresaRepositorio>();
-
+builder.Services.AddScoped<INotificaciones,NotificacionRepositortio>();
 builder.Services.AddScoped<IServicios, ServicioRepositorios>();
 
 var app = builder.Build();
@@ -76,6 +104,8 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+
+
 
 app.UseAuthentication();
 

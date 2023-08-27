@@ -1,6 +1,7 @@
 ﻿using Api_Agendate_App.Models;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api_Agendate_App.Controllers
@@ -88,7 +89,7 @@ namespace Api_Agendate_App.Controllers
                  return BadRequest(_respuestas);
              }*/
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ServicioDTO>> AddServicio(ServicioDTO p_Servicio)
         {  
@@ -108,6 +109,7 @@ namespace Api_Agendate_App.Controllers
 
            
         }
+        [Authorize]
         [HttpPut]
             public async Task<ActionResult<APIRespuestas>> Actualizar(ServicioDTO dTO)
             {
@@ -124,6 +126,7 @@ namespace Api_Agendate_App.Controllers
                 }
 
             }
+        [Authorize]
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(int Id)
         {

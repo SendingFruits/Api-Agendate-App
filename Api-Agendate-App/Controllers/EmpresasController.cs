@@ -21,24 +21,7 @@ namespace Api_Agendate_App.Controllers
             _respuestas = respuestas;
         }
 
-        [HttpPost("Loging")]
-        public async Task<ActionResult<APIRespuestas>> Login(string nom, string cont)
-        {
-
-            var respuesta = await _empresasService.Login(nom, cont);
-            if (respuesta == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                _respuestas.Resultado = respuesta;
-
-                return Ok(_respuestas.Resultado);
-
-            }
-
-        }
+       
 
         [HttpPost("RegistraseEmpresa")]
         public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO usuario)
@@ -47,6 +30,7 @@ namespace Api_Agendate_App.Controllers
             usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
 
             a = await _empresasService.CreateAsync(usuario);
+            a.Resultado= usuario;
             return Ok(a.Resultado);
 
 
@@ -98,21 +82,7 @@ namespace Api_Agendate_App.Controllers
         }
 
         #region POSTs...
-        [HttpPost]
-        public async Task<ActionResult<EmpresaDTO>> AddEmpresas(EmpresaDTO p_Empresa)
-        {
-
-            APIRespuestas respuesta = await _empresasService.CreateAsync(p_Empresa);
-            if (respuesta.codigo == 0)
-            {
-                return Ok();
-            }
-            else
-            {
-                respuesta.ObtenerMensaje(respuesta.codigo);
-                return BadRequest(respuesta.mensaje);
-            }
-        }
+       
         #endregion
         [Authorize]
         [HttpPut]
@@ -133,9 +103,9 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)
+        public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
         {
-            APIRespuestas respuestas = await _empresasService.Delete(p_NombreUsuario);
+            APIRespuestas respuestas = await _empresasService.Delete(id);
             if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);

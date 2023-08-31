@@ -20,25 +20,6 @@ namespace Api_Agendate_App.Controllers
 
         
 
-        [HttpGet("Login")]
-
-        public async Task<ActionResult> Login(string nom, string cont)
-        {
-
-            var respuestas = _clientesService.Login(nom, cont);
-            if (respuestas == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                APIRespuestas aPIRespuestas = new APIRespuestas();
-                aPIRespuestas.Resultado = respuestas;
-                return Ok(aPIRespuestas.Resultado);
-
-            }
-
-        }
 
         [HttpPost]
         public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
@@ -47,28 +28,14 @@ namespace Api_Agendate_App.Controllers
             usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
 
             a = await _clientesService.CreateAsync(usuario);
+            a.Resultado= usuario;
             return Ok(a.Resultado);
 
 
         }
 
         #region POSTs...
-       /* [HttpPost]
-        public async Task<ActionResult<ClienteDTO>> AddCliente(ClienteDTO p_Cliente)
-        {
-            APIRespuestas respuesta = await _clientesService.CreateAsync(p_Cliente);
-            if (respuesta.codigo == 0)
-            {
-                return Ok();
-            }
-            else
-            {
-                respuesta.ObtenerMensaje(respuesta.codigo);
-                return BadRequest(respuesta.mensaje);
-            }
-        }
-
-        */
+      
         [Authorize]
 
         [HttpPut("ActualizarClienete")]
@@ -91,9 +58,9 @@ namespace Api_Agendate_App.Controllers
         [Authorize]
 
         [HttpDelete]
-        public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)
+        public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
         {
-            APIRespuestas respuestas = await _clientesService.Delete(p_NombreUsuario);
+            APIRespuestas respuestas = await _clientesService.Delete(id);
             if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);

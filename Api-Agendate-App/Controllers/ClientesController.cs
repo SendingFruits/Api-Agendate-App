@@ -18,10 +18,9 @@ namespace Api_Agendate_App.Controllers
             _clientesService = clientesService;
         }
 
-        
 
+        [HttpPost("RegistrarCliente")]
 
-        [HttpPost]
         public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
         {
             APIRespuestas a = new APIRespuestas();
@@ -30,16 +29,14 @@ namespace Api_Agendate_App.Controllers
             a = await _clientesService.CreateAsync(usuario);
             a.Resultado= usuario;
             return Ok(a.Resultado);
-
-
         }
+
 
         #region POSTs...
       
         [Authorize]
 
-        [HttpPut("ActualizarClienete")]
-        public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)
+        [HttpPut("ActualizarClienete")]        public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)
         {
             APIRespuestas respuestas = _clientesService.Update(_cliente);
 
@@ -53,9 +50,6 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(respuestas.mensaje);
             }
         }
-        #endregion
-
-        [Authorize]
 
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(int id)

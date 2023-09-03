@@ -16,8 +16,7 @@ namespace Logic.Entities
         public string? NombrePropietario { get; set; }
 
         public string? Rubro { get; set; }
-
-        public string? Calle { get; set; }
+/        public string? Calle { get; set; }
 
         public string? NumeroPuerta { get; set; }
 
@@ -26,6 +25,10 @@ namespace Logic.Entities
         public string? Descripcion { get; set; }
         
         public bool Bandera { get; set; }
+
+        public float Latitude { get; set; }
+
+        public float Longitude { get; set; }
 
     }
 }

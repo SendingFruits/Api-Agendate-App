@@ -24,13 +24,16 @@ namespace Api_Agendate_App.Controllers
 
 
 
+
         [HttpPost("RegistraseEmpresa")]
         public async Task<ActionResult<EmpresaDTO>> Registrarse(CrearEmpresaDTO usuario)
+
         {
             APIRespuestas a = new APIRespuestas();
             usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
 
             a = await _empresasService.CreateAsync(usuario);
+
             if (a != null)
             {
                 a.Resultado = usuario;
@@ -41,9 +44,10 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest();
 
 
+
         }
 
-        [HttpGet]
+        [HttpGet("ObtenerEmpresas")]
         public async Task<ActionResult> GetEmpresas()
         {
             try
@@ -69,15 +73,17 @@ namespace Api_Agendate_App.Controllers
         }
 
 
-        [HttpGet("Obtener Empresas cerca")]
-        public async Task<ActionResult<APIRespuestas>> ObtenerEmpresas()
+        [HttpGet("ObtenerEmpresasMapa")]
+        public async Task<ActionResult<APIRespuestas>> GetEmpresasMapa()
         {
             try
             {
+
                 IEnumerable<EmpresaDTO> ListEmp = (IEnumerable<EmpresaDTO>)_empresasService.ObtenerTodos();
                 _respuestas.Resultado = ListEmp;
                 _respuestas.codigo = 0;
                 return Ok(_respuestas);
+
 
             }
             catch (Exception)
@@ -85,7 +91,7 @@ namespace Api_Agendate_App.Controllers
                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
 
             }
-            return _respuestas;
+            return Ok(_respuestas.Resultado);
         }
 
         #region POSTs...

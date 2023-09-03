@@ -4,13 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace Api_Agendate_App.Models
 {
-    public class EmpresaDTO : UsuarioDTO
+    public class EmpresaMapaDTO
     {
-        public string RutDocumento { get; set; }
+        public int Id { get; set; }
 
         public string RazonSocial { get; set; }
-
-        public string NombrePropietario { get; set; }
 
         public string Rubro { get; set; }
 
@@ -18,10 +16,12 @@ namespace Api_Agendate_App.Models
 
         public string Ciudad { get; set; }
 
+        public float Longitude { get; set; }
+
+        public float Latitude { get; set; }
+
         //public byte[]? Logo { get; set; }
 
         public string Descripcion { get; set; }
-
-        public bool Bandera { get; set; }
     }
 }

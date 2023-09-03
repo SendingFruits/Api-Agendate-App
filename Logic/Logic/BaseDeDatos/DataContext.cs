@@ -36,8 +36,6 @@ namespace Logic.Data
             modelBuilder.Entity<Servicio>()
                 .ToTable("Servicios");
 
-            modelBuilder.Entity<Location>()
-                .ToTable("Locations");
         }
     }
 }

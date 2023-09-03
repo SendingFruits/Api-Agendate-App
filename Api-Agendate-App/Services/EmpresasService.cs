@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Repositorio;
 using Repositorio.Interfases;
 using System.Collections.Generic;
+using Api_Agendate_App.DTOs;
 
 namespace Api_Agendate_App.Services
 {
@@ -36,7 +37,7 @@ namespace Api_Agendate_App.Services
             return empresa;
         }
 
-        public async Task<APIRespuestas> CreateAsync(EmpresaDTO nuevaEmpresa)
+        public async Task<APIRespuestas> CreateAsync(CrearEmpresaDTO nuevaEmpresa)
         {
             try
             {
@@ -49,14 +50,15 @@ namespace Api_Agendate_App.Services
                 }
 
                 Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
+
                 await _EmpRepo.Crear(E);
                 NotificacionDTO n = new NotificacionDTO
                 {
                     asunto = "BIENVENIDO A AGENDATEAPP",
                     correoDestinatario = nuevaEmpresa.Correo,
                     fechaEnvio = DateTime.Now,
-                    cuerpo = "Gracias por registrarte en AgendateApp , estamos muy felices de que formes parte de esta comunidad. " +
-                    "Aquí podras encontrar un muchos clientes buscando tus productos. "
+                    cuerpo = "Gracias por registrarte en AgendateApp , estamos muy felices de que formes parte de esta comunidad. " +"br/"+
+                    "Aquí podras encontrar a muchos clientes  de tú zona buscando tu Servicio. "
 
                 };
                 //Enviamos mail de confirmación

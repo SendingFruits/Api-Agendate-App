@@ -1,4 +1,5 @@
-﻿using Api_Agendate_App.Models;
+﻿using Api_Agendate_App.DTOs;
+using Api_Agendate_App.Models;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Microsoft.AspNetCore.Authorization;
@@ -21,17 +22,23 @@ namespace Api_Agendate_App.Controllers
             _respuestas = respuestas;
         }
 
-       
+
 
         [HttpPost("RegistraseEmpresa")]
-        public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO usuario)
+        public async Task<ActionResult<EmpresaDTO>> Registrarse(CrearEmpresaDTO usuario)
         {
             APIRespuestas a = new APIRespuestas();
             usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
 
             a = await _empresasService.CreateAsync(usuario);
-            a.Resultado= usuario;
-            return Ok(a.Resultado);
+            if (a != null)
+            {
+                a.Resultado = usuario;
+                return Ok(a.Resultado);
+
+            }
+            else
+                return BadRequest();
 
 
         }
@@ -82,7 +89,7 @@ namespace Api_Agendate_App.Controllers
         }
 
         #region POSTs...
-       
+
         #endregion
         [Authorize]
         [HttpPut]

@@ -17,9 +17,9 @@ namespace Logic.Data
 
         public DbSet<Location> Locations { get; set; }
 
-        public DbSet<Notificacion> Notificaciones { get; set; }
+        public DbSet<NotificacionDto> Notificaciones { get; set; }
 
-
+        public DbSet<HorariosServicios> HorariosServicios { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

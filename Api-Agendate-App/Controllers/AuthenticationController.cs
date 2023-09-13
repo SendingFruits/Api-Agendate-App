@@ -48,6 +48,8 @@ namespace Api_Agendate_App.Controllers
                 {
                     Subject = claims,
                     Expires = DateTime.UtcNow.AddMinutes(5),
+                    //Borra los valores repetidos y con HmacSha256Signature  encripta
+                   // Obtiene o establece System.Security.Claims.ClaimsIdentity.Si ambos y Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor.Subject
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(KeyBytes), SecurityAlgorithms.HmacSha256Signature)
                 };
 

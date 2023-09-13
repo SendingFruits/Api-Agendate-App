@@ -1,10 +1,8 @@
 ﻿using Api_Agendate_App.Models;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
-using Logic.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Api_Agendate_App.Controllers
 {
@@ -13,17 +11,36 @@ namespace Api_Agendate_App.Controllers
     [Route("api/Empresas")]
     public class EmpresasController : ControllerBase
     {
-        private readonly APIRespuestas _respuestas; 
+        private readonly APIRespuestas _respuestas;
         private readonly EmpresasService _empresasService;
 
-      
+
         public EmpresasController(EmpresasService empresasService, APIRespuestas respuestas)
         {
             _empresasService = empresasService;
             _respuestas = respuestas;
         }
 
-        [HttpPost("RegistrarEmpresa")]
+        [HttpPost("Loging")]
+        public async Task<ActionResult<APIRespuestas>> Login(string nom, string cont)
+        {
+
+            var respuesta = await _empresasService.Login(nom, cont);
+            if (respuesta == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _respuestas.Resultado = respuesta;
+
+                return Ok(_respuestas.Resultado);
+
+            }
+
+        }
+
+        [HttpPost("RegistraseEmpresa")]
         public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO usuario)
         {
             APIRespuestas a = new APIRespuestas();
@@ -77,7 +94,7 @@ namespace Api_Agendate_App.Controllers
             }
             return Ok(_respuestas.Resultado);
         }
-        
+
         #region POSTs...
         [HttpPost]
         public async Task<ActionResult<EmpresaDTO>> AddEmpresas(EmpresaDTO p_Empresa)
@@ -94,29 +111,29 @@ namespace Api_Agendate_App.Controllers
             }
         }
         #endregion
-
+        [Authorize]
         [HttpPut]
-        public async Task<ActionResult<EmpresaDTO>> Actualizar (EmpresaDTO dTO)
+        public async Task<ActionResult<EmpresaDTO>> Actualizar(EmpresaDTO dTO)
         {
-
-            APIRespuestas respuestas = _empresasService.Update(dTO);
-            if (respuestas.codigo == 0)
+            var respuesta = _empresasService.Update(dTO);
+            if (respuesta.codigo == 0)
             {
-                return Ok(respuestas);
+                return Ok(respuesta);
             }
             else
             {
-                respuestas.ObtenerMensaje(respuestas.codigo);
-                return BadRequest(respuestas.mensaje);
+                respuesta.ObtenerMensaje(respuesta.codigo);
+                return BadRequest(respuesta.mensaje);
             }
-          
+
+
         }
 
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)
         {
-            APIRespuestas respuestas= await _empresasService.Delete(p_NombreUsuario);
-            if(respuestas.codigo==0)
+            APIRespuestas respuestas = await _empresasService.Delete(p_NombreUsuario);
+            if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);
 

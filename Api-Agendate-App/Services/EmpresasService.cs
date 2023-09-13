@@ -23,16 +23,16 @@ namespace Api_Agendate_App.Services
         }
 
         public async Task<EmpresaDTO> Login(string username, string password)
-       { 
+        {
             var empresaRepo = await _EmpRepo.Obtener(empe => empe.NombreUsuario == username && empe.Contrasenia == password);
-             
+
             if (empresaRepo == null)
             {
                 return null;
             }
             var empresa = _Mapper.Map<EmpresaDTO>(empresaRepo);
             return empresa;
-       }
+        }
 
         public async Task<APIRespuestas> CreateAsync(EmpresaDTO nuevaEmpresa)
         {
@@ -123,6 +123,28 @@ namespace Api_Agendate_App.Services
                 _respuestas.mensaje = ex.Message;
             }
             return _respuestas;
+        }
+        public async Task<APIRespuestas> Buscar(string rut)
+        {
+            try
+            {
+                var Esta = await _EmpRepo.Obtener(empre => empre.RutDocumento == rut);
+                if(Esta==null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    return _respuestas;
+                }
+                _respuestas.Resultado= Esta;
+                _respuestas.codigo = 0;
+
+                return _respuestas;
+            }
+            catch (Exception)
+            {
+
+                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
+                return _respuestas;
+            }
         }
 
         public async Task<APIRespuestas> Delete(string p_NombreUsuario)

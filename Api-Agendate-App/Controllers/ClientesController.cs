@@ -27,9 +27,30 @@ namespace Api_Agendate_App.Controllers
 
             a = await _clientesService.CreateAsync(usuario);
             return Ok(a.Resultado);
+
+
         }
 
-        [HttpPut("ActualizarCliente")]
+        #region POSTs...
+       /* [HttpPost]
+        public async Task<ActionResult<ClienteDTO>> AddCliente(ClienteDTO p_Cliente)
+        {
+            APIRespuestas respuesta = await _clientesService.CreateAsync(p_Cliente);
+            if (respuesta.codigo == 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                respuesta.ObtenerMensaje(respuesta.codigo);
+                return BadRequest(respuesta.mensaje);
+            }
+        }
+
+        */
+        [Authorize]
+
+        [HttpPut("ActualizarClienete")]
         public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)
         {
             APIRespuestas respuestas = _clientesService.Update(_cliente);

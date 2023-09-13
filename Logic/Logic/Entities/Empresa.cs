@@ -16,12 +16,15 @@ namespace Logic.Entities
 
         public string Rubro { get; set; }
 
-        public string Calle { get; set; }
-
-        public string NumeroPuerta { get; set; }
+        public string Direccion { get; set; }
 
         public string Ciudad { get; set; }
+
         public string Descripcion { get; set; }
+
+        public float Latitude { get; set; }
+
+        public float Longitude { get; set; }
 
     }
 }

@@ -11,6 +11,7 @@ namespace Api_Agendate_App.Constantes
             CreateMap<Usuario, UsuarioDTO>().ReverseMap();
             CreateMap<Cliente, ClienteDTO>().ReverseMap();
             CreateMap<Empresa, EmpresaDTO>().ReverseMap();
+            CreateMap<Empresa, EmpresaMapaDTO>().ReverseMap();
             CreateMap<Servicio, ServicioDTO>().ReverseMap();
         }
     }

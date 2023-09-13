@@ -18,29 +18,8 @@ namespace Api_Agendate_App.Controllers
             _clientesService = clientesService;
         }
 
-        
 
-        [HttpGet("Login")]
-
-        public async Task<ActionResult> Login(string nom, string cont)
-        {
-
-            var respuestas = _clientesService.Login(nom, cont);
-            if (respuestas == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                APIRespuestas aPIRespuestas = new APIRespuestas();
-                aPIRespuestas.Resultado = respuestas;
-                return Ok(aPIRespuestas.Resultado);
-
-            }
-
-        }
-
-        [HttpPost]
+        [HttpPost("RegistrarCliente")]
         public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
         {
             APIRespuestas a = new APIRespuestas();
@@ -86,9 +65,6 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(respuestas.mensaje);
             }
         }
-        #endregion
-
-        [Authorize]
 
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)

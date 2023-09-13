@@ -104,20 +104,25 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<IEnumerable<EmpresaDTO>> ObtenerTodos()
+        public async Task<APIRespuestas> GetEmpresasMapa()
         {
             try
             {
-                IEnumerable<Empresa> EmpresasZona = await _EmpRepo.ObtenerTodos();
-                IEnumerable<EmpresaDTO> Lista = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona);
+                var empresasZona = await _EmpRepo.ObtenerTodos();
+                if (!empresasZona.Any())
+                {
+                    _respuestas.Resultado = null;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                }
+                IEnumerable <EmpresaMapaDTO> Lista = _Mapper.Map<IEnumerable<EmpresaMapaDTO>>(empresasZona);
                 _respuestas.Resultado = Lista;
-                return Lista;
+                return _respuestas;
             }
             catch (Exception ex)
             {
                 _respuestas.mensaje = ex.Message;
             }
-            return (IEnumerable<EmpresaDTO>)_respuestas.Resultado;
+            return _respuestas;
         }
         public async Task<APIRespuestas> Buscar(string rut)
         {

@@ -48,11 +48,9 @@ namespace Api_Agendate_App.Controllers
 
             a = await _empresasService.CreateAsync(usuario);
             return Ok(a.Resultado);
-
-
         }
 
-        [HttpGet]
+        [HttpGet("ObtenerEmpresas")]
         public async Task<ActionResult> GetEmpresas()
         {
             try
@@ -78,15 +76,15 @@ namespace Api_Agendate_App.Controllers
         }
 
 
-        [HttpGet("Obtener Empresas cerca")]
-        public async Task<ActionResult<APIRespuestas>> ObtenerEmpresas()
+        [HttpGet("ObtenerEmpresasMapa")]
+        public async Task<ActionResult<APIRespuestas>> GetEmpresasMapa()
         {
             try
             {
-                IEnumerable<EmpresaDTO> ListEmp = (IEnumerable<EmpresaDTO>)_empresasService.ObtenerTodos();
-                _respuestas.Resultado = ListEmp;
-                _respuestas.codigo = 0;
-                return Ok(_respuestas);
+                var respuesta = await _empresasService.GetEmpresasMapa();
+                _respuestas.Resultado = respuesta.Resultado;
+                _respuestas.codigo = respuesta.codigo;
+                return Ok(_respuestas.Resultado);
 
             }
             catch (Exception)
@@ -94,15 +92,14 @@ namespace Api_Agendate_App.Controllers
                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
 
             }
-            return _respuestas;
+            return Ok(_respuestas.Resultado);
         }
 
         #region POSTs...
         [HttpPost]
         public async Task<ActionResult<EmpresaDTO>> AddEmpresas(EmpresaDTO p_Empresa)
         {
-
-            APIRespuestas respuesta = await _empresasService.CreateAsync(p_Empresa);
+            APIRespuestas respuesta =  await _empresasService.CreateAsync(p_Empresa);
             if (respuesta.codigo == 0)
             {
                 return Ok();

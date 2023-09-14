@@ -77,20 +77,18 @@ namespace Api_Agendate_App.Controllers
 
 
         [HttpGet("ObtenerEmpresasMapa")]
-        public async Task<ActionResult<APIRespuestas>> GetEmpresasMapa()
+        public async Task<ActionResult<APIRespuestas>> GetEmpresasMapa(float radioCircunferencia, float latitudeCliente, float longitudeCliente)
         {
             try
             {
-                var respuesta = await _empresasService.GetEmpresasMapa();
+                var respuesta = await _empresasService.GetEmpresasMapa(radioCircunferencia, latitudeCliente, longitudeCliente);
                 _respuestas.Resultado = respuesta.Resultado;
                 _respuestas.codigo = respuesta.codigo;
                 return Ok(_respuestas.Resultado);
-
             }
             catch (Exception)
             {
                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
-
             }
             return Ok(_respuestas.Resultado);
         }

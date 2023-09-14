@@ -8,18 +8,6 @@ namespace Api_Agendate_App.Utilidades
     {
         ////////////////////INFO\\\\\\\\\\\\\\\\\\\\
         //Formula: √( (x - a)^2 + (y - b)^2 ) = r
-        //
-        //Definiciones
-        // El radio sera una constante que definiremos, ej: 20km
-        // a y b son la latidud y la longitud que vendran del usuario
-        // x e y son la latidud y la longitud que perteneceran a las empresas
-        //
-        //Razonamiento
-        //Nos enviaran la ubicacion del cliente que definermos en las variables (a y b)
-        //Luego obtendremos un diccionario con los ids de las empresas y sus latitudes y longitudes (x e y)
-        //Sustituimos las variables y realizamos la formula
-        // Si el resultado de la formula es el radio
-        // ---> La empresa se encuentra dentro de la circunferencia del cliente
 
         /// <summary>
         /// Segun la longitud, la latitud del usuario y el radio de la circunferencia de la ubicacion, se filtran las empresas
@@ -39,7 +27,7 @@ namespace Api_Agendate_App.Utilidades
             {
                 double distancia = CalculadorDePuntosEnCircunferencia.CalculateDistance(latitudCli, longitudCli, empMap.Latitude, empMap.Longitude);
 
-                if (distancia <= radioKm)
+                if (distancia <= radioKm) //<= porque el calculo puede ser impreciso
                 {
                     empresasDentroDelRadio.Add(empMap);
                 }

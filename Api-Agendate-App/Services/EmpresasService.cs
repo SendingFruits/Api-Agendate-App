@@ -104,18 +104,20 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> GetEmpresasMapa()
+        public async Task<APIRespuestas> GetEmpresasMapa(float radioCircunferenciaUbicacion, float latitudeCli, float longitudeCli)
         {
             try
-            {
+            {   
                 var empresasZona = await _EmpRepo.ObtenerTodos();
                 if (!empresasZona.Any())
                 {
                     _respuestas.Resultado = null;
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                 }
-                IEnumerable <EmpresaMapaDTO> Lista = _Mapper.Map<IEnumerable<EmpresaMapaDTO>>(empresasZona);
-                _respuestas.Resultado = Lista;
+                var Lista = _Mapper.Map<IEnumerable<EmpresaMapaDTO>>(empresasZona);
+
+                var empresasRadio = Utilidades.CalculadorDePuntosEnCircunferencia.EmpresasDentroDelRadio(Lista, longitudeCli, latitudeCli, radioCircunferenciaUbicacion);
+                _respuestas.Resultado = empresasRadio;
                 return _respuestas;
             }
             catch (Exception ex)

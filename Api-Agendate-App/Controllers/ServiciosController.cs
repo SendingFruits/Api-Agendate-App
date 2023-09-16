@@ -20,7 +20,7 @@ namespace Api_Agendate_App.Controllers
             _serviciosService= serviciosService;
         }
 
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult> GetServicios()
         {
@@ -47,6 +47,7 @@ namespace Api_Agendate_App.Controllers
            
         }
 
+        [Authorize]
         [HttpGet("BuscarServicioPorEmpresa")]
         public async Task<ActionResult>GetServicioporEmpresa(string NomEmp)
         {
@@ -71,7 +72,7 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(_respuestas);
             }
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ServicioDTO>> AddServicio(ServicioDTO p_Servicio)
         {  

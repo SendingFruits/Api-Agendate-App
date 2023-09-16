@@ -26,9 +26,8 @@ namespace Api_Agendate_App.Controllers
             usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
 
             a = await _clientesService.CreateAsync(usuario);
+            a.Resultado = usuario;
             return Ok(a.Resultado);
-
-
         }
 
         [Authorize]
@@ -50,9 +49,9 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)
+        public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
         {
-            APIRespuestas respuestas = await _clientesService.Delete(p_NombreUsuario);
+            APIRespuestas respuestas = await _clientesService.Delete(id);
             if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);

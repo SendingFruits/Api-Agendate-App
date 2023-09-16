@@ -31,23 +31,6 @@ namespace Api_Agendate_App.Controllers
 
         }
 
-        #region POSTs...
-       /* [HttpPost]
-        public async Task<ActionResult<ClienteDTO>> AddCliente(ClienteDTO p_Cliente)
-        {
-            APIRespuestas respuesta = await _clientesService.CreateAsync(p_Cliente);
-            if (respuesta.codigo == 0)
-            {
-                return Ok();
-            }
-            else
-            {
-                respuesta.ObtenerMensaje(respuesta.codigo);
-                return BadRequest(respuesta.mensaje);
-            }
-        }
-
-        */
         [Authorize]
 
         [HttpPut("ActualizarClienete")]

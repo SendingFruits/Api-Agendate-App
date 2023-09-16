@@ -362,4 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-C:\Users\Khutlu\source\repos\SendingFruits\Api-Agendate-App/appsettings.json
+#Directorios
+Api-Agendate-App/appsettings.json

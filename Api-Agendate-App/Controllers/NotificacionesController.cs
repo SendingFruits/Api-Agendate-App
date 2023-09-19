@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api_Agendate_App.Controllers
 {
-    
+
     [ApiController]
     [Route("api/Notificaciones")]
     public class NotificacionesController : Controller
@@ -19,24 +19,24 @@ namespace Api_Agendate_App.Controllers
             _Noti = noti;
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<APIRespuestas>> Crear(NotificacionDTO Noti)
-        //{
-        //    try
-        //    {
-        //        var respuesta = await _Noti.CreateMail(Noti);
+        [HttpPost]
+        public async Task<ActionResult<APIRespuestas>> Crear(NotificacionDTO Noti)
+        {
+            try
+            {
+                var respuesta = await _Noti.CreateMail(Noti);
 
-        //        return Ok(respuesta);
+                return Ok(respuesta);
 
 
-        //    }
-        //    catch (Exception)
-        //    {
+            }
+            catch (Exception)
+            {
 
-        //        return BadRequest();
-        //    }
+                return BadRequest();
+            }
 
-        //}
+        }
 
     }
 }

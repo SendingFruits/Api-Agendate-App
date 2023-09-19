@@ -7,10 +7,8 @@ using Repositorio.IRepositorio;
 using Repositorio;
 using Repositorio.Interfases;
 using Api_Agendate_App.Utilidades;
-using Logic.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.JsonWebTokens;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
@@ -75,7 +73,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddScoped<IUsuario, UsuarioRepositorio>();
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IEmpresa, EmpresaRepositorio>();
-//builder.Services.AddScoped<INotificaciones,NotificacionRepositortio>();
+builder.Services.AddScoped<INotificaciones, NotificacionRepositortio>();
 builder.Services.AddScoped<IServicios, ServicioRepositorios>();
 
 var app = builder.Build();

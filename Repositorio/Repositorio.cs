@@ -59,9 +59,9 @@ namespace Repositorio
             return await query.ToListAsync();
         }
 
-        public async Task Remover(string nombreUsuario)
+        public async Task Remover(int id)
         {
-            var entity = await dbSet.FindAsync(nombreUsuario);
+            var entity = await dbSet.FindAsync(id);
             dbSet.Remove(entity);
             await Grabar();
         }

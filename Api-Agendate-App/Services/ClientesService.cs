@@ -2,10 +2,8 @@
 using Api_Agendate_App.Models;
 using Api_Agendate_App.Utilidades;
 using AutoMapper;
-using Azure;
 using Logic.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Repositorio.Interfases;
 using Repositorio.IRepositorio;
 
 namespace Api_Agendate_App.Services
@@ -17,13 +15,15 @@ namespace Api_Agendate_App.Services
         private readonly IClienteRepositorio _CliRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
+        private readonly NotificacionesService _SNoticar;
 
-        public ClientesService(IUsuario UsuRepo,IMapper mapper, APIRespuestas respuestas, IClienteRepositorio cliRepo)
+        public ClientesService(IUsuario UsuRepo,IMapper mapper, APIRespuestas respuestas, IClienteRepositorio cliRepo, NotificacionesService sNoticar)
         {
             _Mapper = mapper;
             _respuestas = respuestas;
             _UsuRepo = UsuRepo;
             _CliRepo = cliRepo;
+            _SNoticar = sNoticar;
         }
 
 
@@ -60,8 +60,19 @@ namespace Api_Agendate_App.Services
                     return _respuestas;
                 }
                 Cliente cliente1= _Mapper.Map<Cliente>(p_nuevoCliente);
-               await _CliRepo.Crear(cliente1);
-               _respuestas.codigo = 0;
+                await _CliRepo.Crear(cliente1);
+                NotificacionDTO n = new NotificacionDTO
+                {
+                    asunto = "BIENVENIDO A AGENDATEAPP",
+                    correoDestinatario = cliente1.Correo,
+                    fechaEnvio = DateTime.Now,
+                    cuerpo = "Gracias por registrarte en AgendateApp , estamos muy felices de que formes parte de esta comunidad. " +
+                    "Aquí podras encontrar un mundo de Servicios a tú disposición. "
+
+                };
+
+                await _SNoticar.CreateMail(n);
+                _respuestas.codigo = 0;
             }
             catch (Exception )
             {
@@ -113,12 +124,35 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> Delete(string p_NombreUsuario)
+        public async Task<APIRespuestas> Buscar(string ci)
+        {
+            try
+            {
+                var encontre = await _CliRepo.Obtener(cli => cli.Documento == ci);
+                if (encontre != null)
+                {
+                    _respuestas.codigo = 0;
+                    _respuestas.Resultado = encontre;
+
+                }
+
+
+            }
+            catch (Exception)
+            {
+
+                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
+
+            }
+            return _respuestas;
+        }
+
+        public async Task<APIRespuestas> Delete(int id)
         {
             try
             {
                 //No preguntamos si existe antes de mandarlo a borrar 
-                await _CliRepo.Remover(p_NombreUsuario);
+                await _CliRepo.Remover(id);
                 _respuestas.codigo = 0;
                 return _respuestas;
             }

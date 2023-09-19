@@ -15,6 +15,8 @@ namespace Logic.Data
 
         public DbSet<Cliente> Clientes { get; set; }
 
+        public DbSet<Notificacion> Notificaciones { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>()

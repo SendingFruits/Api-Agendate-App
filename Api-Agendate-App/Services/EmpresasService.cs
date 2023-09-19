@@ -15,11 +15,14 @@ namespace Api_Agendate_App.Services
         private readonly IEmpresa _EmpRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
-        public EmpresasService(IEmpresa EmpRepo, IMapper mapper, APIRespuestas respuestas)
+        private readonly NotificacionesService _SNoticar;
+
+        public EmpresasService(IEmpresa EmpRepo, IMapper mapper, APIRespuestas respuestas, NotificacionesService sNoticar)
         {
             _EmpRepo = EmpRepo;
             _Mapper = mapper;
             _respuestas = respuestas;
+            _SNoticar = sNoticar;
         }
 
         public async Task<EmpresaDTO> Login(string username, string password)
@@ -48,6 +51,17 @@ namespace Api_Agendate_App.Services
 
                 Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
                 await _EmpRepo.Crear(E);
+                NotificacionDTO n = new NotificacionDTO
+                {
+                    asunto = "BIENVENIDO A AGENDATEAPP",
+                    correoDestinatario = nuevaEmpresa.Correo,
+                    fechaEnvio = DateTime.Now,
+                    cuerpo = "Gracias por registrarte en AgendateApp , estamos muy felices de que formes parte de esta comunidad. " + "br/" +
+                    "Aquí podras encontrar a muchos clientes  de tú zona buscando tu Servicio. "
+
+                };
+                //Enviamos mail de confirmación
+                await _SNoticar.CreateMail(n);
 
                 _respuestas.codigo = 0;
 
@@ -149,18 +163,18 @@ namespace Api_Agendate_App.Services
             }
         }
 
-        public async Task<APIRespuestas> Delete(string p_NombreUsuario)
+        public async Task<APIRespuestas> Delete(int id)
         {
             try
             {
-                var existe = _EmpRepo.Obtener(emp => emp.NombreUsuario == p_NombreUsuario);
+                var existe = _EmpRepo.Obtener(emp => emp.Id == id);
                 if (existe == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                     return _respuestas;
 
                 }
-                await _EmpRepo.Remover(p_NombreUsuario);
+                await _EmpRepo.Remover(id);
                 _respuestas.codigo = 0;
                 
             }

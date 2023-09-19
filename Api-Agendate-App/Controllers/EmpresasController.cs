@@ -1,4 +1,5 @@
-﻿using Api_Agendate_App.Models;
+﻿using Api_Agendate_App.DTOs;
+using Api_Agendate_App.Models;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Microsoft.AspNetCore.Authorization;
@@ -13,12 +14,13 @@ namespace Api_Agendate_App.Controllers
     {
         private readonly APIRespuestas _respuestas;
         private readonly EmpresasService _empresasService;
+        private readonly NotificacionesService _SNoticar;
 
-
-        public EmpresasController(EmpresasService empresasService, APIRespuestas respuestas)
+        public EmpresasController(EmpresasService empresasService, APIRespuestas respuestas, NotificacionesService sNoticar)
         {
             _empresasService = empresasService;
             _respuestas = respuestas;
+            _SNoticar = sNoticar;
         }
 
         [HttpPost("Loging")]
@@ -42,12 +44,22 @@ namespace Api_Agendate_App.Controllers
 
         [HttpPost("RegistraseEmpresa")]
         public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO usuario)
+
         {
             APIRespuestas a = new APIRespuestas();
             usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
 
             a = await _empresasService.CreateAsync(usuario);
-            return Ok(a.Resultado);
+
+            if (a != null)
+            {
+                a.Resultado = usuario;
+                return Ok(a.Resultado);
+
+            }
+            else
+                return BadRequest();
+
         }
 
         [HttpGet("ObtenerEmpresas")]
@@ -128,9 +140,9 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<APIRespuestas>> Eliminar(string p_NombreUsuario)
+        public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
         {
-            APIRespuestas respuestas = await _empresasService.Delete(p_NombreUsuario);
+            APIRespuestas respuestas = await _empresasService.Delete(id);
             if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);

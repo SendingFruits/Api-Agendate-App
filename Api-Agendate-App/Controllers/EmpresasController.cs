@@ -42,23 +42,28 @@ namespace Api_Agendate_App.Controllers
 
         }
 
-        [HttpPost("RegistraseEmpresa")]
-        public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO usuario)
+        [HttpPost("RegistrarEmpresa")]
+        public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO empresa)
 
         {
-            APIRespuestas a = new APIRespuestas();
-            usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
+            APIRespuestas respuesta = new APIRespuestas();
+            empresa.Contrasenia = Utilidad.EncriptarClave(empresa.Contrasenia);
 
-            a = await _empresasService.CreateAsync(usuario);
-
-            if (a != null)
+            try
             {
-                a.Resultado = usuario;
-                return Ok(a.Resultado);
-
+                respuesta = await _empresasService.CreateAsync(empresa);
+                if (respuesta.codigo != 0)
+                {
+                    return BadRequest(respuesta.mensaje);
+                }
+                respuesta.Resultado = respuesta.Resultado;
             }
-            else
-                return BadRequest();
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+            return Ok(respuesta.mensaje);
 
         }
 
@@ -105,22 +110,7 @@ namespace Api_Agendate_App.Controllers
             return Ok(_respuestas.Resultado);
         }
 
-        #region POSTs...
-        [HttpPost]
-        public async Task<ActionResult<EmpresaDTO>> AddEmpresas(EmpresaDTO p_Empresa)
-        {
-            APIRespuestas respuesta =  await _empresasService.CreateAsync(p_Empresa);
-            if (respuesta.codigo == 0)
-            {
-                return Ok();
-            }
-            else
-            {
-                respuesta.ObtenerMensaje(respuesta.codigo);
-                return BadRequest(respuesta.mensaje);
-            }
-        }
-        #endregion
+        
         [Authorize]
         [HttpPut]
         public async Task<ActionResult<EmpresaDTO>> Actualizar(EmpresaDTO dTO)

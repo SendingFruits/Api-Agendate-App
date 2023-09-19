@@ -57,6 +57,7 @@ namespace Api_Agendate_App.Services
                 if (esta!= null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
                 Cliente cliente1= _Mapper.Map<Cliente>(p_nuevoCliente);
@@ -71,8 +72,7 @@ namespace Api_Agendate_App.Services
 
                 };
 
-                await _SNoticar.CreateMail(n);
-                _respuestas.codigo = 0;
+                //await _SNoticar.CreateMail(n);
             }
             catch (Exception )
             {
@@ -100,20 +100,20 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public APIRespuestas Update(ClienteDTO p_Modificacion)
+        public async Task<APIRespuestas> Update(ClienteDTO p_Modificacion)
         {
             try
             {
-                var esta =  _CliRepo.Obtener(c => c.NombreUsuario == p_Modificacion.NombreUsuario);
+                var esta =  await _CliRepo.Obtener(c => c.NombreUsuario == p_Modificacion.NombreUsuario);
                 if (esta== null)
                 {
                     _respuestas.codigo= ConstantesDeErrores.ErrorEntidadInexistente;
+                    _respuestas.ObtenerMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
                 Cliente cliente1 = _Mapper.Map<Cliente>(p_Modificacion);
 
-               _CliRepo.Actualizar(cliente1);
-               _respuestas.codigo = 0;
+               await _CliRepo.Actualizar(cliente1);
 
             }
             catch (Exception )
@@ -151,9 +151,16 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                //No preguntamos si existe antes de mandarlo a borrar 
+                var existe  = await _CliRepo.Obtener(cli => cli.Id == id);
+
+                if (existe == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
                 await _CliRepo.Remover(id);
-                _respuestas.codigo = 0;
                 return _respuestas;
             }
             catch (Exception)

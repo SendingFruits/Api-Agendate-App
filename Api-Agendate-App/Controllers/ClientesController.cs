@@ -22,30 +22,41 @@ namespace Api_Agendate_App.Controllers
         [HttpPost("RegistrarCliente")]
         public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
         {
-            APIRespuestas a = new APIRespuestas();
+            APIRespuestas respuesta = new APIRespuestas();
             usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
 
-            a = await _clientesService.CreateAsync(usuario);
-            a.Resultado = usuario;
-            return Ok(a.Resultado);
+            try
+            {
+                respuesta = await _clientesService.CreateAsync(usuario);
+                if (respuesta.codigo != 0)
+                {
+                    return BadRequest(respuesta.mensaje);
+                }
+                respuesta.Resultado = usuario;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            
+            return Ok(respuesta.mensaje);
         }
 
         [Authorize]
 
-        [HttpPut("ActualizarClienete")]
+        [HttpPut("ActualizarCliente")]
         public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)
         {
             APIRespuestas respuestas = _clientesService.Update(_cliente);
 
-            if (respuestas.codigo == 0)
-            {
-                return Ok();
-            }
-            else
+            if (respuestas.codigo != 0)
             {
                 respuestas.ObtenerMensaje(respuestas.codigo);
                 return BadRequest(respuestas.mensaje);
+                
             }
+
+            return Ok(respuestas.mensaje);
         }
 
         [HttpDelete]

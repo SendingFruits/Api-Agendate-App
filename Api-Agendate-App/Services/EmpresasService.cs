@@ -46,6 +46,7 @@ namespace Api_Agendate_App.Services
                 if (existe != null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
 
@@ -140,6 +141,7 @@ namespace Api_Agendate_App.Services
             }
             return _respuestas;
         }
+
         public async Task<APIRespuestas> Buscar(string rut)
         {
             try

@@ -14,9 +14,9 @@ namespace Api_Agendate_App.Controllers
     {
         private readonly APIRespuestas _respuestas;
         private readonly EmpresasService _empresasService;
-        private readonly NotificacionesService _SNoticar;
+        private readonly MensajeriaService _SNoticar;
 
-        public EmpresasController(EmpresasService empresasService, APIRespuestas respuestas, NotificacionesService sNoticar)
+        public EmpresasController(EmpresasService empresasService, APIRespuestas respuestas, MensajeriaService sNoticar)
         {
             _empresasService = empresasService;
             _respuestas = respuestas;

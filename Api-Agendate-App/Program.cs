@@ -32,7 +32,7 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<APIRespuestas>();
 builder.Services.AddScoped<ClientesService>();
 builder.Services.AddScoped<EmpresasService>();
-builder.Services.AddScoped<NotificacionesService>();
+builder.Services.AddScoped<MensajeriaService>();
 builder.Services.AddScoped<PromocionesService>();
 builder.Services.AddScoped<ReservaService>();
 builder.Services.AddScoped<ServiciosService>();

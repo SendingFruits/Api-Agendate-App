@@ -15,9 +15,9 @@ namespace Api_Agendate_App.Services
         private readonly IClienteRepositorio _CliRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
-        private readonly NotificacionesService _SNoticar;
+        private readonly MensajeriaService _SNoticar;
 
-        public ClientesService(IUsuario UsuRepo,IMapper mapper, APIRespuestas respuestas, IClienteRepositorio cliRepo, NotificacionesService sNoticar)
+        public ClientesService(IUsuario UsuRepo,IMapper mapper, APIRespuestas respuestas, IClienteRepositorio cliRepo, MensajeriaService sNoticar)
         {
             _Mapper = mapper;
             _respuestas = respuestas;

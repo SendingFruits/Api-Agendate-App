@@ -15,9 +15,9 @@ namespace Api_Agendate_App.Services
         private readonly IEmpresa _EmpRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
-        private readonly NotificacionesService _SNoticar;
+        private readonly MensajeriaService _SNoticar;
 
-        public EmpresasService(IEmpresa EmpRepo, IMapper mapper, APIRespuestas respuestas, NotificacionesService sNoticar)
+        public EmpresasService(IEmpresa EmpRepo, IMapper mapper, APIRespuestas respuestas, MensajeriaService sNoticar)
         {
             _EmpRepo = EmpRepo;
             _Mapper = mapper;
@@ -51,6 +51,8 @@ namespace Api_Agendate_App.Services
 
                 Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
                 await _EmpRepo.Crear(E);
+
+                string correoDestinatario = nuevaEmpresa.Correo;
                 NotificacionDTO n = new NotificacionDTO
                 {
                     asunto = "BIENVENIDO A AGENDATEAPP",

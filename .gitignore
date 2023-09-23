@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 Api-Agendate-App/appsettings.json
+/Logic/Logic/Migrations

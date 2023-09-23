@@ -14,18 +14,16 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
- //Configuracion servicios
+//Configuracion servicios
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();       
 
-
 //Configurar el contexto de la base de datos
 builder.Services.AddDbContext<DataContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("BdConnectionString")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BdConnectionString")));
 
-
-        //injeccion de Mapper
+//injeccion de Mapper
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 //Injeccion de servicios
@@ -48,6 +46,7 @@ builder.Services.AddAuthentication(config =>
 {
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
 }).AddJwtBearer(config =>
 {
     config.RequireHttpsMetadata = false;
@@ -63,11 +62,11 @@ builder.Services.AddAuthentication(config =>
 });
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/usuarios/LoginUsuario";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-    });
+.AddCookie(options =>
+{
+    options.LoginPath = "/usuarios/LoginUsuario";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+});
 
 //Repositorios
 builder.Services.AddScoped<IUsuario, UsuarioRepositorio>();
@@ -78,41 +77,29 @@ builder.Services.AddScoped<IServicios, ServicioRepositorios>();
 
 var app = builder.Build();
 
-
 //Para migrar los cambios a una base de datos, la primera vez que se ejecute la API.
 //Tambien aplica si la base de datos que tenemos creada en el motor, no tiene ninguna tabla.
 //Con este Using, creara las tablas segun el DataContext y/o aplicara los cambios nuevos o los de las migrations.
 //En caso que existan las mismas en la carpeta del proyecto. 
 
-
 //Para iniciar una base de datos la primera vez que se ejecute el proyecto.
-
-//using (var scope = app.Services.CreateScope())
-
-//{
-//    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
-//    Context.Database.Migrate();
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
+    Context.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
-
-
-
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{contoller=Usuarios}/{action=LoginUsuario}/{NombreUsuaro?}") ;
 app.MapControllers();
-
 app.Run();
-   

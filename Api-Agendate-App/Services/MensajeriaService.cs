@@ -17,7 +17,7 @@ namespace Api_Agendate_App.Services
         private readonly Mensajeria _mailConfig;
 
         private readonly string Servidor = "smtp.gmail.com";
-        private readonly int Puerto = 587;
+        private readonly int Puerto = 465;
 
         public MensajeriaService(INotificaciones notiRepo, IMapper mapper, APIRespuestas respuestas, IOptions<Mensajeria> mailConfig)
         {

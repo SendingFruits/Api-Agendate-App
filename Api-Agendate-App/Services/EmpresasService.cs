@@ -53,21 +53,7 @@ namespace Api_Agendate_App.Services
                 Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
                 await _EmpRepo.Crear(E);
 
-                string correoDestinatario = nuevaEmpresa.Correo;
-                NotificacionDTO n = new NotificacionDTO
-                {
-                    asunto = "BIENVENIDO A AGENDATEAPP",
-                    correoDestinatario = nuevaEmpresa.Correo,
-                    fechaEnvio = DateTime.Now,
-                    cuerpo = "Gracias por registrarte en AgendateApp , estamos muy felices de que formes parte de esta comunidad. " + "br/" +
-                    "Aquí podras encontrar a muchos clientes  de tú zona buscando tu Servicio. "
-
-                };
-                //Enviamos mail de confirmación
-                await _SNoticar.CreateMail(n);
-
-                _respuestas.codigo = 0;
-
+                await _SNoticar.CreateMail(nuevaEmpresa.Correo);
             }
             catch (Exception ex)
             {

@@ -75,6 +75,13 @@ builder.Services.AddScoped<IEmpresa, EmpresaRepositorio>();
 builder.Services.AddScoped<INotificaciones, NotificacionRepositortio>();
 builder.Services.AddScoped<IServicios, ServicioRepositorios>();
 
+builder.Services.AddCors(
+    options =>
+    {
+        options.AddDefaultPolicy(p => p.WithOrigins("*").AllowAnyHeader().AllowAnyMethod());
+    }
+);
+
 var app = builder.Build();
 
 //Para migrar los cambios a una base de datos, la primera vez que se ejecute la API.
@@ -83,11 +90,11 @@ var app = builder.Build();
 //En caso que existan las mismas en la carpeta del proyecto. 
 
 //Para iniciar una base de datos la primera vez que se ejecute el proyecto.
-using (var scope = app.Services.CreateScope())
-{
-    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
-    Context.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
+//    Context.Database.Migrate();
+//}
 
 if (app.Environment.IsDevelopment())
 {
@@ -96,6 +103,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(

@@ -9,10 +9,8 @@ namespace Logic.Entities
     [Index(nameof(Documento), IsUnique = true)]
     public class Cliente : Usuario
     {
-        [Required(ErrorMessage = "El camnpo No puede ser nulo o vacio")]
+        [Required(ErrorMessage = "El campo No puede ser nulo o vacio")]
         public string Documento { get; set; }
         //public byte[]? Foto { get; set; }
-
     }
-
 }

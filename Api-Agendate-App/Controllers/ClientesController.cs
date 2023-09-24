@@ -24,6 +24,7 @@ namespace Api_Agendate_App.Controllers
         {
             APIRespuestas respuesta = new APIRespuestas();
             usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
+            usuario.TipoUsuario = "customer";
 
             try
             {

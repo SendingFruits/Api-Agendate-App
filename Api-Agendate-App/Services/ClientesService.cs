@@ -10,7 +10,6 @@ namespace Api_Agendate_App.Services
 {
     public class ClientesService
     {
-        
         private readonly IUsuario _UsuRepo;
         private readonly IClienteRepositorio _CliRepo;
         private readonly IMapper _Mapper;
@@ -25,7 +24,6 @@ namespace Api_Agendate_App.Services
             _CliRepo = cliRepo;
             _SNoticar = sNoticar;
         }
-
 
         public async Task<ClienteDTO> Login(string username, string password)
         {
@@ -48,35 +46,47 @@ namespace Api_Agendate_App.Services
             }
             
         }
+        
         public async Task<APIRespuestas> CreateAsync(ClienteDTO p_nuevoCliente)
         {
             try
             {
-                var esta = await _CliRepo.Obtener(cli => cli.Documento == p_nuevoCliente.documento);
-                
-                if (esta!= null)
+                var existeCedula = await _CliRepo.Obtener(cli => 
+                    cli.Documento == p_nuevoCliente.documento);
+                var existeUsuario = await _CliRepo.Obtener(cli => 
+                    cli.NombreUsuario == p_nuevoCliente.NombreUsuario);
+
+                if (existeCedula != null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
                     _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
+
+                if (existeUsuario != null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                    _respuestas.mensaje = "El nombre de Usuario ya exste.";
+                    return _respuestas;
+                }
+
                 Cliente cliente1= _Mapper.Map<Cliente>(p_nuevoCliente);
                 await _CliRepo.Crear(cliente1);
-                NotificacionDTO n = new NotificacionDTO
-                {
-                    asunto = "BIENVENIDO A AGENDATEAPP",
-                    correoDestinatario = cliente1.Correo,
-                    fechaEnvio = DateTime.Now,
-                    cuerpo = "Gracias por registrarte en AgendateApp , estamos muy felices de que formes parte de esta comunidad. " +
-                    "Aquí podras encontrar un mundo de Servicios a tú disposición. "
 
-                };
+                //NotificacionDTO n = new NotificacionDTO
+                //{
+                //    asunto = "BIENVENIDO A AGENDATEAPP",
+                //    correoDestinatario = cliente1.Correo,
+                //    fechaEnvio = DateTime.Now,
+                //    cuerpo = "Gracias por registrarte en AgendateApp, " +
+                //    "estamos muy felices de que formes parte de esta comunidad. " +
+                //    "Aquí podras encontrar un mundo de Servicios a tú disposición. "
+                //};
 
                 //await _SNoticar.CreateMail(n);
             }
             catch (Exception )
             {
-
                 _respuestas.codigo= ConstantesDeErrores.ErrorInsertandoEntidad;
             }
             return _respuestas;

@@ -48,6 +48,7 @@ namespace Api_Agendate_App.Controllers
         {
             APIRespuestas respuesta = new APIRespuestas();
             empresa.Contrasenia = Utilidad.EncriptarClave(empresa.Contrasenia);
+            empresa.TipoUsuario = "company";
 
             try
             {

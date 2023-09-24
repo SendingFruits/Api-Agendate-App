@@ -47,8 +47,8 @@ namespace Api_Agendate_App.Controllers
         public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO empresa)
 
         {
-            APIRespuestas a = new APIRespuestas();
-            usuario.Contrasenia = Encriptadores.Encriptar(usuario.Contrasenia);
+            APIRespuestas respuesta = new APIRespuestas();
+            empresa.Contrasenia = Encriptadores.Encriptar(empresa.Contrasenia);
 
             try
             {

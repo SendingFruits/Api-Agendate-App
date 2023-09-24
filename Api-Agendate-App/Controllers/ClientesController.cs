@@ -23,7 +23,7 @@ namespace Api_Agendate_App.Controllers
         [HttpPost("RegistrarCliente")]
         public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
         {
-            APIRespuestas a = new APIRespuestas();
+            APIRespuestas respuesta = new APIRespuestas();
             usuario.Contrasenia = Encriptadores.Encriptar(usuario.Contrasenia);
 
             try

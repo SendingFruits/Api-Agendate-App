@@ -5,7 +5,7 @@ namespace Api_Agendate_App.Constantes
     public class Mensajeria
     {
         private static string gmailUser = "leeroyjenkins2320@gmail.com";
-        private static string gmailPassword = "UnaPassMuyDificil1234%";
+        private static string gmailPassword = "pqeeivadwqcwdthx";
 
         public static string GmailUser
         {

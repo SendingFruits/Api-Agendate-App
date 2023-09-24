@@ -85,7 +85,10 @@ namespace Api_Agendate_App.Services
                     return _respuestas;
                 }
                 empresaBD = _Mapper.Map<Empresa>(entidad);
-
+                if (empresaBD.RutDocumento != entidad.RutDocumento)
+                {
+                    throw new Exception("no se puede modificar el Rut");
+                }
                 await _EmpRepo.Actualizar(empresaBD);
                 _respuestas.codigo = 0;
 

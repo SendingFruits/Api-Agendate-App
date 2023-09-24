@@ -105,25 +105,20 @@ namespace Api_Agendate_App.Services
             try
             {
                 //busca cliente real 
-                var esta = await _CliRepo.Obtener(c => c.Id == p_Modificacion.Id);
-                if (esta == null)
-                var esta = await _CliRepo.Obtener(c => c.Id == p_Modificacion.Id);
-                if (esta == null)
-                var esta = await _CliRepo.Obtener(c => c.Id == p_Modificacion.Id);
-                if (esta == null)
-                {
-                    _respuestas.codigo= ConstantesDeErrores.ErrorEntidadInexistente;
-                    _respuestas.ObtenerMensaje(_respuestas.codigo);
-                if (esta.Documento!= p_Modificacion.documento)
-                {
-                    throw new Exception("no se puede modificar el documento");
-                }
-                await _CliRepo.Actualizar(esta);
-                {
-                    throw new Exception("no se puede modificar el documento");
-                }
-                await _CliRepo.Actualizar(esta);
 
+
+                var esta = await _CliRepo.Obtener(c => c.Id == p_Modificacion.Id);
+                if (esta == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    _respuestas.ObtenerMensaje(_respuestas.codigo);
+                    if (esta.Documento != p_Modificacion.documento)
+                    {
+                        throw new Exception("no se puede modificar el documento");
+                    }
+                    await _CliRepo.Actualizar(esta);
+                }
+            
             }
             catch (Exception )
             {

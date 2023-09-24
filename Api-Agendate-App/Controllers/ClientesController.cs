@@ -42,12 +42,12 @@ namespace Api_Agendate_App.Controllers
             return Ok(respuesta.mensaje);
         }
 
-        [Authorize]
+       // [Authorize]
 
         [HttpPut("ActualizarCliente")]
         public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)
         {
-            APIRespuestas respuestas = _clientesService.Update(_cliente);
+            APIRespuestas respuestas = await _clientesService.Update(_cliente);
 
             if (respuestas.codigo != 0)
             {

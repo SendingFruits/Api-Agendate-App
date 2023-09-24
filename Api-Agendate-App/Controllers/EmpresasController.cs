@@ -111,11 +111,11 @@ namespace Api_Agendate_App.Controllers
         }
 
         
-        [Authorize]
+        //[Authorize]
         [HttpPut]
         public async Task<ActionResult<EmpresaDTO>> Actualizar(EmpresaDTO dTO)
         {
-            var respuesta = _empresasService.Update(dTO);
+            APIRespuestas  respuesta = await _empresasService.UpdateAsync(dTO);
             if (respuesta.codigo == 0)
             {
                 return Ok(respuesta);

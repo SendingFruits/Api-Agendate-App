@@ -21,5 +21,9 @@ namespace Api_Agendate_App.Models
         //public byte[]? Logo { get; set; }
 
         public string Descripcion { get; set; }
+
+        public float Latitude { get; set; }
+
+        public float Longitude { get; set; }
     }
 }

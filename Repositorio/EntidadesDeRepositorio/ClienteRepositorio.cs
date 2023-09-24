@@ -14,7 +14,10 @@ namespace Repositorio
 
         public async Task<Cliente> Actualizar(Cliente p_entidad)
         {
-            var clienteBD = _db.Clientes.FirstOrDefault(s=> s.NombreUsuario== p_entidad.NombreUsuario);
+            //Busca el cliente
+
+
+            var clienteBD = _db.Clientes.FirstOrDefault(s=> s.Id== p_entidad.Id);
             if (clienteBD != null)
             {
                 ActualizarAtributos(ref clienteBD, p_entidad);
@@ -32,7 +35,8 @@ namespace Repositorio
                 entidadBase.Apellido = entidadModificada.Apellido;
                 entidadBase.Correo = entidadModificada.Correo;
                 entidadBase.Celular = entidadModificada.Celular;
-                entidadBase.Documento = entidadModificada.Documento;
+               
+                //falta la foto 
             }
             catch (Exception ex)
             {

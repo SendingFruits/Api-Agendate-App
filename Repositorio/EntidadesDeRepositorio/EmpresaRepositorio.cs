@@ -21,37 +21,41 @@ namespace Repositorio.EntidadesDeRepositorio
 
         public async Task<Empresa> Actualizar(Empresa entidad)
         {
-            var Encontre = _db.Empresas.FirstOrDefault(Emp => Emp.NombreUsuario == entidad.NombreUsuario);
+            var Encontre = _db.Empresas.FirstOrDefault(Emp => Emp.Id == entidad.Id);
             if (Encontre!=null)
-            {   
-                Empresa e = new Empresa
-                    {
-                        Nombre = entidad.Nombre,
-                        //Logo= entidad.Logo,
-                        Celular= entidad.Celular,
-                        Contrasenia= entidad.Contrasenia,
-                        NombreUsuario= entidad.NombreUsuario,
-                        RutDocumento = entidad.RutDocumento,
-                        RazonSocial = entidad.RazonSocial,
-                        Descripcion = entidad.Descripcion,
-                        Apellido= entidad.Apellido,
-                        Ciudad= entidad.Ciudad,
-                        Correo= entidad.Correo,
-                        Direccion = entidad.Direccion,
-                        NombrePropietario= entidad.NombrePropietario,
-                        Rubro= entidad.Rubro
-
-                    };
-                      _db.Entry(e).State= Microsoft.EntityFrameworkCore.EntityState.Modified;
-                     await _db.SaveChangesAsync();
-
+            {
+                ActurlizarAtributos(ref Encontre, entidad);
+                await Modificar(Encontre);
 
 
             }
            
-          
-
+         
             return entidad;
+        }
+
+        private void ActurlizarAtributos(ref Empresa encontre, Empresa entidad)
+        {
+            try
+            {
+                encontre.Nombre = entidad.Nombre;
+                encontre.Apellido= entidad.Apellido;
+                encontre.NombreUsuario = entidad.NombreUsuario;
+                encontre.Rubro= entidad.Rubro;
+                encontre.Celular= entidad.Celular;
+                encontre.Contrasenia= entidad.Contrasenia;
+                encontre.Correo= entidad.Correo;
+                encontre.Direccion= entidad.Direccion;
+                encontre.Ciudad= entidad.Ciudad;
+                encontre.Latitude= entidad.Latitude;
+                encontre.Longitude= entidad.Longitude;
+                encontre.Descripcion= entidad.Descripcion;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

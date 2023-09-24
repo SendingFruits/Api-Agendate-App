@@ -63,19 +63,22 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public APIRespuestas Update(EmpresaDTO entidad)
+        public async Task<APIRespuestas> UpdateAsync(EmpresaDTO entidad)
         {
             try
             {
-                var empresaBD = _EmpRepo.Obtener(c => c.NombreUsuario == entidad.NombreUsuario);
+                var empresaBD = await _EmpRepo.Obtener(c => c.Id == entidad.Id);
                 if (empresaBD == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                     return _respuestas;
                 }
-                Empresa empresaFinal = _Mapper.Map<Empresa>(entidad);
-
-                _EmpRepo.Actualizar(empresaFinal);
+                empresaBD = _Mapper.Map<Empresa>(entidad);
+                if (empresaBD.RutDocumento != entidad.RutDocumento)
+                {
+                    throw new Exception("no se puede modificar el Rut");
+                }
+                await _EmpRepo.Actualizar(empresaBD);
                 _respuestas.codigo = 0;
 
             }

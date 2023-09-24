@@ -43,7 +43,7 @@ namespace Api_Agendate_App.Controllers
             return Ok(respuesta.mensaje);
         }
 
-        [Authorize]
+       // [Authorize]
 
         [HttpPut("ActualizarCliente")]
         public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)

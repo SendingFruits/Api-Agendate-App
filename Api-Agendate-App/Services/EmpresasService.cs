@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Repositorio;
 using Repositorio.Interfases;
 using System.Collections.Generic;
+using Api_Agendate_App.Logica;
 
 namespace Api_Agendate_App.Services
 {
@@ -132,7 +133,7 @@ namespace Api_Agendate_App.Services
                 }
                 var Lista = _Mapper.Map<IEnumerable<EmpresaMapaDTO>>(empresasZona);
 
-                var empresasRadio = Utilidades.CalculadorDePuntosEnCircunferencia.EmpresasDentroDelRadio(Lista, longitudeCli, latitudeCli, radioCircunferenciaUbicacion);
+                var empresasRadio = CalculadorDePuntosEnCircunferencia.EmpresasDentroDelRadio(Lista, longitudeCli, latitudeCli, radioCircunferenciaUbicacion);
                 _respuestas.Resultado = empresasRadio;
                 return _respuestas;
             }

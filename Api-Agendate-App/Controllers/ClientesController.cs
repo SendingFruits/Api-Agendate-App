@@ -1,4 +1,5 @@
 ﻿using Api_Agendate_App.Models;
+using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Logic.Entities;
@@ -23,7 +24,7 @@ namespace Api_Agendate_App.Controllers
         public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
         {
             APIRespuestas a = new APIRespuestas();
-            usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
+            usuario.Contrasenia = Encriptadores.Encriptar(usuario.Contrasenia);
 
             a = await _clientesService.CreateAsync(usuario);
             a.Resultado = usuario;

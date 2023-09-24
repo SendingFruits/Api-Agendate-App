@@ -6,6 +6,7 @@ using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using System.Text;
 using System.Security.Claims;
+using Api_Agendate_App.Seguridad;
 
 namespace Api_Agendate_App.Controllers
 {
@@ -31,10 +32,10 @@ namespace Api_Agendate_App.Controllers
             if (string.IsNullOrWhiteSpace(NomUsu) && string.IsNullOrWhiteSpace(Contrasenia))
                 return BadRequest("El usuario o la contraseña no pueden ser vacíos.");
 
-            UsuarioDTO usuarioU = await _clienteService.Login(NomUsu, Utilidad.EncriptarClave(Contrasenia));
+            UsuarioDTO usuarioU = await _clienteService.Login(NomUsu, Encriptadores.Encriptar(Contrasenia));
             if (usuarioU == null)
             {
-                usuarioU = await _empresasService.Login(NomUsu, Utilidad.EncriptarClave(Contrasenia));
+                usuarioU = await _empresasService.Login(NomUsu, Encriptadores.Encriptar(Contrasenia));
             }
 
             if (usuarioU != null)

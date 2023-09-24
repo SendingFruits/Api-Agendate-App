@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Repositorio.EntidadesDeRepositorio;
 using Api_Agendate_App.Constantes;
+using Api_Agendate_App.Seguridad;
 
 namespace Api_Agendate_App.Controllers
 {
@@ -38,10 +39,10 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest("Las credenciales de ingreso no pueden ser vacías");
             }
                 
-            UsuarioDTO usuario = await _clienteService.Login(pUsuario, Utilidad.EncriptarClave(pContrasenia));
+            UsuarioDTO usuario = await _clienteService.Login(pUsuario, Encriptadores.Encriptar(pContrasenia));
             if (usuario == null)
             {
-                usuario = await _empresasService.Login(pUsuario,  Utilidad.EncriptarClave(pContrasenia));
+                usuario = await _empresasService.Login(pUsuario, Encriptadores.Encriptar(pContrasenia));
             } 
 
             if (usuario == null)

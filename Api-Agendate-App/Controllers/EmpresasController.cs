@@ -1,5 +1,6 @@
 ﻿using Api_Agendate_App.DTOs;
 using Api_Agendate_App.Models;
+using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Microsoft.AspNetCore.Authorization;
@@ -47,7 +48,7 @@ namespace Api_Agendate_App.Controllers
 
         {
             APIRespuestas a = new APIRespuestas();
-            usuario.Contrasenia = Utilidad.EncriptarClave(usuario.Contrasenia);
+            usuario.Contrasenia = Encriptadores.Encriptar(usuario.Contrasenia);
 
             a = await _empresasService.CreateAsync(usuario);
 

@@ -22,7 +22,7 @@ namespace Api_Agendate_App.Constantes
     {
         public static string CuerpoRegistro = "Gracias por registrarte en AgendateApp , estamos muy felices de que formes parte de esta comunidad. " + "br/" +
                     "Aquí podras encontrar a muchos clientes  de tú zona buscando tu Servicio. ";
-        
-        public static string AsuntoRegistro = "Registro Exitoso - AgendateApp"
+
+        public static string AsuntoRegistro = "Registro Exitoso - AgendateApp";
     }
 }

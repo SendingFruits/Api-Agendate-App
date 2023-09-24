@@ -2,9 +2,9 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 
-namespace Api_Agendate_App.Utilidades
+namespace Api_Agendate_App.Logica
 {
-    public class CalculadorDePuntosEnCircunferencia 
+    public class CalculadorDePuntosEnCircunferencia
     {
         ////////////////////INFO\\\\\\\\\\\\\\\\\\\\
         //Formula: √( (x - a)^2 + (y - b)^2 ) = r
@@ -25,7 +25,7 @@ namespace Api_Agendate_App.Utilidades
 
             foreach (EmpresaMapaDTO empMap in listaEmpresas)
             {
-                double distancia = CalculadorDePuntosEnCircunferencia.CalculateDistance(latitudCli, longitudCli, empMap.Latitude, empMap.Longitude);
+                double distancia = CalculateDistance(latitudCli, longitudCli, empMap.Latitude, empMap.Longitude);
 
                 if (distancia <= radioKm) //<= porque el calculo puede ser impreciso
                 {

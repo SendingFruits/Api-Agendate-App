@@ -1,5 +1,6 @@
 ﻿using Api_Agendate_App.DTOs;
 using Api_Agendate_App.Models;
+using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Microsoft.AspNetCore.Authorization;
@@ -14,9 +15,9 @@ namespace Api_Agendate_App.Controllers
     {
         private readonly APIRespuestas _respuestas;
         private readonly EmpresasService _empresasService;
-        private readonly NotificacionesService _SNoticar;
+        private readonly MensajeriaService _SNoticar;
 
-        public EmpresasController(EmpresasService empresasService, APIRespuestas respuestas, NotificacionesService sNoticar)
+        public EmpresasController(EmpresasService empresasService, APIRespuestas respuestas, MensajeriaService sNoticar)
         {
             _empresasService = empresasService;
             _respuestas = respuestas;
@@ -47,7 +48,7 @@ namespace Api_Agendate_App.Controllers
 
         {
             APIRespuestas respuesta = new APIRespuestas();
-            empresa.Contrasenia = Utilidad.EncriptarClave(empresa.Contrasenia);
+            empresa.Contrasenia = Encriptadores.Encriptar(empresa.Contrasenia);
 
             try
             {

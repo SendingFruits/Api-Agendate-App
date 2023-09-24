@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Repositorio;
 using Repositorio.Interfases;
 using System.Collections.Generic;
+using Api_Agendate_App.Logica;
 
 namespace Api_Agendate_App.Services
 {
@@ -15,9 +16,9 @@ namespace Api_Agendate_App.Services
         private readonly IEmpresa _EmpRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
-        private readonly NotificacionesService _SNoticar;
+        private readonly MensajeriaService _SNoticar;
 
-        public EmpresasService(IEmpresa EmpRepo, IMapper mapper, APIRespuestas respuestas, NotificacionesService sNoticar)
+        public EmpresasService(IEmpresa EmpRepo, IMapper mapper, APIRespuestas respuestas, MensajeriaService sNoticar)
         {
             _EmpRepo = EmpRepo;
             _Mapper = mapper;
@@ -52,20 +53,8 @@ namespace Api_Agendate_App.Services
 
                 Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
                 await _EmpRepo.Crear(E);
-                NotificacionDTO n = new NotificacionDTO
-                {
-                    asunto = "BIENVENIDO A AGENDATEAPP",
-                    correoDestinatario = nuevaEmpresa.Correo,
-                    fechaEnvio = DateTime.Now,
-                    cuerpo = "Gracias por registrarte en AgendateApp , estamos muy felices de que formes parte de esta comunidad. " + "br/" +
-                    "Aquí podras encontrar a muchos clientes  de tú zona buscando tu Servicio. "
 
-                };
-                //Enviamos mail de confirmación
-                await _SNoticar.CreateMail(n);
-
-                _respuestas.codigo = 0;
-
+                await _SNoticar.CreateMail(nuevaEmpresa.Correo);
             }
             catch (Exception ex)
             {
@@ -131,7 +120,7 @@ namespace Api_Agendate_App.Services
                 }
                 var Lista = _Mapper.Map<IEnumerable<EmpresaMapaDTO>>(empresasZona);
 
-                var empresasRadio = Utilidades.CalculadorDePuntosEnCircunferencia.EmpresasDentroDelRadio(Lista, longitudeCli, latitudeCli, radioCircunferenciaUbicacion);
+                var empresasRadio = CalculadorDePuntosEnCircunferencia.EmpresasDentroDelRadio(Lista, longitudeCli, latitudeCli, radioCircunferenciaUbicacion);
                 _respuestas.Resultado = empresasRadio;
                 return _respuestas;
             }

@@ -6,19 +6,19 @@ namespace Api_Agendate_App.Seguridad
     public class Encriptadores
     {
         // Clave que se utiliza como secreto compartido para encriptar la clave
-        private static readonly string _ClaveFija = "UnaClaveSecretaMuyDificil123!@#"; 
+        private static readonly byte[] _ClaveFija = new byte[16]; 
 
         // El Iv se combina con la clave para formar una clave unica para cada conjunto de datos cifradis
         // El valor de abajo genera un arreglo de bytes[] con el valor pasado por parametro
         // De esta forma, todas las claves tendran el mismo algoritmo de encriptacion y tendremos el mismo algoritmos.
         //
-        private static readonly byte[] _Iv = Encoding.UTF8.GetBytes("Agendate-App-2023");
+        private static readonly byte[] _Iv = new byte[16];
 
         public static string Encriptar(string contraseña)
         {
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Encoding.UTF8.GetBytes(_ClaveFija);
+                aesAlg.Key = _ClaveFija;
                 aesAlg.IV = _Iv;
 
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
@@ -45,7 +45,7 @@ namespace Api_Agendate_App.Seguridad
         {
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Encoding.UTF8.GetBytes(_ClaveFija);
+                aesAlg.Key = _ClaveFija;
                 aesAlg.IV = _Iv;
 
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);

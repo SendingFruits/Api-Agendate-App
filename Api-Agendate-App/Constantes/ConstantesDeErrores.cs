@@ -9,6 +9,16 @@
         public const int ErrorInsertandoEntidad = 1002;
         public const int ErrorEntidadInexistente = 1003;
 
+
+        #region Clientes 1101 al 1200-> ...
+        public const int ErrorClienteConDocumentoExistente = 1101;
+        #endregion
+
+        #region Errores Generales 1901 al 2000 -> ...
+        public const int ErrorClaveViejaIngresadaConfirmarVacia = 1901;
+        public const int ErrorClaveNuevaIngresadaConfirmarVacia = 1902;
+        #endregion
+
         #endregion
         // Del 2001 al 3000
         #region Errores por entidades (Plural)
@@ -27,6 +37,7 @@
         {
             string mensaje = "";
 
+            /// Errores por entidad (Singular)
             if (codigoError >= 1001 && codigoError <= 2000)
             {
                 switch (codigoError)
@@ -45,6 +56,29 @@
                         break;
                 }
             }
+            //Errores de Clientes
+            else if (codigoError >= 1101 && codigoError <= 1200)
+            {
+                switch (codigoError)
+                {
+                    case ErrorClienteConDocumentoExistente:
+                        mensaje = "Ya existe un usuario con el documento de identidad ingresado";
+                        break;
+                }
+            }
+            //Errores generales en singular
+            else if( codigoError >= 1901 && codigoError <= 2000)
+            {
+                switch (codigoError)
+                {
+                    case ErrorClaveViejaIngresadaConfirmarVacia:
+                        mensaje = "La clave vieja ingresada no puede ser vacía";
+                        break;
+                    case 
+                }
+
+            }
+            //Errores por entidades(Plural)
             else if  (codigoError >= 2001 && codigoError <= 3000)
             {
                 switch (codigoError)

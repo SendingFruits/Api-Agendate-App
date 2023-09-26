@@ -52,5 +52,29 @@ namespace Api_Agendate_App.Controllers
 
             return Ok(usuario);
         }
+
+        [HttpPut("Login")]
+        public async Task<ActionResult> ActualizarContrasenia(int idUsuario, string passVieja, string passNueva)
+        {
+            APIRespuestas respuesta = new APIRespuestas();
+
+            if (string.IsNullOrWhiteSpace(passVieja) || string.IsNullOrWhiteSpace(passNueva))
+            {
+                return BadRequest("Las credenciales de ingreso no pueden ser vacías");
+            }
+
+            UsuarioDTO usuario = await _clienteService.Login(pUsuario, Encriptadores.Encriptar(pContrasenia));
+            if (usuario == null)
+            {
+                usuario = await _empresasService.Login(pUsuario, Encriptadores.Encriptar(pContrasenia));
+            }
+
+            if (usuario == null)
+            {
+                return BadRequest("Usuario no encontrado verifique identidades");
+            }
+
+            return Ok(usuario);
+        }
     }
 }

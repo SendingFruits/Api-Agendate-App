@@ -54,7 +54,7 @@ namespace Api_Agendate_App.Controllers
             return Ok(usuario);
         }
 
-        [HttpPut("Login")]
+        [HttpPut("ActualizarContrasenia")]
         public async Task<ActionResult> ActualizarContrasenia(int idUsuario, string passVieja, string passNueva)
         {
             APIRespuestas respuesta = new APIRespuestas();

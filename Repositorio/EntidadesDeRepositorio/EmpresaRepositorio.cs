@@ -26,11 +26,7 @@ namespace Repositorio.EntidadesDeRepositorio
             {
                 ActurlizarAtributos(ref Encontre, entidad);
                 await Modificar(Encontre);
-
-
             }
-           
-         
             return entidad;
         }
 
@@ -53,7 +49,6 @@ namespace Repositorio.EntidadesDeRepositorio
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

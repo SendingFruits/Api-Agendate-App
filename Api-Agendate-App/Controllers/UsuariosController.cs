@@ -21,12 +21,13 @@ namespace Api_Agendate_App.Controllers
         
         private readonly EmpresasService _empresasService;
         private readonly ClientesService _clienteService;
-      
-        public UsuariosController (EmpresasService empresasService, ClientesService cienteService)
+        private readonly UsuariosService _usuariosService;
+        public UsuariosController (EmpresasService empresasService, ClientesService clienteService, UsuariosService usuariosService)
         {
             _empresasService = empresasService;
-            _clienteService = cienteService;
-            
+            _clienteService = clienteService;
+            _usuariosService = usuariosService;
+
         }
 
         [HttpPost("Login")]
@@ -51,6 +52,36 @@ namespace Api_Agendate_App.Controllers
             }
 
             return Ok(usuario);
+        }
+
+        [HttpPut("Login")]
+        public async Task<ActionResult> ActualizarContrasenia(int idUsuario, string passVieja, string passNueva)
+        {
+            APIRespuestas respuesta = new APIRespuestas();
+
+            if (string.IsNullOrWhiteSpace(passVieja))
+            {
+                respuesta.codigo = ConstantesDeErrores.ErrorClaveViejaIngresadaConfirmarVacia;
+                respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                return BadRequest(respuesta.mensaje);
+            }
+
+            if (string.IsNullOrWhiteSpace(passNueva))
+            {
+                respuesta.codigo = ConstantesDeErrores.ErrorClaveNuevaIngresadaConfirmarVacia;
+                respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                return BadRequest(respuesta.mensaje);
+            }
+
+            if (idUsuario == 0 || idUsuario == null)
+            {
+                respuesta.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                return BadRequest(respuesta.mensaje);
+            }
+
+            await _usuariosService.ModificarContrasenia(idUsuario, passVieja, passNueva);
+            return Ok(respuesta.mensaje);
         }
     }
 }

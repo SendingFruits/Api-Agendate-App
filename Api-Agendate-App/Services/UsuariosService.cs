@@ -38,7 +38,8 @@ namespace Api_Agendate_App.Services
                     return _respuestas;
                 }
 
-                usuario = await _UsuRepo.Obtener(u => u.Id == id && u.Contrasenia == passVieja);
+                string passViejaEncriptada = Encriptadores.Encriptar(passVieja);
+                usuario = await _UsuRepo.Obtener(u => u.Id == id && u.Contrasenia == passViejaEncriptada);
 
                 if (usuario == null)
                 {

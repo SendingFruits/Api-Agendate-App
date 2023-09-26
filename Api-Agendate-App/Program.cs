@@ -36,6 +36,7 @@ builder.Services.AddScoped<MensajeriaService>();
 builder.Services.AddScoped<PromocionesService>();
 builder.Services.AddScoped<ReservaService>();
 builder.Services.AddScoped<ServiciosService>();
+builder.Services.AddScoped<UsuariosService>();
 
 //Implementacion JWT
 //todo esto es para obtener nuestra clave secreta y convertirla en byte

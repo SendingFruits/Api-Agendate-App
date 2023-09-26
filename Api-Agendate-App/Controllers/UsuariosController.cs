@@ -80,7 +80,10 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(respuesta.mensaje);
             }
 
-            await _usuariosService.ModificarContrasenia(idUsuario, passVieja, passNueva);
+            respuesta = await _usuariosService.ModificarContrasenia(idUsuario, passVieja, passNueva);
+
+            if (respuesta.codigo != 0) return BadRequest(respuesta.mensaje);
+
             return Ok(respuesta.mensaje);
         }
     }

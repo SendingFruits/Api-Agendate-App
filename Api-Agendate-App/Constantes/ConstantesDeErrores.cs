@@ -12,10 +12,12 @@
 
         #region Clientes 1101 al 1200 -> ...
         public const int ErrorClienteConDocumentoExistente = 1101;
+        public const int ErrorClienteConUsuarioExistente = 1102;
         #endregion
 
         #region Empresas 1201 al 1300 -> ...
         public const int ErrorEmpresaConDocumentoExistente = 1201;
+        public const int ErrorEmpresaConUsuarioExistente = 1202;
         #endregion
         #region Errores Generales 1901 al 2000 -> ...
         public const int ErrorClaveViejaIngresadaConfirmarVacia = 1901;
@@ -68,6 +70,9 @@
                     case ErrorClienteConDocumentoExistente:
                         mensaje = "Ya existe un usuario con el documento de identidad ingresado";
                         break;
+                    case ErrorClienteConUsuarioExistente:
+                        mensaje = "Ya existe un Cliente con el nombre de usuario ingresado";
+                        break;
                 }
             }
             #endregion
@@ -79,6 +84,9 @@
                 {
                     case ErrorEmpresaConDocumentoExistente:
                         mensaje = "Ya existe una Empresa con el RUT ingresado";
+                        break;
+                    case ErrorEmpresaConUsuarioExistente:
+                        mensaje = "Ya existe una Empresa con el nombre de usuario ingresado";
                         break;
                 }
             }

@@ -52,11 +52,11 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var esta = await _CliRepo.Obtener(cli => cli.Documento == p_nuevoCliente.documento);
+                var esta = await _UsuRepo.Obtener(cli => cli.NombreUsuario == p_nuevoCliente.NombreUsuario);
                 
-                if (esta!= null)
+                if (esta != null)
                 {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConUsuarioExistente;
                     _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
@@ -83,24 +83,6 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<ActionResult<APIRespuestas>> GetClientes()
-        {
-            try
-            {
-                IEnumerable<Cliente> UsuarioList = await _CliRepo.ObtenerTodos();
-                IEnumerable<ClienteDTO> UsuariosList = _Mapper.Map<IEnumerable<ClienteDTO>>(UsuarioList);
-               _respuestas.Resultado= UsuariosList;
-                return _respuestas;
-
-            }
-            catch (Exception ex)
-            {
-                _respuestas.mensaje =  ex.ToString() ;
-                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
-            }
-            return _respuestas;
-        }
-
         public async Task<APIRespuestas> Update(ClienteDTO p_Modificacion)
         {
             try
@@ -118,6 +100,14 @@ namespace Api_Agendate_App.Services
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorClienteConDocumentoExistente;
                     _respuestas.ObtenerMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
+                var usuarioNombre = await _UsuRepo.Obtener(cli => cli.NombreUsuario == p_Modificacion.NombreUsuario);
+                if (usuarioNombre != null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConUsuarioExistente;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
 
@@ -150,6 +140,24 @@ namespace Api_Agendate_App.Services
 
                 _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
 
+            }
+            return _respuestas;
+        }
+
+        public async Task<ActionResult<APIRespuestas>> GetClientes()
+        {
+            try
+            {
+                IEnumerable<Cliente> UsuarioList = await _CliRepo.ObtenerTodos();
+                IEnumerable<ClienteDTO> UsuariosList = _Mapper.Map<IEnumerable<ClienteDTO>>(UsuarioList);
+                _respuestas.Resultado = UsuariosList;
+                return _respuestas;
+
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.ToString();
+                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
             }
             return _respuestas;
         }

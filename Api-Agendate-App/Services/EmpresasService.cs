@@ -42,11 +42,11 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var existe = await _EmpRepo.Obtener(emp => emp.RutDocumento == nuevaEmpresa.RutDocumento);
+                var existe = await _EmpRepo.Obtener(emp => emp.NombreUsuario == nuevaEmpresa.NombreUsuario);
 
                 if (existe != null)
                 {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaConUsuarioExistente;
                     _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
@@ -83,9 +83,17 @@ namespace Api_Agendate_App.Services
                 }
 
                 empresaBD = await _EmpRepo.Obtener(c => c.RutDocumento == entidad.RutDocumento);
-                if (empresaBD == null)
+                if (empresaBD != null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaConDocumentoExistente;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
+                var existe = await _EmpRepo.Obtener(emp => emp.NombreUsuario == entidad.NombreUsuario);
+                if (existe != null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaConUsuarioExistente;
                     _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }

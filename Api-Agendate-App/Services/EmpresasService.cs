@@ -51,6 +51,14 @@ namespace Api_Agendate_App.Services
                     return _respuestas;
                 }
 
+                var empresaBD = await _EmpRepo.Obtener(c => c.RutDocumento == nuevaEmpresa.RutDocumento);
+                if (empresaBD == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaConDocumentoExistente;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
                 Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
                 await _EmpRepo.Crear(E);
 
@@ -73,19 +81,24 @@ namespace Api_Agendate_App.Services
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                     return _respuestas;
                 }
-                empresaBD = _Mapper.Map<Empresa>(entidad);
-                if (empresaBD.RutDocumento != entidad.RutDocumento)
+
+                empresaBD = await _EmpRepo.Obtener(c => c.RutDocumento == entidad.RutDocumento);
+                if (empresaBD == null)
                 {
-                    throw new Exception("no se puede modificar el Rut");
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaConDocumentoExistente;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
                 }
-                await _EmpRepo.Actualizar(empresaBD);
-                _respuestas.codigo = 0;
+
+                var empresa = _Mapper.Map<Empresa>(entidad);
+                await _EmpRepo.Actualizar(empresa);
 
             }
             catch (Exception)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
             }
+            _respuestas.codigo = 0;
             return _respuestas;
         }
 

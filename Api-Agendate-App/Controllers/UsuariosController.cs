@@ -58,23 +58,28 @@ namespace Api_Agendate_App.Controllers
         {
             APIRespuestas respuesta = new APIRespuestas();
 
-            if (string.IsNullOrWhiteSpace(passVieja) || string.IsNullOrWhiteSpace(passNueva))
+            if (string.IsNullOrWhiteSpace(passVieja))
             {
-                return BadRequest("Las credenciales de ingreso no pueden ser vacías");
+                respuesta.codigo = ConstantesDeErrores.ErrorClaveViejaIngresadaConfirmarVacia;
+                respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                return BadRequest(respuesta.mensaje);
             }
 
-            UsuarioDTO usuario = await _clienteService.Login(pUsuario, Encriptadores.Encriptar(pContrasenia));
-            if (usuario == null)
+            if (string.IsNullOrWhiteSpace(passNueva))
             {
-                usuario = await _empresasService.Login(pUsuario, Encriptadores.Encriptar(pContrasenia));
+                respuesta.codigo = ConstantesDeErrores.ErrorClaveNuevaIngresadaConfirmarVacia;
+                respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                return BadRequest(respuesta.mensaje);
             }
 
-            if (usuario == null)
+            if (idUsuario == 0 || idUsuario == null)
             {
-                return BadRequest("Usuario no encontrado verifique identidades");
+                respuesta.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                return BadRequest(respuesta.mensaje);
             }
 
-            return Ok(usuario);
+            return Ok(respuesta.mensaje);
         }
     }
 }

@@ -31,9 +31,9 @@ namespace Api_Agendate_App.Controllers
                 respuesta = await _clientesService.CreateAsync(usuario);
                 if (respuesta.codigo != 0)
                 {
-                    return BadRequest(respuesta.mensaje);
+                    return StatusCode(401, "El Usuario ya existe");
                 }
-                respuesta.Resultado = usuario;
+                respuesta.Resultado = usuario; 
             }
             catch (Exception ex)
             {

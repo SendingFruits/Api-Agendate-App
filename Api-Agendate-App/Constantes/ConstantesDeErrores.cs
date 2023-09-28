@@ -45,7 +45,7 @@
             if (codigoError == 0) return "Exito";
 
             #region Errores por entidad (Singular) --> ...
-            if (codigoError >= 1001 && codigoError <= 2000)
+            if (codigoError >= 1001 && codigoError <= 1100)
             {
                 switch (codigoError)
                 {

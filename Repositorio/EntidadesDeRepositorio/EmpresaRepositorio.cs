@@ -3,11 +3,6 @@ using Logic.Data;
 using Logic.Entities;
 
 using Repositorio.Interfases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repositorio.EntidadesDeRepositorio
 {
@@ -16,13 +11,13 @@ namespace Repositorio.EntidadesDeRepositorio
         public readonly DataContext _db;
         public EmpresaRepositorio(DataContext db) : base(db)
         {
-            _db= db;
+            _db = db;
         }
 
         public async Task<Empresa> Actualizar(Empresa entidad)
         {
             var Encontre = _db.Empresas.FirstOrDefault(Emp => Emp.Id == entidad.Id);
-            if (Encontre!=null)
+            if (Encontre != null)
             {
                 ActurlizarAtributos(ref Encontre, entidad);
                 await Modificar(Encontre);
@@ -34,18 +29,26 @@ namespace Repositorio.EntidadesDeRepositorio
         {
             try
             {
-                encontre.Nombre = entidad.Nombre;
-                encontre.Apellido= entidad.Apellido;
-                encontre.NombreUsuario = entidad.NombreUsuario;
-                encontre.Rubro= entidad.Rubro;
-                encontre.Celular= entidad.Celular;
-                encontre.Contrasenia= entidad.Contrasenia;
-                encontre.Correo= entidad.Correo;
-                encontre.Direccion= entidad.Direccion;
-                encontre.Ciudad= entidad.Ciudad;
-                encontre.Latitude= entidad.Latitude;
-                encontre.Longitude= entidad.Longitude;
-                encontre.Descripcion= entidad.Descripcion;
+                if (entidad.Nombre != encontre.Nombre)
+                    encontre.Nombre = entidad.Nombre;
+                if (entidad.Apellido != encontre.Apellido)
+                    encontre.Apellido = entidad.Apellido;
+                if (entidad.Rubro != encontre.Rubro)
+                    encontre.Rubro = entidad.Rubro;
+                if (entidad.Celular != encontre.Celular)
+                    encontre.Celular = entidad.Celular;
+                if (entidad.Correo != encontre.Correo)
+                    encontre.Correo = entidad.Correo;
+                if (entidad.Direccion != encontre.Direccion)
+                    encontre.Direccion = entidad.Direccion;
+                if (entidad.Ciudad != encontre.Ciudad)
+                    encontre.Ciudad = entidad.Ciudad;
+                if (entidad.Latitude != encontre.Latitude)
+                    encontre.Latitude = entidad.Latitude;
+                if (entidad.Longitude != encontre.Longitude)
+                    encontre.Longitude = entidad.Longitude;
+                if (entidad.Direccion != encontre.Direccion)
+                    encontre.Descripcion = entidad.Descripcion;
             }
             catch (Exception)
             {

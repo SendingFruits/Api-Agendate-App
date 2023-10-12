@@ -34,21 +34,28 @@ namespace Api_Agendate_App.Controllers
         public async Task<ActionResult> LoginUsuario(string pUsuario, string pContrasenia)
         {
             APIRespuestas resp = new APIRespuestas();
-
-            if (string.IsNullOrWhiteSpace(pUsuario) && string.IsNullOrWhiteSpace(pContrasenia))
+            UsuarioDTO usuario = null;
+            try
             {
-                return BadRequest("Las credenciales de ingreso no pueden ser vacías");
+                if (string.IsNullOrWhiteSpace(pUsuario) && string.IsNullOrWhiteSpace(pContrasenia))
+                {
+                    return BadRequest("Las credenciales de ingreso están vacías");
+                }
+
+                usuario = await _clienteService.Login(pUsuario, Encriptadores.Encriptar(pContrasenia));
+                if (usuario == null)
+                {
+                    usuario = await _empresasService.Login(pUsuario, Encriptadores.Encriptar(pContrasenia));
+                }
+
+                if (usuario == null)
+                {
+                    return BadRequest("Usuario no encontrado verifique identidades");
+                }
             }
-                
-            UsuarioDTO usuario = await _clienteService.Login(pUsuario, Encriptadores.Encriptar(pContrasenia));
-            if (usuario == null)
+            catch (Exception ex)
             {
-                usuario = await _empresasService.Login(pUsuario, Encriptadores.Encriptar(pContrasenia));
-            } 
-
-            if (usuario == null)
-            {
-                return BadRequest("Usuario no encontrado verifique identidades");
+                return BadRequest(ex.Message);
             }
 
             return Ok(usuario);
@@ -59,31 +66,38 @@ namespace Api_Agendate_App.Controllers
         {
             APIRespuestas respuesta = new APIRespuestas();
 
-            if (string.IsNullOrWhiteSpace(passVieja))
+            try
             {
-                respuesta.codigo = ConstantesDeErrores.ErrorClaveViejaIngresadaConfirmarVacia;
-                respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
-                return BadRequest(respuesta.mensaje);
-            }
+                if (string.IsNullOrWhiteSpace(passVieja))
+                {
+                    respuesta.codigo = ConstantesDeErrores.ErrorClaveViejaIngresadaConfirmarVacia;
+                    respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
 
-            if (string.IsNullOrWhiteSpace(passNueva))
+                if (string.IsNullOrWhiteSpace(passNueva))
+                {
+                    respuesta.codigo = ConstantesDeErrores.ErrorClaveNuevaIngresadaConfirmarVacia;
+                    respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
+
+                if (idUsuario == 0 || idUsuario == null)
+                {
+                    respuesta.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
+
+                respuesta = await _usuariosService.ModificarContrasenia(idUsuario, passVieja, passNueva);
+
+                if (respuesta.codigo != 0) return BadRequest(respuesta.mensaje);
+            }
+            catch (Exception ex) 
             {
-                respuesta.codigo = ConstantesDeErrores.ErrorClaveNuevaIngresadaConfirmarVacia;
-                respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
-                return BadRequest(respuesta.mensaje);
+                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoActualizarContrasenia));
             }
-
-            if (idUsuario == 0 || idUsuario == null)
-            {
-                respuesta.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
-                respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
-                return BadRequest(respuesta.mensaje);
-            }
-
-            respuesta = await _usuariosService.ModificarContrasenia(idUsuario, passVieja, passNueva);
-
-            if (respuesta.codigo != 0) return BadRequest(respuesta.mensaje);
-
+            
             return Ok(respuesta.mensaje);
         }
     }

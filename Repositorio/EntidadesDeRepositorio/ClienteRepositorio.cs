@@ -17,25 +17,38 @@ namespace Repositorio
             //Busca el cliente
 
 
-            var clienteBD = _db.Clientes.FirstOrDefault(s=> s.Id== p_entidad.Id);
+            var clienteBD = _db.Clientes.FirstOrDefault(s => s.Id == p_entidad.Id);
             if (clienteBD != null)
             {
                 ActualizarAtributos(ref clienteBD, p_entidad);
                 await Modificar(clienteBD);
             }
-           
+
             return p_entidad;
         }
 
-        private void ActualizarAtributos (ref Cliente entidadBase, Cliente entidadModificada)
+        private void ActualizarAtributos(ref Cliente entidadBase, Cliente entidadModificada)
         {
             try
             {
-                entidadBase.Nombre = entidadModificada.Nombre;
-                entidadBase.Apellido = entidadModificada.Apellido;
-                entidadBase.Correo = entidadModificada.Correo;
-                entidadBase.Celular = entidadModificada.Celular;
-               
+                if (entidadBase.Nombre != entidadModificada.Nombre)
+                {
+                    entidadBase.Nombre = entidadModificada.Nombre;
+                }
+                if (entidadBase.Apellido != entidadModificada.Apellido)
+                {
+                    entidadBase.Apellido = entidadModificada.Apellido;
+                }
+                if (entidadBase.Correo != entidadModificada.Correo)
+                {
+                    entidadBase.Correo = entidadModificada.Correo;
+                }
+                if (entidadBase.Celular != entidadModificada.Celular)
+                {
+                    entidadBase.Celular = entidadModificada.Celular;
+                }
+
+
                 //falta la foto 
             }
             catch (Exception ex)

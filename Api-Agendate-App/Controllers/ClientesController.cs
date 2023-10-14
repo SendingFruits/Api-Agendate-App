@@ -1,4 +1,5 @@
-﻿using Api_Agendate_App.Models;
+﻿using Api_Agendate_App.Constantes;
+using Api_Agendate_App.Models;
 using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
@@ -19,15 +20,13 @@ namespace Api_Agendate_App.Controllers
             _clientesService = clientesService;
         }
 
-
         [HttpPost("RegistrarCliente")]
         public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
         {
             APIRespuestas respuesta = new APIRespuestas();
-            usuario.Contrasenia = Encriptadores.Encriptar(usuario.Contrasenia);
-
             try
             {
+                usuario.Contrasenia = Encriptadores.Encriptar(usuario.Contrasenia);
                 respuesta = await _clientesService.CreateAsync(usuario);
                 if (respuesta.codigo != 0)
                 {
@@ -37,43 +36,56 @@ namespace Api_Agendate_App.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoRegistrarCliente));
             }
             
             return Ok(respuesta.mensaje);
         }
 
-       // [Authorize]
 
         [HttpPut("ActualizarCliente")]
         public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)
         {
-            APIRespuestas respuestas = await _clientesService.Update(_cliente);
+            APIRespuestas respuesta = new APIRespuestas();
 
-            if (respuestas.codigo != 0)
+            try
             {
-                respuestas.ObtenerMensaje(respuestas.codigo);
-                return BadRequest(respuestas.mensaje);
-                
-            }
+                respuesta = await _clientesService.Update(_cliente);
 
-            return Ok(respuestas.mensaje);
+                if (respuesta.codigo != 0)
+                {
+                    respuesta.ObtenerMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoActualizarCliente));
+            }
+            
+            return Ok(respuesta.mensaje);
         }
 
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
         {
-            APIRespuestas respuestas = await _clientesService.Delete(id);
-            if (respuestas.codigo == 0)
+            APIRespuestas respuesta = new APIRespuestas();
+            try
             {
-                return Ok(respuestas);
+                respuesta = await _clientesService.Delete(id);
 
+                if (respuesta.codigo != 0)
+                {
+                    respuesta.ObtenerMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                respuestas.ObtenerMensaje(respuestas.codigo);
-                return BadRequest(respuestas.mensaje);
+                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoEliminarCliente));
             }
+
+            return Ok(respuesta);
         }
 
     }

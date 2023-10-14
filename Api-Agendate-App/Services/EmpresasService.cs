@@ -106,7 +106,7 @@ namespace Api_Agendate_App.Services
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
             }
-            _respuestas.codigo = 0;
+
             return _respuestas;
         }
 
@@ -166,7 +166,6 @@ namespace Api_Agendate_App.Services
                     return _respuestas;
                 }
                 _respuestas.Resultado= Esta;
-                _respuestas.codigo = 0;
 
                 return _respuestas;
             }
@@ -190,7 +189,6 @@ namespace Api_Agendate_App.Services
 
                 }
                 await _EmpRepo.Remover(id);
-                _respuestas.codigo = 0;
                 
             }
             catch (Exception ex)

@@ -13,27 +13,34 @@
         #region Clientes 1101 al 1200 -> ...
         public const int ErrorClienteConDocumentoExistente = 1101;
         public const int ErrorClienteConUsuarioExistente = 1102;
+        public const int ErrorInesperadoActualizarCliente = 1103;
+        public const int ErrorInesperadoRegistrarCliente = 1104;
+        public const int ErrorInesperadoEliminarCliente = 1105;
         #endregion
 
         #region Empresas 1201 al 1300 -> ...
         public const int ErrorEmpresaConDocumentoExistente = 1201;
         public const int ErrorEmpresaConUsuarioExistente = 1202;
+        public const int ErrorInesperadoActualizarEmpresa = 1203;
+        public const int ErrorInesperadoRegistrarEmpresa = 1204;
+        public const int ErrorInesperadoEliminarEmpresa = 1205;
         #endregion
         #region Errores Generales 1901 al 2000 -> ...
         public const int ErrorClaveViejaIngresadaConfirmarVacia = 1901;
         public const int ErrorClaveNuevaIngresadaConfirmarVacia = 1902;
+        public const int ErrorInesperadoActualizarContrasenia = 1903;
         #endregion
 
         #endregion
         // Del 2001 al 3000
-        #region Errores por entidades (Plural)
+        #region Errores por entidades (Plural) -> ...
         public const int ErrorEntidadesExistentes = 2001;
         public const int ErrorInsertandoEntidades = 2002;
         public const int ErrorEntidadesInexistentes = 2003;
         #endregion
 
-        // Del 3001 al 4000 
-        #region Errores Generales 
+        // Del 3001 al 3500
+        #region Errores Generales funcionamiento -> ...
         public const int ErrorCredencialesIncorrectas = 3001;
         public const int ErrorContraseniaViejaNoCoincide = 3002;
         #endregion
@@ -73,6 +80,15 @@
                     case ErrorClienteConUsuarioExistente:
                         mensaje = "Ya existe un Cliente con el nombre de usuario ingresado";
                         break;
+                    case ErrorInesperadoActualizarCliente:
+                        mensaje = "Ocurrio un error inesperado al intentar actualizar sus datos";
+                        break;
+                    case ErrorInesperadoRegistrarCliente:
+                        mensaje = "Ocurrio un error inesperado al intentar registrarse";
+                        break;
+                    case ErrorInesperadoEliminarCliente:
+                        mensaje = "Ocurrio un error inesperado al intentar eliminar su cuenta";
+                        break;
                 }
             }
             #endregion
@@ -88,6 +104,15 @@
                     case ErrorEmpresaConUsuarioExistente:
                         mensaje = "Ya existe una Empresa con el nombre de usuario ingresado";
                         break;
+                    case ErrorInesperadoActualizarEmpresa:
+                        mensaje = "Ocurrio un error inesperado al intentar actualizar sus datos";
+                        break;
+                    case ErrorInesperadoRegistrarEmpresa:
+                        mensaje = "Ocurrio un error inesperado al intentar registrarse";
+                        break;
+                    case ErrorInesperadoEliminarEmpresa:
+                        mensaje = "Ocurrio un error inesperado al intentar eliminar su cuenta";
+                        break;
                 }
             }
             #endregion
@@ -101,6 +126,9 @@
                         break;
                     case ErrorClaveNuevaIngresadaConfirmarVacia:
                         mensaje = "La clave nueva ingresada no puede ser vacía";
+                        break;
+                    case ErrorInesperadoActualizarContrasenia:
+                        mensaje = "Error inesperado al intentar actualizar la contraseña";
                         break;
                 }
 
@@ -124,7 +152,7 @@
             }
             #endregion
             #region Errores Generales --> ...
-            else if (codigoError >= 3001 && codigoError <= 4000)
+            else if (codigoError >= 3001 && codigoError <= 3500)
             {
                 switch (codigoError)
                 {

@@ -1,4 +1,5 @@
-﻿using Api_Agendate_App.DTOs;
+﻿using Api_Agendate_App.Constantes;
+using Api_Agendate_App.DTOs;
 using Api_Agendate_App.Models;
 using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.Services;
@@ -24,34 +25,14 @@ namespace Api_Agendate_App.Controllers
             _SNoticar = sNoticar;
         }
 
-        [HttpPost("Loging")]
-        public async Task<ActionResult<APIRespuestas>> Login(string nom, string cont)
-        {
-
-            var respuesta = await _empresasService.Login(nom, cont);
-            if (respuesta == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                _respuestas.Resultado = respuesta;
-
-                return Ok(_respuestas.Resultado);
-
-            }
-
-        }
-
         [HttpPost("RegistrarEmpresa")]
         public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO empresa)
 
         {
             APIRespuestas respuesta = new APIRespuestas();
-            empresa.Contrasenia = Encriptadores.Encriptar(empresa.Contrasenia);
-
             try
             {
+                empresa.Contrasenia = Encriptadores.Encriptar(empresa.Contrasenia);
                 respuesta = await _empresasService.CreateAsync(empresa);
                 if (respuesta.codigo != 0)
                 {
@@ -65,7 +46,6 @@ namespace Api_Agendate_App.Controllers
             }
 
             return Ok(respuesta.mensaje);
-
         }
 
         [HttpGet("ObtenerEmpresas")]
@@ -113,37 +93,47 @@ namespace Api_Agendate_App.Controllers
 
         
         //[Authorize]
-        [HttpPut]
+        [HttpPut("ActualizarEmpresa")]
         public async Task<ActionResult<EmpresaDTO>> Actualizar(EmpresaDTO dTO)
         {
-            APIRespuestas  respuesta = await _empresasService.UpdateAsync(dTO);
-            if (respuesta.codigo == 0)
+            APIRespuestas respuesta = new APIRespuestas();
+            try
             {
-                return Ok(respuesta);
+                respuesta = await _empresasService.UpdateAsync(dTO);
+                if (respuesta.codigo != 0)
+                {
+                    respuesta.ObtenerMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
             }
-            else
+            catch (Exception ex) 
             {
-                respuesta.ObtenerMensaje(respuesta.codigo);
-                return BadRequest(respuesta.mensaje);
+                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoActualizarEmpresa));
             }
 
-
+            return Ok(respuesta);
         }
 
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
         {
-            APIRespuestas respuestas = await _empresasService.Delete(id);
-            if (respuestas.codigo == 0)
+            APIRespuestas respuesta = new APIRespuestas();
+            try
             {
-                return Ok(respuestas);
+                APIRespuestas respuestas = await _empresasService.Delete(id);
+                if (respuestas.codigo != 0)
+                {
+                    respuestas.ObtenerMensaje(respuestas.codigo);
+                    return BadRequest(respuestas.mensaje);
+                }
+                
+            }
+            catch
+            {
+                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoEliminarEmpresa));
+            }
 
-            }
-            else
-            {
-                respuestas.ObtenerMensaje(respuestas.codigo);
-                return BadRequest(respuestas.mensaje);
-            }
+            return Ok(respuesta.mensaje);
         }
 
     }

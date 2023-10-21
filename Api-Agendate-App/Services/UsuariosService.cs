@@ -81,7 +81,7 @@ namespace Api_Agendate_App.Services
             }
             catch (Exception)
             {
-                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
+                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoActualizarUsuario;
             }
             return _respuestas;
         }

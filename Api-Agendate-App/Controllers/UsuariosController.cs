@@ -1,15 +1,10 @@
 ﻿using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
-using Logic.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Repositorio.EntidadesDeRepositorio;
 using Api_Agendate_App.Constantes;
 using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.DTOs.Usuarios;
+using Api_Agendate_App.Models;
 
 namespace Api_Agendate_App.Controllers
 {
@@ -103,7 +98,25 @@ namespace Api_Agendate_App.Controllers
         [HttpPut("ActualizarDatosBasicosUsuarios")]
         public async Task<ActionResult> ActualizarDatosBasicos(UsuarioDatosBasicosDTO usuario)
         {
+            APIRespuestas respuesta = new APIRespuestas();
 
+            try
+            {
+                respuesta = await _usuariosService.ActualizarDatosBasicosUsuario(usuario);
+
+                if (respuesta.codigo != 0)
+                {
+                    respuesta.ObtenerMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoActualizarCliente));
+            }
+
+            return Ok(respuesta.mensaje);
+            
         }
     
     

@@ -25,10 +25,19 @@
         public const int ErrorInesperadoRegistrarEmpresa = 1204;
         public const int ErrorInesperadoEliminarEmpresa = 1205;
         #endregion
+
+        #region Usuarios 1301 al 1400 -> ...
+        public const int ErrorInesperadoActualizarUsuario = 1301;
+        public const int ErrorInesperadoRegistrarUsuario = 1302;
+        public const int ErrorInesperadoEliminarUsuario = 1303;
+        public const int ErrorInesperadoActualizarContrasenia = 1304;
+        public const int ErrorContraseniaViejaNoCoincide = 1305;
+        #endregion
+
         #region Errores Generales 1901 al 2000 -> ...
         public const int ErrorClaveViejaIngresadaConfirmarVacia = 1901;
         public const int ErrorClaveNuevaIngresadaConfirmarVacia = 1902;
-        public const int ErrorInesperadoActualizarContrasenia = 1903;
+
         #endregion
 
         #endregion
@@ -42,7 +51,6 @@
         // Del 3001 al 3500
         #region Errores Generales funcionamiento -> ...
         public const int ErrorCredencialesIncorrectas = 3001;
-        public const int ErrorContraseniaViejaNoCoincide = 3002;
         #endregion
 
         public static string DevolverMensaje(int codigoError)
@@ -116,6 +124,31 @@
                 }
             }
             #endregion
+
+            #region Errores de Usuarios --> ...
+            else if (codigoError >= 1301 && codigoError <= 1400)
+            {
+                switch (codigoError)
+                {
+                    case ErrorInesperadoActualizarUsuario:
+                        mensaje = "Ocurrio un error inesperado al intentar actualizar sus datos";
+                        break;
+                    case ErrorInesperadoRegistrarUsuario:
+                        mensaje = "Ocurrio un error inesperado al intentar registrarse";
+                        break;
+                    case ErrorInesperadoEliminarUsuario:
+                        mensaje = "Ocurrio un error inesperado al intentar eliminar su cuenta";
+                        break;
+                    case ErrorContraseniaViejaNoCoincide:
+                        mensaje = "La contraseña vieja ingresada no coincide con la del usuario";
+                        break;
+                    case ErrorInesperadoActualizarContrasenia:
+                        mensaje = "Error inesperado al intentar actualizar la contraseña";
+                        break;
+                }
+            }
+            #endregion
+
             #region Errores generales en singular --> ...
             else if ( codigoError >= 1901 && codigoError <= 2000)
             {
@@ -126,9 +159,6 @@
                         break;
                     case ErrorClaveNuevaIngresadaConfirmarVacia:
                         mensaje = "La clave nueva ingresada no puede ser vacía";
-                        break;
-                    case ErrorInesperadoActualizarContrasenia:
-                        mensaje = "Error inesperado al intentar actualizar la contraseña";
                         break;
                 }
 
@@ -158,9 +188,6 @@
                 {
                     case ErrorCredencialesIncorrectas:
                         mensaje = "Las credenciales ingresadas no son correctas";
-                        break;
-                    case ErrorContraseniaViejaNoCoincide:
-                        mensaje = "La contraseña vieja ingresada no coincide con la del usuario";
                         break;
                 }
             }

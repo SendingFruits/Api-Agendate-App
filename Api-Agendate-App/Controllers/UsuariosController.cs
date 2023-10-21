@@ -1,6 +1,4 @@
-﻿
-using Api_Agendate_App.Models;
-using Api_Agendate_App.Services;
+﻿using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Logic.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Repositorio.EntidadesDeRepositorio;
 using Api_Agendate_App.Constantes;
 using Api_Agendate_App.Seguridad;
+using Api_Agendate_App.DTOs.Usuarios;
 
 namespace Api_Agendate_App.Controllers
 {
@@ -100,5 +99,13 @@ namespace Api_Agendate_App.Controllers
             
             return Ok(respuesta.mensaje);
         }
+
+        [HttpPut("ActualizarDatosBasicosUsuarios")]
+        public async Task<ActionResult> ActualizarDatosBasicos(UsuarioDatosBasicosDTO usuario)
+        {
+
+        }
+    
+    
     }
 }

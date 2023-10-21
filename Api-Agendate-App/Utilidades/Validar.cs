@@ -1,4 +1,5 @@
-﻿using Api_Agendate_App.Models;
+﻿using Api_Agendate_App.DTOs.Usuarios;
+using Api_Agendate_App.Models;
 using System.Text.RegularExpressions;
 
 namespace Api_Agendate_App.Utilidades

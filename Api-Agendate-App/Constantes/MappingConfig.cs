@@ -1,6 +1,7 @@
 ﻿using Api_Agendate_App.Models;
 using Logic.Entities;
 using AutoMapper;
+using Api_Agendate_App.DTOs.Usuarios;
 
 namespace Api_Agendate_App.Constantes
 {

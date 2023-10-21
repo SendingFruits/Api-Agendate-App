@@ -7,6 +7,7 @@ using System.Text;
 using System.Security.Claims;
 using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.DTOs.Usuarios;
+using Api_Agendate_App.Models;
 
 namespace Api_Agendate_App.Controllers
 {

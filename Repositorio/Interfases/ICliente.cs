@@ -10,6 +10,5 @@ namespace Repositorio.IRepositorio
     public interface IClienteRepositorio : IRepositorio<Cliente>
     {
 
-        Task<Cliente> Actualizar(Cliente entidad);
     }
 }

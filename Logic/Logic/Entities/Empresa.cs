@@ -25,5 +25,7 @@ namespace Logic.Entities
 
         public float Longitude { get; set; }
 
+        public byte[]? Logo { get; set; }
+
     }
 }

@@ -2,8 +2,8 @@
 {
     public class ClienteDTO : UsuarioDTO
     {
-        public string documento { get; set; }
+        public string? documento { get; set; }
 
-        //public string foto { get; set; }
+        public byte[]? Foto { get; set; }
     }
 }

@@ -100,6 +100,7 @@ namespace Api_Agendate_App.Controllers
             try
             {
                 respuesta = await _empresasService.UpdateAsync(dTO);
+
                 if (respuesta.codigo != 0)
                 {
                     respuesta.ObtenerMensaje(respuesta.codigo);

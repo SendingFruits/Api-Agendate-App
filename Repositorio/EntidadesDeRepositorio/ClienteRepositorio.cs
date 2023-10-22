@@ -48,7 +48,10 @@ namespace Repositorio
                     entidadBase.Celular = entidadModificada.Celular;
                 }
 
-
+                if (entidadBase.Foto != entidadModificada.Foto)
+                {
+                    entidadBase.Foto= entidadModificada.Foto;
+                }
                 //falta la foto 
             }
             catch (Exception ex)

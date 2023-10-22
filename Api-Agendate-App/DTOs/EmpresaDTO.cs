@@ -18,7 +18,7 @@ namespace Api_Agendate_App.Models
 
         public string Ciudad { get; set; }
 
-        //public byte[]? Logo { get; set; }
+        public byte[]? Logo { get; set; }
 
         public string Descripcion { get; set; }
 

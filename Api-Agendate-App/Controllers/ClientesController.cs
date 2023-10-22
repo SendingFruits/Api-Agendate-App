@@ -50,6 +50,7 @@ namespace Api_Agendate_App.Controllers
 
             try
             {
+               
                 respuesta = await _clientesService.Update(_cliente);
 
                 if (respuesta.codigo != 0)

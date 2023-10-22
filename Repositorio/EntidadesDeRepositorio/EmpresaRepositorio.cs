@@ -49,6 +49,8 @@ namespace Repositorio.EntidadesDeRepositorio
                     encontre.Longitude = entidad.Longitude;
                 if (entidad.Direccion != encontre.Direccion)
                     encontre.Descripcion = entidad.Descripcion;
+                if(entidad.Logo != encontre.Logo)
+                    encontre.Logo = entidad.Logo;
             }
             catch (Exception)
             {

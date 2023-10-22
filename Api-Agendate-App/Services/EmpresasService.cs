@@ -81,7 +81,7 @@ namespace Api_Agendate_App.Services
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                     return _respuestas;
                 }
-
+                // dudas aqui 
                 empresaBD = await _EmpRepo.Obtener(c => c.RutDocumento == entidad.RutDocumento);
                 if (empresaBD != null)
                 {

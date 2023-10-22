@@ -1,4 +1,5 @@
 ﻿using Api_Agendate_App.DTOs;
+using Api_Agendate_App.DTOs.Usuarios;
 using System.Numerics;
 using System.Text.Json.Serialization;
 

@@ -26,7 +26,6 @@ namespace Api_Agendate_App.Services
             _SNoticar = sNoticar;
         }
 
-
         public async Task<ClienteDTO> Login(string username, string password)
         {
             try
@@ -48,6 +47,7 @@ namespace Api_Agendate_App.Services
             }
             
         }
+
         public async Task<APIRespuestas> CreateAsync(ClienteDTO p_nuevoCliente)
         {
             try
@@ -83,43 +83,43 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> Update(ClienteDTO p_Modificacion)
-        {
-            try
-            {
-                var esta = await _CliRepo.Obtener(c => c.Id == p_Modificacion.Id);
-                if (esta == null)
-                {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
-                    _respuestas.ObtenerMensaje(_respuestas.codigo);
-                    return _respuestas;
-                }
+        //public async Task<APIRespuestas> Update(ClienteDTO p_Modificacion)
+        //{
+        //    try
+        //    {
+        //        var esta = await _CliRepo.Obtener(c => c.Id == p_Modificacion.Id);
+        //        if (esta == null)
+        //        {
+        //            _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+        //            _respuestas.ObtenerMensaje(_respuestas.codigo);
+        //            return _respuestas;
+        //        }
 
-                var usuarioDocuemnto = await _CliRepo.Obtener(c => c.Documento == p_Modificacion.documento);
-                if (usuarioDocuemnto != null)
-                {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConDocumentoExistente;
-                    _respuestas.ObtenerMensaje(_respuestas.codigo);
-                    return _respuestas;
-                }
+        //        var usuarioDocuemnto = await _CliRepo.Obtener(c => c.Documento == p_Modificacion.documento);
+        //        if (usuarioDocuemnto != null)
+        //        {
+        //            _respuestas.codigo = ConstantesDeErrores.ErrorClienteConDocumentoExistente;
+        //            _respuestas.ObtenerMensaje(_respuestas.codigo);
+        //            return _respuestas;
+        //        }
 
-                var usuarioNombre = await _UsuRepo.Obtener(cli => cli.NombreUsuario == p_Modificacion.NombreUsuario);
-                if (usuarioNombre != null)
-                {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConUsuarioExistente;
-                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
-                    return _respuestas;
-                }
+        //        var usuarioNombre = await _UsuRepo.Obtener(cli => cli.NombreUsuario == p_Modificacion.NombreUsuario);
+        //        if (usuarioNombre != null)
+        //        {
+        //            _respuestas.codigo = ConstantesDeErrores.ErrorClienteConUsuarioExistente;
+        //            _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+        //            return _respuestas;
+        //        }
 
-                await _CliRepo.Actualizar(esta);
+        //        await _CliRepo.Actualizar(esta);
 
-            }
-            catch (Exception )
-            {
-               _respuestas.codigo= ConstantesDeErrores.ErrorInsertandoEntidad;
-            }
-            return _respuestas;
-        }
+        //    }
+        //    catch (Exception )
+        //    {
+        //       _respuestas.codigo= ConstantesDeErrores.ErrorInsertandoEntidad;
+        //    }
+        //    return _respuestas;
+        //}
 
         public async Task<APIRespuestas> Buscar(string ci)
         {

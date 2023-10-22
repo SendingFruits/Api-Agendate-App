@@ -19,7 +19,5 @@ namespace Api_Agendate_App.Utilidades
         {
             this.mensaje = ConstantesDeErrores.DevolverMensaje(p_codigo);
         }
-
-
     }
 }

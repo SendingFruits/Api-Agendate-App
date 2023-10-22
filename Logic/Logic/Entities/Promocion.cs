@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Entities
 {
-    public  class Promociones
+    public  class Promocion
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

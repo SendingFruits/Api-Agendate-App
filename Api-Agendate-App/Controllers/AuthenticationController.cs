@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using Api_Agendate_App.Models;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using System.Text;
 using System.Security.Claims;
 using Api_Agendate_App.Seguridad;
+using Api_Agendate_App.DTOs.Usuarios;
+using Api_Agendate_App.Models;
 
 namespace Api_Agendate_App.Controllers
 {

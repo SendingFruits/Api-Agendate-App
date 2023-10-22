@@ -1,4 +1,5 @@
 ﻿using Api_Agendate_App.Constantes;
+using Api_Agendate_App.DTOs.Usuarios;
 using Api_Agendate_App.Models;
 using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.Utilidades;
@@ -61,5 +62,58 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
+        public async Task<APIRespuestas> ActualizarDatosBasicosUsuario(UsuarioDatosBasicosDTO usuario)
+        {
+
+            try
+            {
+                var esta = await _UsuRepo.Obtener(c => c.Id == usuario.Id);
+                if (esta == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    _respuestas.ObtenerMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
+                ActualizarAtributos(ref esta,usuario);
+                await _UsuRepo.Actualizar(esta);
+
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoActualizarUsuario;
+            }
+            return _respuestas;
+        }
+
+        private void ActualizarAtributos(ref Usuario entidadBase, UsuarioDatosBasicosDTO entidadModificada)
+        {
+            try
+            {
+                if (entidadBase.Nombre != entidadModificada.Nombre)
+                {
+                    entidadBase.Nombre = entidadModificada.Nombre;
+                }
+                if (entidadBase.Apellido != entidadModificada.Apellido)
+                {
+                    entidadBase.Apellido = entidadModificada.Apellido;
+                }
+                if (entidadBase.Correo != entidadModificada.Correo)
+                {
+                    entidadBase.Correo = entidadModificada.Correo;
+                }
+                if (entidadBase.Celular != entidadModificada.Celular)
+                {
+                    entidadBase.Celular = entidadModificada.Celular;
+                }
+
+
+                //falta la foto 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
     }
 }

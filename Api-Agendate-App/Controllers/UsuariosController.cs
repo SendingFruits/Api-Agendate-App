@@ -1,5 +1,5 @@
 ﻿
-using Api_Agendate_App.Models;
+using Api_Agendate_App.DTOs;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Logic.Entities;
@@ -18,7 +18,6 @@ namespace Api_Agendate_App.Controllers
     [Route("api/Usuarios")]
     public class UsuariosController : ControllerBase
     {
-        
         private readonly EmpresasService _empresasService;
         private readonly ClientesService _clienteService;
         private readonly UsuariosService _usuariosService;
@@ -98,6 +97,48 @@ namespace Api_Agendate_App.Controllers
                 return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoActualizarContrasenia));
             }
             
+            return Ok(respuesta.mensaje);
+        }
+
+        [HttpPut("ActualizarContraseniaBody")]
+        public async Task<ActionResult> ActualizarContraseniaBody([FromBody] UsuarioPassDTO userPass)
+        {
+            APIRespuestas respuesta = new APIRespuestas();
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(userPass.PassVieja))
+                {
+                    respuesta.codigo = ConstantesDeErrores.ErrorClaveViejaIngresadaConfirmarVacia;
+                    respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
+
+                if (string.IsNullOrWhiteSpace(userPass.PassNueva))
+                {
+                    respuesta.codigo = ConstantesDeErrores.ErrorClaveNuevaIngresadaConfirmarVacia;
+                    respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
+
+                if (userPass.Id == 0)
+                {
+                    respuesta.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
+
+                respuesta = await _usuariosService.ModificarContrasenia(userPass.Id, userPass.PassVieja, userPass.PassNueva);
+
+                if (respuesta.codigo != 0) return BadRequest(respuesta.mensaje);
+                else respuesta.mensaje = "La contraseña fue cambiada exitosamente.";
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+                //return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoActualizarContrasenia));
+            }
+
             return Ok(respuesta.mensaje);
         }
     }

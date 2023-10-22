@@ -1,4 +1,4 @@
-﻿using Api_Agendate_App.Models;
+﻿using Api_Agendate_App.DTOs;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 

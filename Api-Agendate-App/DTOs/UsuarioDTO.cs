@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Api_Agendate_App.Models
+namespace Api_Agendate_App.DTOs
 {
     public class UsuarioDTO
     {
@@ -28,5 +28,19 @@ namespace Api_Agendate_App.Models
         public string Correo { get; set; }
         
         public string TipoUsuario { get; set; }
+    }
+
+    public class UsuarioPassDTO
+    {
+        [Required(ErrorMessage = "El campo No puede ser nulo o vacio")]
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "El campo No puede ser nulo o vacio")]
+        [StringLength(100, ErrorMessage = "Sólo se aceptan 100 caracteres")]
+        public string PassVieja { get; set; }
+
+        [Required(ErrorMessage = "El campo No puede ser nulo o vacio")]
+        [StringLength(100, ErrorMessage = "Sólo se aceptan 100 caracteres")]
+        public string PassNueva { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using System.Numerics;
 using System.Text.Json.Serialization;
 
-namespace Api_Agendate_App.Models
+namespace Api_Agendate_App.DTOs
 {
     public class EmpresaMapaDTO
     {

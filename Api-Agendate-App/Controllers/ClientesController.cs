@@ -1,5 +1,5 @@
 ﻿using Api_Agendate_App.Constantes;
-using Api_Agendate_App.Models;
+using Api_Agendate_App.DTOs;
 using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
@@ -66,6 +66,7 @@ namespace Api_Agendate_App.Controllers
             return Ok(respuesta.mensaje);
         }
 
+
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
         {
@@ -89,6 +90,4 @@ namespace Api_Agendate_App.Controllers
         }
 
     }
-
-
  }

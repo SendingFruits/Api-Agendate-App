@@ -1,4 +1,4 @@
-﻿using Api_Agendate_App.Models;
+﻿using Api_Agendate_App.DTOs;
 using Logic.Entities;
 using AutoMapper;
 using Api_Agendate_App.DTOs.Usuarios;

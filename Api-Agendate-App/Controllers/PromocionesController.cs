@@ -1,4 +1,4 @@
-﻿using Api_Agendate_App.Models;
+﻿using Api_Agendate_App.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api_Agendate_App.Controllers

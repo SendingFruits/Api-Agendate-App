@@ -1,5 +1,5 @@
 ﻿using Api_Agendate_App.Constantes;
-using Api_Agendate_App.Models;
+using Api_Agendate_App.DTOs;
 using Api_Agendate_App.Utilidades;
 using AutoMapper;
 using Logic.Entities;

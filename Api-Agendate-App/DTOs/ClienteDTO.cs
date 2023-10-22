@@ -1,6 +1,4 @@
-﻿using Api_Agendate_App.DTOs.Usuarios;
-
-namespace Api_Agendate_App.Models
+﻿namespace Api_Agendate_App.DTOs
 {
     public class ClienteDTO : UsuarioDTO
     {

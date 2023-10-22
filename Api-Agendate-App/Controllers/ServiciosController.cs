@@ -1,4 +1,4 @@
-﻿using Api_Agendate_App.Models;
+﻿using Api_Agendate_App.DTOs;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Microsoft.AspNetCore.Authorization;

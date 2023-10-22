@@ -43,30 +43,6 @@ namespace Api_Agendate_App.Controllers
         }
 
 
-        [HttpPut("ActualizarCliente")]
-        public async Task<ActionResult<ClienteDTO>> UpdateCliente(ClienteDTO _cliente)
-        {
-            APIRespuestas respuesta = new APIRespuestas();
-
-            try
-            {
-                respuesta = await _clientesService.Update(_cliente);
-
-                if (respuesta.codigo != 0)
-                {
-                    respuesta.ObtenerMensaje(respuesta.codigo);
-                    return BadRequest(respuesta.mensaje);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoActualizarCliente));
-            }
-            
-            return Ok(respuesta.mensaje);
-        }
-
-
         [HttpDelete]
         public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
         {

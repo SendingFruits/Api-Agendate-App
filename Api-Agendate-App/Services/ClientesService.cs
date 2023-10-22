@@ -83,44 +83,6 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        //public async Task<APIRespuestas> Update(ClienteDTO p_Modificacion)
-        //{
-        //    try
-        //    {
-        //        var esta = await _CliRepo.Obtener(c => c.Id == p_Modificacion.Id);
-        //        if (esta == null)
-        //        {
-        //            _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
-        //            _respuestas.ObtenerMensaje(_respuestas.codigo);
-        //            return _respuestas;
-        //        }
-
-        //        var usuarioDocuemnto = await _CliRepo.Obtener(c => c.Documento == p_Modificacion.documento);
-        //        if (usuarioDocuemnto != null)
-        //        {
-        //            _respuestas.codigo = ConstantesDeErrores.ErrorClienteConDocumentoExistente;
-        //            _respuestas.ObtenerMensaje(_respuestas.codigo);
-        //            return _respuestas;
-        //        }
-
-        //        var usuarioNombre = await _UsuRepo.Obtener(cli => cli.NombreUsuario == p_Modificacion.NombreUsuario);
-        //        if (usuarioNombre != null)
-        //        {
-        //            _respuestas.codigo = ConstantesDeErrores.ErrorClienteConUsuarioExistente;
-        //            _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
-        //            return _respuestas;
-        //        }
-
-        //        await _CliRepo.Actualizar(esta);
-
-        //    }
-        //    catch (Exception )
-        //    {
-        //       _respuestas.codigo= ConstantesDeErrores.ErrorInsertandoEntidad;
-        //    }
-        //    return _respuestas;
-        //}
-
         public async Task<APIRespuestas> Buscar(string ci)
         {
             try

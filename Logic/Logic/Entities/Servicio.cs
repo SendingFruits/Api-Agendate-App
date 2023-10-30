@@ -16,19 +16,23 @@ namespace Logic.Entities
 
         public string Nombre { get; set; }
 
-        public string Tipo { get; set; }
+        public DateTime HoraInicio { get; set; }
+
+        public DateTime HoraFin { get; set; }
+
+        public bool[] DiasDefinidos { get; set; }
+
+        public int DuracionTurno { get; set; }
+
+        public string TipoServicio { get; set; }
+
+        public decimal? Costo { get; set; }
 
         public string Descripcion { get; set; }
 
-        public DateTime FechaInicio { get; set; }
+        public int FrecuenciaRealizacion { get; set; }
 
-        public DateTime FechaFin { get; set; }
-
-        public double Costo { get; set; }
-
-        public int Cupos { get; set; }
-
-        public int Frecuencia { get; set; }
+        public DateTime UltimaFecha { get; set; }
 
         public virtual Empresa empresa { get; set; }
     }

@@ -9,11 +9,11 @@ namespace Api_Agendate_App.Constantes
     {
         public MappingConfig()
         {
-            CreateMap<Usuario, UsuarioDTO>().ReverseMap();
-            CreateMap<Cliente, ClienteDTO>().ReverseMap();
-            CreateMap<Empresa, EmpresaDTO>().ReverseMap();
-            CreateMap<Empresa, EmpresaMapaDTO>().ReverseMap();
-            CreateMap<Servicio, ServicioDTO>().ReverseMap();
+            CreateMap<Usuarios, UsuarioDTO>().ReverseMap();
+            CreateMap<Clientes, ClienteDTO>().ReverseMap();
+            CreateMap<Empresas, EmpresaDTO>().ReverseMap();
+            CreateMap<Empresas, EmpresaMapaDTO>().ReverseMap();
+            CreateMap<Servicios, ServicioDTO>().ReverseMap();
         }
     }
 }

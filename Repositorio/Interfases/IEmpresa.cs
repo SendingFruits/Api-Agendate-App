@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Repositorio.Interfases
 {
-    public interface IEmpresa:IRepositorio<Empresa>
+    public interface IEmpresa:IRepositorio<Empresas>
     {
 
-        public  Task<Empresa> Actualizar(Empresa entidad);
+        public  Task<Empresas> Actualizar(Empresas entidad);
 
 
     }

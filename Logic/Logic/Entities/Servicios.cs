@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Entities
 {
-    public class Servicio
+    public class Servicios
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -34,6 +34,8 @@ namespace Logic.Entities
 
         public DateTime UltimaFecha { get; set; }
 
-        public virtual Empresa empresa { get; set; }
+        public virtual Empresas empresa { get; set; }
+
+        public ICollection<HorariosServicios> horariosServicios { get; set; }
     }
 }

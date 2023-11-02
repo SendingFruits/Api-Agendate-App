@@ -4,7 +4,7 @@ using Repositorio.IRepositorio;
 
 namespace Repositorio.EntidadesDeRepositorio
 {
-    public class UsuarioRepositorio : Repositorio<Usuario>, IUsuario
+    public class UsuarioRepositorio : Repositorio<Usuarios>, IUsuario
     {
         private readonly DataContext _db;
 
@@ -13,7 +13,7 @@ namespace Repositorio.EntidadesDeRepositorio
             _db = db;
         }
 
-        public async Task<Usuario> Actualizar(Usuario n)
+        public async Task<Usuarios> Actualizar(Usuarios n)
         {
             _db.Entry(n).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             await _db.SaveChangesAsync();

@@ -17,5 +17,7 @@ namespace Logic.Entities
         public DateTime FechaHora { get; set; }
 
         public string Categoria { get; set; }
+
+        public virtual ICollection<Servicios> Servicios { get; set; }
     }
 }

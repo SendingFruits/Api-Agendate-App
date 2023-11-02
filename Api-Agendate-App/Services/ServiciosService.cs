@@ -30,7 +30,7 @@ namespace Api_Agendate_App.Services
                 _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
                 return _respuestas;
             }
-            Servicio S = _Mapper.Map<Servicio>(NuevoServicio);
+            Servicios S = _Mapper.Map<Servicios>(NuevoServicio);
             _ServRepo.Crear(S);
 
             _respuestas.codigo = 0;
@@ -46,7 +46,7 @@ namespace Api_Agendate_App.Services
             var existe = _ServRepo.Obtener(ser => ser.Id == id);
             if (existe != null)
             {
-                Servicio S = _Mapper.Map<Servicio>(existe);
+                Servicios S = _Mapper.Map<Servicios>(existe);
                 //_ServRepo.Remover(S);
                 _respuestas.codigo = 0;
                 return _respuestas;
@@ -89,7 +89,7 @@ namespace Api_Agendate_App.Services
                      };*/
 
 
-                    Servicio S = _Mapper.Map<Servicio>(entidad);
+                    Servicios S = _Mapper.Map<Servicios>(entidad);
                     _ServRepo.Actualizar(S);
 
 
@@ -120,7 +120,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                IEnumerable<Servicio> LServis = await _ServRepo.ObtenerTodos();
+                IEnumerable<Servicios> LServis = await _ServRepo.ObtenerTodos();
                 IEnumerable<ServicioDTO> Lista = _Mapper.Map<IEnumerable<ServicioDTO>>(LServis);
                 _respuestas.Resultado = Lista;
                 return Lista;

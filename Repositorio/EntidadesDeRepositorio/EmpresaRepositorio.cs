@@ -6,7 +6,7 @@ using Repositorio.Interfases;
 
 namespace Repositorio.EntidadesDeRepositorio
 {
-    public class EmpresaRepositorio : Repositorio<Empresa>, IEmpresa
+    public class EmpresaRepositorio : Repositorio<Empresas>, IEmpresa
     {
         public readonly DataContext _db;
         public EmpresaRepositorio(DataContext db) : base(db)
@@ -14,7 +14,7 @@ namespace Repositorio.EntidadesDeRepositorio
             _db = db;
         }
 
-        public async Task<Empresa> Actualizar(Empresa entidad)
+        public async Task<Empresas> Actualizar(Empresas entidad)
         {
             var Encontre = _db.Empresas.FirstOrDefault(Emp => Emp.Id == entidad.Id);
             if (Encontre != null)
@@ -25,7 +25,7 @@ namespace Repositorio.EntidadesDeRepositorio
             return entidad;
         }
 
-        private void ActurlizarAtributos(ref Empresa encontre, Empresa entidad)
+        private void ActurlizarAtributos(ref Empresas encontre, Empresas entidad)
         {
             try
             {

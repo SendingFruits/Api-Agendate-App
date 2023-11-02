@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Entities
 {
-    public  class Promocion
+    public  class Promociones
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -23,7 +23,7 @@ namespace Logic.Entities
         [StringLength(200)]
         public string Titulo { get; set;}
 
-        public virtual Empresa EmpresaE { get; set; }   
+        public virtual Empresas EmpresaE { get; set; }   
 
 
 

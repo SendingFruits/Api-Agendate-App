@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Logic.Entities
 {
     [Index(nameof(RutDocumento), IsUnique = true)]
-    public class Empresa : Usuario
+    public class Empresas : Usuarios
     {
         [Required(ErrorMessage = "El documento es obligatorio.")]
         public string RutDocumento { get; set; }

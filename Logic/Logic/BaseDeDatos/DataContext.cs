@@ -7,28 +7,28 @@ namespace Logic.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        public DbSet<Servicio> Servicios { get; set; }
+        public DbSet<Servicios> Servicios { get; set; }
 
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Usuarios> Usuarios { get; set; }
 
-        public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<Empresas> Empresas { get; set; }
 
-        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Clientes> Clientes { get; set; }
 
-        public DbSet<Notificacion> Notificaciones { get; set; }
+        public DbSet<Notificaciones> Notificaciones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Usuario>()
+            modelBuilder.Entity<Usuarios>()
                 .ToTable("Usuarios");
 
-            modelBuilder.Entity<Empresa>()
+            modelBuilder.Entity<Empresas>()
                 .ToTable("Empresas");
 
-            modelBuilder.Entity<Cliente>()
+            modelBuilder.Entity<Clientes>()
                 .ToTable("Clientes");
 
-            modelBuilder.Entity<Servicio>()
+            modelBuilder.Entity<Servicios>()
                 .ToTable("Servicios");
 
         }

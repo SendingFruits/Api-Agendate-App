@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Repositorio.IRepositorio
 {
-    public interface IUsuario : IRepositorio<Usuario>
+    public interface IUsuario : IRepositorio<Usuarios>
     {
-        Task<Usuario> Actualizar(Usuario entidad);
+        Task<Usuarios> Actualizar(Usuarios entidad);
     }
 }

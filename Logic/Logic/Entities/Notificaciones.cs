@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Entities
 {
-    public class Notificacion
+    public class Notificaciones
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

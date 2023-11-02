@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Logic.Entities
 {
     [Index(nameof(Documento), IsUnique = true)]
-    public class Cliente : Usuario
+    public class Clientes : Usuarios
     {
         [Required(ErrorMessage = "El camnpo No puede ser nulo o vacio")]
         public string Documento { get; set; }

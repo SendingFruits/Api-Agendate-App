@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repositorio.EntidadesDeRepositorio
 {
-    public class ServicioRepositorios : Repositorio<Servicio>, IServicios
+    public class ServicioRepositorios : Repositorio<Servicios>, IServicios
     {
         public readonly DataContext _db;
         public ServicioRepositorios(DataContext db) : base(db)
@@ -17,12 +17,12 @@ namespace Repositorio.EntidadesDeRepositorio
             _db= db;
         }
 
-        public async Task<Servicio> Actualizar(Servicio entidad)
+        public async Task<Servicios> Actualizar(Servicios entidad)
         {
             var Buscar = _db.Servicios.FirstOrDefault(s => s.Id == entidad.Id);
             if (Buscar != null)
             {
-                Servicio s = new Servicio
+                Servicios s = new Servicios
                 {
                     Id = entidad.Id,
                     Nombre = entidad.Nombre,

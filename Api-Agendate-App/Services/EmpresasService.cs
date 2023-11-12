@@ -52,7 +52,7 @@ namespace Api_Agendate_App.Services
                 }
 
                 var empresaBD = await _EmpRepo.Obtener(c => c.RutDocumento == nuevaEmpresa.RutDocumento);
-                if (empresaBD == null)
+                if (empresaBD != null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaConDocumentoExistente;
                     _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);

@@ -12,30 +12,47 @@ namespace Api_Agendate_App.Services
     {
 
         private readonly IServicios _ServRepo;
+        private readonly IHorarios _HorariosRepo;
+        private readonly IEmpresa _EmpresaRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
 
-        public ServiciosService(IServicios servRepo, IMapper mapper, APIRespuestas respuestas)
+        public ServiciosService(IServicios servRepo, IHorarios horarioRepo, IEmpresa empresaRepo, IMapper mapper, APIRespuestas respuestas)
         {
             _ServRepo = servRepo;
             _Mapper = mapper;
             _respuestas = respuestas;
+            _HorariosRepo = horarioRepo;
+            _EmpresaRepo = empresaRepo;
         }
 
         public APIRespuestas Create([FromBody] ServicioDTO NuevoServicio)
         {
-            var Existe = _ServRepo.Obtener(ser => ser.Id == NuevoServicio.Id);
+            var Existe = _ServRepo.Obtener(ser => ser.Nombre == NuevoServicio.Nombre && ser.empresa.Id == NuevoServicio.IdEmpresa);
             if (Existe != null)
             {
-                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteElNombreDelServicio;
                 return _respuestas;
             }
+
+            var existeHorario = _HorariosRepo.Obtener(hor => hor.Id == NuevoServicio.IdHorario);
+
+            if (existeHorario != null)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorNoExisteElHorario;
+                return _respuestas;
+            }
+
+            var existeEmpresa = _EmpresaRepo.Obtener(hor => hor.Id == NuevoServicio.IdHorario);
+
+            if (existeEmpresa != null)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                return _respuestas;
+            }
+
             Servicios S = _Mapper.Map<Servicios>(NuevoServicio);
             _ServRepo.Crear(S);
-
-            _respuestas.codigo = 0;
-
-
 
             return _respuestas;
         }
@@ -52,61 +69,58 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
-
-
-
             _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
 
             return _respuestas;
         }
         public APIRespuestas Update([FromBody] ServicioDTO entidad)
         {
-            try
-            {
-                var Actualizo = _ServRepo.Obtener(e => e.Id == entidad.Id);
-                if (Actualizo != null)
-                {
-                    /* var Servicio = new Servicio
-                     {
-                         Id = entidad.Id,
-                         Nombre = entidad.Nombre,
-                         Logo = entidad.Logo,
-                         Calle = entidad.Calle,
-                         Celular = entidad.Celular,
-                         Contrasenia = entidad.Contrasenia,
-                         NombreUsuario = entidad.NombreUsuario,
-                         RutDocumento = entidad.RutDocumento,
-                         RazonSocial = entidad.RazonSocial,
-                         Descripcion = entidad.Descripcion,
-                         Apellido = entidad.Apellido,
-                         Ciudad = entidad.Ciudad,
-                         Correo = entidad.Correo,
-                         Latitud = entidad.Latitud,
-                         NumeroPuerta = entidad.NumeroPuerta,
-                         Longitud = entidad.Longitud,
-                         NombrePropietario = entidad.NombrePropietario,
-                         Rubro = entidad.Rubro
-                     };*/
+            //try
+            //{
+            //    //var Actualizo = _ServRepo.Obtener(e => e.Id == entidad.Id);
+            //    if (Actualizo != null)
+            //    {
+            //        /* var Servicio = new Servicio
+            //         {
+            //             Id = entidad.Id,
+            //             Nombre = entidad.Nombre,
+            //             Logo = entidad.Logo,
+            //             Calle = entidad.Calle,
+            //             Celular = entidad.Celular,
+            //             Contrasenia = entidad.Contrasenia,
+            //             NombreUsuario = entidad.NombreUsuario,
+            //             RutDocumento = entidad.RutDocumento,
+            //             RazonSocial = entidad.RazonSocial,
+            //             Descripcion = entidad.Descripcion,
+            //             Apellido = entidad.Apellido,
+            //             Ciudad = entidad.Ciudad,
+            //             Correo = entidad.Correo,
+            //             Latitud = entidad.Latitud,
+            //             NumeroPuerta = entidad.NumeroPuerta,
+            //             Longitud = entidad.Longitud,
+            //             NombrePropietario = entidad.NombrePropietario,
+            //             Rubro = entidad.Rubro
+            //         };*/
 
 
-                    Servicios S = _Mapper.Map<Servicios>(entidad);
-                    _ServRepo.Actualizar(S);
+            //        Servicios S = _Mapper.Map<Servicios>(entidad);
+            //        //_ServRepo.Actualizar(S);
 
 
-                    _respuestas.codigo = 0;
+            //        _respuestas.codigo = 0;
 
 
 
-                }
-                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+            //    }
+            //    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
 
 
-            }
-            catch (Exception)
-            {
-                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
+            //}
+            //catch (Exception)
+            //{
+            //    _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
 
-            }
+            //}
 
 
             return _respuestas;
@@ -134,12 +148,12 @@ namespace Api_Agendate_App.Services
 
         }
 
-        internal async Task<ActionResult<ServicioDTO>> ObtenerServEmp(string Nomb)
+        internal async Task<ActionResult<ServicioDTO>> ObtenerServEmp(int id)
         {
             try
             {
                 
-                var Servis =await  _ServRepo.ObtenerTodos(i => i.empresa.Nombre == Nomb);
+                var Servis =await  _ServRepo.ObtenerTodos(i => i.empresa.Id == id);
                 
                 ServicioDTO EServ = _Mapper.Map<ServicioDTO>(Servis);
                 _respuestas.Resultado = EServ;

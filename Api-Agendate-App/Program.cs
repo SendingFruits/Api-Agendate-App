@@ -76,7 +76,7 @@ builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IEmpresa, EmpresaRepositorio>();
 builder.Services.AddScoped<INotificaciones, NotificacionRepositortio>();
 builder.Services.AddScoped<IServicios, ServicioRepositorios>();
-
+builder.Services.AddScoped<IHorarios, HorariosRepositorio>();
 var app = builder.Build();
 
 
@@ -88,12 +88,12 @@ var app = builder.Build();
 
 //Para iniciar una base de datos la primera vez que se ejecute el proyecto.
 
-//using (var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
 
-//{
-//    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
-//    Context.Database.Migrate();
-//}
+{
+    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
+    Context.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
         {

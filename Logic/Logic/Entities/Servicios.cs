@@ -20,7 +20,7 @@ namespace Logic.Entities
 
         public DateTime HoraFin { get; set; }
 
-        public bool[] DiasDefinidos { get; set; }
+        public string DiasDefinidos { get; set; }
 
         public int DuracionTurno { get; set; }
 

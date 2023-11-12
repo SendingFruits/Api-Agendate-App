@@ -12,11 +12,11 @@ namespace Logic.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        int HorarioServicioID {  get; set; }
+        public int Id {  get; set; }
 
-        int HorarioID { get; set; }
+        public int HorariosID { get; set; }
 
-        int ServiciosID { get; set; }
+        public int ServiciosID { get; set; }
 
         public virtual Servicios Servicios { get; set; }
 

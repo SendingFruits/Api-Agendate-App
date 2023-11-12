@@ -18,6 +18,5 @@ namespace Logic.Entities
 
         public string Categoria { get; set; }
 
-        public virtual ICollection<Servicios> Servicios { get; set; }
     }
 }

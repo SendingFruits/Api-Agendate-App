@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace Repositorio.Interfases
 {
-    public interface IServicios: IRepositorio<Servicios>
+    public interface IHorarios: IRepositorio<Horarios>
     {
-
-        //Task<Servicios> Actualizar(Servicios entidad);
-
 
     }
 }

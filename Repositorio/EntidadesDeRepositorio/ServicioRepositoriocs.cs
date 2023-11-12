@@ -17,29 +17,29 @@ namespace Repositorio.EntidadesDeRepositorio
             _db= db;
         }
 
-        public async Task<Servicios> Actualizar(Servicios entidad)
-        {
-            var Buscar = _db.Servicios.FirstOrDefault(s => s.Id == entidad.Id);
-            if (Buscar != null)
-            {
-                Servicios s = new Servicios
-                {
-                    Id = entidad.Id,
-                    Nombre = entidad.Nombre,
-                    Costo= entidad.Costo,
-                    Cupos= entidad.Cupos,
-                    Descripcion= entidad.Descripcion,
-                    FechaInicio= entidad.FechaInicio,
-                    FechaFin= entidad.FechaFin,
-                    Frecuencia= entidad.Frecuencia,
-                    Tipo= entidad.Tipo,
-                    empresa= entidad.empresa
-                };
-                _db.Entry(s).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
+        //public async Task<Servicios> Actualizar(Servicios entidad)
+        //{
+        //    var Buscar = _db.Servicios.FirstOrDefault(s => s.Id == entidad.Id);
+        //    if (Buscar != null)
+        //    {
+        //        Servicios s = new Servicios
+        //        {
+        //            Id = entidad.Id,
+        //            Nombre = entidad.Nombre,
+        //            Costo= entidad.Costo,
+        //            Cupos= entidad.Cupos,
+        //            Descripcion= entidad.Descripcion,
+        //            FechaInicio= entidad.FechaInicio,
+        //            FechaFin= entidad.FechaFin,
+        //            Frecuencia= entidad.Frecuencia,
+        //            Tipo= entidad.Tipo,
+        //            empresa= entidad.empresa
+        //        };
+        //        _db.Entry(s).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        //        await _db.SaveChangesAsync();
+        //    }
 
-            return entidad;
-        }
+        //    return entidad;
+        //}
     }
 }

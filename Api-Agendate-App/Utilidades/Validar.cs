@@ -66,12 +66,7 @@ namespace Api_Agendate_App.Utilidades
 
         public void Servicio(ServicioDTO Servicio) 
         { 
-            //if (Servicio..ToString()=="") 
-            //{ throw new Exception("Debe colocar una fecha válida"); }
-
-            //if (Servicio.FechaFin.ToString()=="")
-            //{ throw new Exception("Debe colocar una fecha válida"); }
-
+         
            
         }
 

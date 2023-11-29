@@ -49,11 +49,11 @@ namespace Api_Agendate_App.Controllers
 
         [Authorize]
         [HttpGet("BuscarServicioPorEmpresa")]
-        public async Task<ActionResult>GetServicioporEmpresa(string NomEmp)
+        public async Task<ActionResult>GetServicioporEmpresa(int id)
         {
             try
             {
-                var respuesta = await _serviciosService.ObtenerServEmp(NomEmp);
+                var respuesta = await _serviciosService.ObtenerServEmp(id);
                 if (respuesta == null)
                 {
                     _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
@@ -76,9 +76,6 @@ namespace Api_Agendate_App.Controllers
         [HttpPost]
         public async Task<ActionResult<ServicioDTO>> AddServicio(ServicioDTO p_Servicio)
         {  
-            // Ver aca porque al crear un servicio tengo que comprobar que el que esta dando de alta el servicio sea una empresa 
-            //y que cree el servicio para sí misma , de lo contrario no podría dar de alta .
-
             APIRespuestas respuesta = _serviciosService.Create(p_Servicio);
             if (respuesta.codigo == 0)
             {

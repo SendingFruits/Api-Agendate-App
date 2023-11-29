@@ -2,22 +2,29 @@
 {
     public class ServicioDTO
     {
-        public int Id { get; set; }
         public string Nombre { get; set; }
 
-        public string Tipo { get; set; }
+        public DateTime HoraInicio { get; set; }
+
+        public DateTime HoraFin { get; set; }
+
+        public string DiasDefinidos { get; set; }
+
+        public int DuracionTurno { get; set; }
+
+        public string TipoServicio { get; set; }
+
+        public decimal? Costo { get; set; }
 
         public string Descripcion { get; set; }
 
-        public DateTime FechaInicio { get; set; }
+        public int FrecuenciaRealizacion { get; set; }
 
-        public DateTime FechaFin { get; set; }
+        public DateTime UltimaFecha { get; set; }
 
-        public decimal costo { get; set; }
+        public int IdEmpresa {get; set;}
 
-        public int cupos { get; set; }
-
-        public int frecuencia { get; set; }
+        public int IdHorario { get; set;}  
 
     }
 }

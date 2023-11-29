@@ -9,7 +9,6 @@
         public const int ErrorInsertandoEntidad = 1002;
         public const int ErrorEntidadInexistente = 1003;
 
-
         #region Clientes 1101 al 1200 -> ...
         public const int ErrorClienteConDocumentoExistente = 1101;
         public const int ErrorClienteConUsuarioExistente = 1102;
@@ -32,6 +31,16 @@
         public const int ErrorInesperadoEliminarUsuario = 1303;
         public const int ErrorInesperadoActualizarContrasenia = 1304;
         public const int ErrorContraseniaViejaNoCoincide = 1305;
+        #endregion
+
+        #region Servicios 1401 al 1500 -> ...
+        public const int ErrorYaExisteElNombreDelServicio = 1401;
+
+        #endregion
+
+        #region Horarios 1501 al 1600 -> ...
+        public const int ErrorNoExisteElHorario = 1501;
+
         #endregion
 
         #region Errores Generales 1901 al 2000 -> ...
@@ -149,8 +158,36 @@
             }
             #endregion
 
+            #region Errores de Servicios
+
+            else if (codigoError >= 1401 && codigoError <= 1500)
+            {
+                switch(codigoError)
+                {
+                    case ErrorYaExisteElNombreDelServicio:
+                        mensaje = "Error ya existe un servicio creado con ese nombre";
+                        break;
+                }
+            }
+
+            #endregion
+
+            #region Errores de Horarios
+
+            else if (codigoError >= 1501 && codigoError <= 1600)
+            {
+                switch (codigoError)
+                {
+                    case ErrorNoExisteElHorario:
+                        mensaje = "Error el id ingresado no pertenece a un horario";
+                        break;
+                }
+            }
+
+            #endregion
+
             #region Errores generales en singular --> ...
-            else if ( codigoError >= 1901 && codigoError <= 2000)
+            else if (codigoError >= 1901 && codigoError <= 2000)
             {
                 switch (codigoError)
                 {
@@ -164,8 +201,9 @@
 
             }
             #endregion
+
             #region Errores por entidades(Plural) --> ...
-            else if  (codigoError >= 2001 && codigoError <= 3000)
+            else if (codigoError >= 2001 && codigoError <= 3000)
             {
                 switch (codigoError)
                 {
@@ -181,6 +219,7 @@
                 }
             }
             #endregion
+
             #region Errores Generales --> ...
             else if (codigoError >= 3001 && codigoError <= 3500)
             {

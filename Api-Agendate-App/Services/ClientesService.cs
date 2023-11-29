@@ -69,7 +69,7 @@ namespace Api_Agendate_App.Services
                     return _respuestas;
                 }
 
-                Cliente cliente1= _Mapper.Map<Cliente>(p_nuevoCliente);
+                Clientes cliente1= _Mapper.Map<Clientes>(p_nuevoCliente);
                 await _CliRepo.Crear(cliente1);
                 
                 await _SNoticar.CreateMail(p_nuevoCliente.Correo);
@@ -110,7 +110,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                IEnumerable<Cliente> UsuarioList = await _CliRepo.ObtenerTodos();
+                IEnumerable<Clientes> UsuarioList = await _CliRepo.ObtenerTodos();
                 IEnumerable<ClienteDTO> UsuariosList = _Mapper.Map<IEnumerable<ClienteDTO>>(UsuarioList);
                 _respuestas.Resultado = UsuariosList;
                 return _respuestas;

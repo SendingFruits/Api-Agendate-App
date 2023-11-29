@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Logic.Entities
 {
     [Index(nameof(NombreUsuario), IsUnique = true)]
-    public class Usuario
+    public class Usuarios
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

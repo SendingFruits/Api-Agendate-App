@@ -86,7 +86,7 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        private void ActualizarAtributos(ref Usuario entidadBase, UsuarioDatosBasicosDTO entidadModificada)
+        private void ActualizarAtributos(ref Usuarios entidadBase, UsuarioDatosBasicosDTO entidadModificada)
         {
             try
             {

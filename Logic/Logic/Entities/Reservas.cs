@@ -8,21 +8,22 @@ using System.Threading.Tasks;
 
 namespace Logic.Entities
 {
-    public class Reserva
+    public class Reservas
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
-        public Cliente cliente { get; set; }
-        [Required]
-        public Servicio servicio { get; set; }
-        [Required]
-        public DateTime horarioReserva { get; set; }
+        public virtual Clientes cliente { get; set; }
 
         [Required]
-        public bool Estado { get; set; }
+        public virtual HorariosServicios HorariosServicios { get; set; }
+        [Required]
+        public DateTime FechaRealiada { get; set; }
+
+        [Required]
+        public string Estado { get; set; }
 
 
     }

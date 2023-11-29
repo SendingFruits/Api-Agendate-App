@@ -52,14 +52,14 @@ namespace Api_Agendate_App.Services
                 }
 
                 var empresaBD = await _EmpRepo.Obtener(c => c.RutDocumento == nuevaEmpresa.RutDocumento);
-                if (empresaBD == null)
+                if (empresaBD != null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaConDocumentoExistente;
                     _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
 
-                Empresa E = _Mapper.Map<Empresa>(nuevaEmpresa);
+                Empresas E = _Mapper.Map<Empresas>(nuevaEmpresa);
                 await _EmpRepo.Crear(E);
 
                 await _SNoticar.CreateMail(nuevaEmpresa.Correo);
@@ -98,7 +98,7 @@ namespace Api_Agendate_App.Services
                     return _respuestas;
                 }
 
-                var empresa = _Mapper.Map<Empresa>(entidad);
+                var empresa = _Mapper.Map<Empresas>(entidad);
                 await _EmpRepo.Actualizar(empresa);
 
             }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repositorio.IRepositorio
 {
-    public interface INotificaciones : IRepositorio<Notificacion>
+    public interface INotificaciones : IRepositorio<Notificaciones>
     {
 
         //Task<Notificacion> Actualizar(Notificacion entidad);

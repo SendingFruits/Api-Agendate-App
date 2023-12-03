@@ -54,6 +54,62 @@ namespace Api_Agendate_App.Controllers
             return Ok(usuario);
         }
 
+        [HttpPost("RegistrarUsuario")]
+        public async Task<ActionResult<UsuarioDTO>> Registrarse(UsuarioDTO usuario)
+        {
+            APIRespuestas respuesta = new APIRespuestas();
+            try
+            {
+                usuario.Contrasenia = Encriptadores.Encriptar(usuario.Contrasenia);
+                if (usuario is ClienteDTO)
+                {
+                    var cliente = (ClienteDTO)usuario;
+                    respuesta = await _clienteService.CreateAsync(cliente);
+
+                }
+                else
+                {
+                    var Empresa = (EmpresaDTO)usuario;
+                    respuesta = await _empresasService.CreateAsync(Empresa);
+
+                }
+                if (respuesta.codigo != 0)
+                {
+                    return BadRequest(respuesta.mensaje);
+                }
+                respuesta.Resultado = usuario;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoRegistrarCliente));
+            }
+
+            return Ok(respuesta.mensaje);
+        }
+
+
+        [HttpDelete("BajaUsuario")]
+        public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
+        {
+            APIRespuestas respuesta = new APIRespuestas();
+            try
+            {
+
+                respuesta = await _usuariosService.Delete(id);
+
+                if (respuesta.codigo != 0)
+                {
+                    respuesta.ObtenerMensaje(respuesta.codigo);
+                    return BadRequest(respuesta.mensaje);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoEliminarCliente));
+            }
+
+            return Ok(respuesta);
+        }
         [HttpPut("ActualizarContrasenia")]
         public async Task<ActionResult> ActualizarContrasenia(int idUsuario, string passVieja, string passNueva)
         {

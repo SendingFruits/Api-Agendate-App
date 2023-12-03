@@ -26,6 +26,29 @@ namespace Api_Agendate_App.Services
             _SNoticar = sNoticar;
         }
 
+        public async Task<APIRespuestas> Delete(int id)
+        {
+            try
+            {
+                var existe = await _UsuRepo.Obtener(usu => usu.Id == id);
+
+                if (existe == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
+                await _UsuRepo.Remover(id);
+                return _respuestas;
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+            }
+            return _respuestas;
+        }
+
         public async Task<APIRespuestas> ModificarContrasenia(int id, string passVieja, string passNueva)
         {
             try

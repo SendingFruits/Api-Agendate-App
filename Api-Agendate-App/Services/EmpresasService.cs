@@ -110,18 +110,18 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> GetEmpresas()
+        public async Task<APIRespuestas> GetEmpresas(string Nom)
         {
             try
             {
-                var EmpresasZona = await _EmpRepo.ObtenerTodos();
-                if (!EmpresasZona.Any())
+                var EmpresasZona = await _EmpRepo.Obtener(emp => emp.Nombre == Nom);
+                if (EmpresasZona == null)
                 {
-                    _respuestas.Resultado = null;
+
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                 }
-                var Lista = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona).ToList();
-                _respuestas.Resultado = Lista;
+                var Emp = _Mapper.Map<EmpresaDTO>(EmpresasZona);
+                _respuestas.Resultado = Emp;
                 return _respuestas;
             }
             catch (Exception ex)

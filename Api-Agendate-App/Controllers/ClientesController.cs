@@ -20,50 +20,7 @@ namespace Api_Agendate_App.Controllers
             _clientesService = clientesService;
         }
 
-        [HttpPost("RegistrarCliente")]
-        public async Task<ActionResult<ClienteDTO>> Registrarse(ClienteDTO usuario)
-        {
-            APIRespuestas respuesta = new APIRespuestas();
-            try
-            {
-                usuario.Contrasenia = Encriptadores.Encriptar(usuario.Contrasenia);
-                respuesta = await _clientesService.CreateAsync(usuario);
-                if (respuesta.codigo != 0)
-                {
-                    return BadRequest(respuesta.mensaje);
-                }
-                respuesta.Resultado = usuario;
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoRegistrarCliente));
-            }
-            
-            return Ok(respuesta.mensaje);
-        }
-
-
-        [HttpDelete]
-        public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
-        {
-            APIRespuestas respuesta = new APIRespuestas();
-            try
-            {
-                respuesta = await _clientesService.Delete(id);
-
-                if (respuesta.codigo != 0)
-                {
-                    respuesta.ObtenerMensaje(respuesta.codigo);
-                    return BadRequest(respuesta.mensaje);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoEliminarCliente));
-            }
-
-            return Ok(respuesta);
-        }
+      
 
     }
  }

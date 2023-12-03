@@ -24,35 +24,14 @@ namespace Api_Agendate_App.Controllers
             _SNoticar = sNoticar;
         }
 
-        [HttpPost("RegistrarEmpresa")]
-        public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO empresa)
+        
 
-        {
-            APIRespuestas respuesta = new APIRespuestas();
-            try
-            {
-                empresa.Contrasenia = Encriptadores.Encriptar(empresa.Contrasenia);
-                respuesta = await _empresasService.CreateAsync(empresa);
-                if (respuesta.codigo != 0)
-                {
-                    return BadRequest(respuesta.mensaje);
-                }
-                respuesta.Resultado = respuesta.Resultado;
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-
-            return Ok(respuesta.mensaje);
-        }
-
-        [HttpGet("ObtenerEmpresas")]
-        public async Task<ActionResult> GetEmpresas()
+        [HttpGet("BuscarEmpresaxNombre")]
+        public async Task<ActionResult> BuscarEmpresaNombre(string nom)
         {
             try
             {
-                var respuesta = await _empresasService.GetEmpresas();
+                var respuesta = await _empresasService.GetEmpresas(nom);
                 if (respuesta.Resultado == null)
                 {
                     _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
@@ -113,27 +92,7 @@ namespace Api_Agendate_App.Controllers
             return Ok(respuesta);
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
-        {
-            APIRespuestas respuesta = new APIRespuestas();
-            try
-            {
-                APIRespuestas respuestas = await _empresasService.Delete(id);
-                if (respuestas.codigo != 0)
-                {
-                    respuestas.ObtenerMensaje(respuestas.codigo);
-                    return BadRequest(respuestas.mensaje);
-                }
-                
-            }
-            catch
-            {
-                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoEliminarEmpresa));
-            }
-
-            return Ok(respuesta.mensaje);
-        }
+     
 
     }
 }

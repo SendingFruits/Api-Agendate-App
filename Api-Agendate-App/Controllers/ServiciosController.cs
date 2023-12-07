@@ -49,11 +49,11 @@ namespace Api_Agendate_App.Controllers
 
         [Authorize]
         [HttpGet("BuscarServicioPorEmpresa")]
-        public async Task<ActionResult>GetServicioporEmpresa(int id)
+        public async Task<ActionResult>GetServicioporEmpresa(string nombreEmpresa)
         {
             try
             {
-                var respuesta = await _serviciosService.ObtenerServEmp(id);
+                var respuesta = await _serviciosService.ObtenerServEmp(nombreEmpresa);
                 if (respuesta == null)
                 {
                     _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;

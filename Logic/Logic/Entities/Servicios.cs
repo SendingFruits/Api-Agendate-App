@@ -36,6 +36,5 @@ namespace Logic.Entities
 
         public virtual Empresas empresa { get; set; }
 
-        public ICollection<HorariosServicios> horariosServicios { get; set; }
     }
 }

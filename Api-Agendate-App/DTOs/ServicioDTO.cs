@@ -24,7 +24,5 @@
 
         public int IdEmpresa {get; set;}
 
-        public int IdHorario { get; set;}  
-
     }
 }

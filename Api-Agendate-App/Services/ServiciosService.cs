@@ -148,12 +148,11 @@ namespace Api_Agendate_App.Services
 
         }
 
-        internal async Task<ActionResult<ServicioDTO>> ObtenerServEmp(int id)
+        internal async Task<ActionResult<ServicioDTO>> ObtenerServicioPorNombreEmpresa(string nombreEmp)
         {
             try
             {
-                
-                var Servis =await  _ServRepo.ObtenerTodos(i => i.empresa.Id == id);
+                var Servis =await  _ServRepo.ObtenerTodos(i => i.empresa.Nombre == nombreEmp);
                 
                 ServicioDTO EServ = _Mapper.Map<ServicioDTO>(Servis);
                 _respuestas.Resultado = EServ;
@@ -165,6 +164,24 @@ namespace Api_Agendate_App.Services
                 return null;
             }
            
+        }
+
+        internal async Task<ActionResult<ServicioDTO>> ObtenerServicioPorIdEmpresa(int id)
+        {
+            try
+            {
+                var Servis = await _ServRepo.ObtenerTodos(i => i.empresa.Id == id);
+
+                ServicioDTO EServ = _Mapper.Map<ServicioDTO>(Servis);
+                _respuestas.Resultado = EServ;
+                return EServ;
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.Message;
+                return null;
+            }
+
         }
     }
 }

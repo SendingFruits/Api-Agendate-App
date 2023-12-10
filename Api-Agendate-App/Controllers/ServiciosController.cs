@@ -48,12 +48,12 @@ namespace Api_Agendate_App.Controllers
         }
 
         [Authorize]
-        [HttpGet("BuscarServicioPorEmpresa")]
-        public async Task<ActionResult>GetServicioporEmpresa(string nombreEmpresa)
+        [HttpGet("BuscarServicioPorIdEmpresa")]
+        public async Task<ActionResult> BuscarServicioPorIdEmpresa(int id)
         {
             try
             {
-                var respuesta = await _serviciosService.ObtenerServEmp(nombreEmpresa);
+                var respuesta = await _serviciosService.ObtenerServicioPorIdEmpresa(id);
                 if (respuesta == null)
                 {
                     _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
@@ -72,6 +72,34 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(_respuestas);
             }
         }
+
+        [Authorize]
+        [HttpGet("BuscarServicioPorNombreEmpresa")]
+        public async Task<ActionResult> BuscarServicioPorNombreEmpresa(string nombreEmpresa)
+        {
+            try
+            {
+                var respuesta = await _serviciosService.ObtenerServicioPorNombreEmpresa(nombreEmpresa);
+                if (respuesta == null)
+                {
+                    _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
+                    _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
+                }
+                _respuestas.Resultado = respuesta;
+                _respuestas.codigo = 0;
+
+                return Ok(_respuestas.Resultado);
+
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
+                return BadRequest(_respuestas);
+            }
+        }
+
+
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<ServicioDTO>> AddServicio(ServicioDTO p_Servicio)

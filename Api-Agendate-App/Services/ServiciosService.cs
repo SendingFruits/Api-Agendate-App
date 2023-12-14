@@ -26,33 +26,32 @@ namespace Api_Agendate_App.Services
             _EmpresaRepo = empresaRepo;
         }
 
-        public APIRespuestas Create([FromBody] ServicioDTO NuevoServicio)
+        public async Task<APIRespuestas> Create([FromBody] ServicioDTO NuevoServicio)
         {
-            var Existe = _ServRepo.Obtener(ser => ser.Nombre == NuevoServicio.Nombre && ser.empresa.Id == NuevoServicio.IdEmpresa);
+            var Existe = await _ServRepo.Obtener(ser => ser.Nombre == NuevoServicio.Nombre && ser.empresa.Id == NuevoServicio.IdEmpresa);
             if (Existe != null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteElNombreDelServicio;
                 return _respuestas;
             }
 
-            var existeHorario = _HorariosRepo.Obtener(hor => hor.Id == NuevoServicio.IdHorario);
 
-            if (existeHorario != null)
-            {
-                _respuestas.codigo = ConstantesDeErrores.ErrorNoExisteElHorario;
-                return _respuestas;
-            }
+            var existeEmpresa = await _EmpresaRepo.Obtener(emp => emp.Id == NuevoServicio.IdEmpresa);
 
-            var existeEmpresa = _EmpresaRepo.Obtener(hor => hor.Id == NuevoServicio.IdHorario);
-
-            if (existeEmpresa != null)
+            if (existeEmpresa == null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                 return _respuestas;
             }
 
             Servicios S = _Mapper.Map<Servicios>(NuevoServicio);
-            _ServRepo.Crear(S);
+
+            var empresa = await _EmpresaRepo.Obtener(emp => emp.Id == S.empresa.Id);
+
+            if (empresa != null)
+                S.empresa = empresa;
+
+            await _ServRepo.Crear(S);
 
             return _respuestas;
         }

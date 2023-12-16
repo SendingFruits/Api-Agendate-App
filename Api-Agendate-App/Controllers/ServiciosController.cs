@@ -100,7 +100,7 @@ namespace Api_Agendate_App.Controllers
         }
 
 
-        [HttpPost("IngresarServicio")]
+        [HttpPost("RegistrarServicio")]
         public async Task<ActionResult<ServicioDTO>> AddServicio(ServicioDTO p_Servicio)
         {  
             APIRespuestas respuesta = await _serviciosService.Create(p_Servicio);

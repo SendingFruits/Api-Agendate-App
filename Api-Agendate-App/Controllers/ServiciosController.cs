@@ -21,39 +21,12 @@ namespace Api_Agendate_App.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public async Task<ActionResult> GetServicios()
+        [HttpGet("BuscarServicioPorIdEmpresa")]
+        public async Task<ActionResult> BuscarServicioPorIdEmpresa(int id)
         {
             try
             {
-                var respuesta = await _serviciosService.GetSErvicios();
-                if (respuesta == null)
-                {
-                    _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
-                    _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
-                }
-                _respuestas.Resultado = respuesta.ToList();
-                _respuestas.codigo = 0;
-
-                return Ok(_respuestas.Resultado);
-
-            }
-            catch (Exception)
-            {
-                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
-                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
-                return BadRequest(_respuestas);
-            }
-           
-        }
-
-        [Authorize]
-        [HttpGet("BuscarServicioPorEmpresa")]
-        public async Task<ActionResult>GetServicioporEmpresa(string nombreEmpresa)
-        {
-            try
-            {
-                var respuesta = await _serviciosService.ObtenerServEmp(nombreEmpresa);
+                var respuesta = await _serviciosService.ObtenerServicioPorIdEmpresa(id);
                 if (respuesta == null)
                 {
                     _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
@@ -72,11 +45,38 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(_respuestas);
             }
         }
+
         [Authorize]
-        [HttpPost]
+        [HttpGet("BuscarServicioPorNombreEmpresa")]
+        public async Task<ActionResult> BuscarServicioPorNombreEmpresa(string nombreEmpresa)
+        {
+            try
+            {
+                var respuesta = await _serviciosService.ObtenerServicioPorNombreEmpresa(nombreEmpresa);
+                if (respuesta == null)
+                {
+                    _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
+                    _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
+                }
+                _respuestas.Resultado = respuesta;
+                _respuestas.codigo = 0;
+
+                return Ok(_respuestas.Resultado);
+
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
+                return BadRequest(_respuestas);
+            }
+        }
+
+
+        [HttpPost("RegistrarServicio")]
         public async Task<ActionResult<ServicioDTO>> AddServicio(ServicioDTO p_Servicio)
         {  
-            APIRespuestas respuesta = _serviciosService.Create(p_Servicio);
+            APIRespuestas respuesta = await _serviciosService.Create(p_Servicio);
             if (respuesta.codigo == 0)
             {
                 return Ok();
@@ -87,27 +87,26 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(respuesta.mensaje);
             }
 
-           
         }
-        [Authorize]
-        [HttpPut]
-            public async Task<ActionResult<APIRespuestas>> Actualizar(ServicioDTO dTO)
+
+        [HttpPut("ActualizarServicio")]
+        public async Task<ActionResult<APIRespuestas>> Actualizar(ServicioDTO dTO)
+        {
+            APIRespuestas respuestas = _serviciosService.Update(dTO);
+            if (respuestas.codigo == 0)
             {
-
-                APIRespuestas respuestas = _serviciosService.Update(dTO);
-                if (respuestas.codigo == 0)
-                {
-                    return Ok(respuestas);
-                }
-                else
-                {
-                    respuestas.ObtenerMensaje(respuestas.codigo);
-                    return BadRequest(respuestas.mensaje);
-                }
-
+                return Ok(respuestas);
             }
-        [Authorize]
-        [HttpDelete]
+            else
+            {
+                respuestas.ObtenerMensaje(respuestas.codigo);
+                return BadRequest(respuestas.mensaje);
+            }
+
+        }
+
+
+        [HttpDelete("EliminarServicio")]
         public async Task<ActionResult<APIRespuestas>> Eliminar(int Id)
         {
 

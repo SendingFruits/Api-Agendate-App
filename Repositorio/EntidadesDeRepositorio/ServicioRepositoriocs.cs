@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repositorio.EntidadesDeRepositorio
 {
-    public class ServicioRepositorios : Repositorio<Servicios>, IServicios
+    public class ServicioRepositorios : Repositorio<Servicios>, IServicio
     {
         public readonly DataContext _db;
         public ServicioRepositorios(DataContext db) : base(db)

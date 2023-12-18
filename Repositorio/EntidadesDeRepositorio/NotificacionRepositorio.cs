@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace Repositorio.EntidadesDeRepositorio
 {
-    public class NotificacionRepositortio : Repositorio<Notificaciones>, INotificaciones
+    public class NotificacionRepositortio : Repositorio<Notificaciones>, INotificacion
     {
         private readonly DataContext _db;
         public NotificacionRepositortio(DataContext db) : base(db)

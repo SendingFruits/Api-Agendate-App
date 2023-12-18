@@ -15,16 +15,20 @@ namespace Logic.Entities
         public int Id { get; set; }
 
         [Required]
-        public virtual Clientes cliente { get; set; }
+        public int ClientesID { get; set; }
 
         [Required]
-        public virtual HorariosServicios HorariosServicios { get; set; }
+        public int ServiciosID { get; set; }
+
         [Required]
-        public DateTime FechaRealiada { get; set; }
+        public DateTime FechaHoraReserva { get; set; }
 
         [Required]
         public string Estado { get; set; }
 
+        public virtual Clientes Clientes { get; set; }
+
+        public virtual Servicios Servicios { get; set; }
 
     }
 }

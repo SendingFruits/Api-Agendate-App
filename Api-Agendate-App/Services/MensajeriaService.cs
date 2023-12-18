@@ -11,7 +11,7 @@ namespace Api_Agendate_App.Services
 {
     public class MensajeriaService
     {
-        private readonly INotificaciones _NotiRepo;
+        private readonly INotificacion _NotiRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
         private readonly Mensajeria _mailConfig;
@@ -19,7 +19,7 @@ namespace Api_Agendate_App.Services
         private readonly string Servidor = "smtp.gmail.com";
         private readonly int Puerto = 465;
 
-        public MensajeriaService(INotificaciones notiRepo, IMapper mapper, APIRespuestas respuestas, IOptions<Mensajeria> mailConfig)
+        public MensajeriaService(INotificacion notiRepo, IMapper mapper, APIRespuestas respuestas, IOptions<Mensajeria> mailConfig)
         {
             _NotiRepo = notiRepo;
             _Mapper = mapper;

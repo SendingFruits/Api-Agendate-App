@@ -17,7 +17,7 @@ namespace Logic.Data
 
         public DbSet<Notificaciones> Notificaciones { get; set; }
 
-        public DbSet<HorariosServicios> HorariosServicios { get; set; }
+        public DbSet<HorarioReserva> HorariosServicios { get; set; }
 
         public DbSet<Horarios> Horarios { get; set; }
 
@@ -35,7 +35,7 @@ namespace Logic.Data
             modelBuilder.Entity<Servicios>()
                 .ToTable("Servicios");
 
-            modelBuilder.Entity<HorariosServicios>()
+            modelBuilder.Entity<HorarioReserva>()
                 .ToTable("HorariosServicios");
 
             modelBuilder.Entity<Horarios>()

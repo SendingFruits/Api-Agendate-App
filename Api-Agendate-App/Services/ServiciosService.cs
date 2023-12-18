@@ -11,18 +11,16 @@ namespace Api_Agendate_App.Services
     public class ServiciosService
     {
 
-        private readonly IServicios _ServRepo;
-        private readonly IHorarios _HorariosRepo;
+        private readonly IServicio _ServRepo;
         private readonly IEmpresa _EmpresaRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
 
-        public ServiciosService(IServicios servRepo, IHorarios horarioRepo, IEmpresa empresaRepo, IMapper mapper, APIRespuestas respuestas)
+        public ServiciosService(IServicio servRepo, IEmpresa empresaRepo, IMapper mapper, APIRespuestas respuestas)
         {
             _ServRepo = servRepo;
             _Mapper = mapper;
             _respuestas = respuestas;
-            _HorariosRepo = horarioRepo;
             _EmpresaRepo = empresaRepo;
         }
 
@@ -35,10 +33,9 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
+            var existeEmpresa = _EmpresaRepo.Obtener(hor => hor.Id == NuevoServicio.IdHorario);
 
-            var existeEmpresa = await _EmpresaRepo.Obtener(emp => emp.Id == NuevoServicio.IdEmpresa);
-
-            if (existeEmpresa == null)
+            if (existeEmpresa != null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                 return _respuestas;
@@ -55,7 +52,6 @@ namespace Api_Agendate_App.Services
 
             return _respuestas;
         }
-
 
         public APIRespuestas Delete(int id)
         {
@@ -126,9 +122,6 @@ namespace Api_Agendate_App.Services
 
         }
 
-
-
-
         public async Task<IEnumerable<ServicioDTO>> GetSErvicios()
         {
             try
@@ -182,5 +175,7 @@ namespace Api_Agendate_App.Services
             }
 
         }
+
+        
     }
 }

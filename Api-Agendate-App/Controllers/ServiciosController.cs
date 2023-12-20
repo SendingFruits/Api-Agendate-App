@@ -20,7 +20,7 @@ namespace Api_Agendate_App.Controllers
             _serviciosService= serviciosService;
         }
 
-        [Authorize]
+        
         [HttpGet("BuscarServicioPorIdEmpresa")]
         public async Task<ActionResult> BuscarServicioPorIdEmpresa(int id)
         {
@@ -46,7 +46,7 @@ namespace Api_Agendate_App.Controllers
             }
         }
 
-        [Authorize]
+        
         [HttpGet("BuscarServicioPorNombreEmpresa")]
         public async Task<ActionResult> BuscarServicioPorNombreEmpresa(string nombreEmpresa)
         {

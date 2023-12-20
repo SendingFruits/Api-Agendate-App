@@ -169,7 +169,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var Servis = await _ServRepo.ObtenerTodos(i => i.empresa.Id == id);
+                var Servis = await _ServRepo.Obtener(i => i.empresa.Id == id);
 
                 ServicioDTO EServ = _Mapper.Map<ServicioDTO>(Servis);
                 _respuestas.Resultado = EServ;

@@ -1,4 +1,6 @@
-﻿namespace Api_Agendate_App.DTOs
+﻿using Api_Agendate_App.DTOs.Empresas;
+
+namespace Api_Agendate_App.DTOs
 {
     public class AgendaDTO
     {

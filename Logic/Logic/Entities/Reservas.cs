@@ -25,6 +25,5 @@ namespace Logic.Entities
         [Required]
         public string Estado { get; set; }
 
-
     }
 }

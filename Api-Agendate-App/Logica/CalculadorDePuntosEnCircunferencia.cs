@@ -1,4 +1,4 @@
-﻿using Api_Agendate_App.DTOs;
+﻿using Api_Agendate_App.DTOs.Empresas;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 

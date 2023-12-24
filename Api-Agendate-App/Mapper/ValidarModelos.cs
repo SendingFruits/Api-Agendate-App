@@ -1,12 +1,13 @@
 ﻿using Api_Agendate_App.DTOs;
+using Api_Agendate_App.DTOs.Empresas;
+using Api_Agendate_App.DTOs.Usuarios;
 using System.Text.RegularExpressions;
 
-namespace Api_Agendate_App.Utilidades
+namespace Api_Agendate_App.Mapper
 {
-    public class Validar
+    public class ValidarModelos
     {
-
-
+        #region Usuarios -> ...
         public void Usuario(UsuarioDTO Usu)
         {
             try
@@ -37,42 +38,53 @@ namespace Api_Agendate_App.Utilidades
 
         }
 
+        #endregion
+
+        #region Clientes -> ...
         public void Cliente(ClienteDTO Cliente)
         {
             if (Cliente.documento.ToString().Length != 8)
             { throw new Exception("El documento debe tener un largo de 8 caracteres"); }
 
         }
+        #endregion
 
-        public void Empresa(EmpresaDTO Empresa) 
+        #region Empresas -> ...
+        public void Empresa(EmpresaDTO Empresa)
         {
             if (Empresa.RutDocumento.ToString().Length != 12)
             { throw new Exception("Error!! el rut debe ter un largo maxiomo de 12 caracteres"); }
-            if (Empresa.RutDocumento.ToString()=="000000000000")
+            if (Empresa.RutDocumento.ToString() == "000000000000")
             { throw new Exception("Error en rut "); }
         }
+        #endregion
 
-        public void Promociones(PromocionDTO promociones) 
-        { 
-            if (promociones.fechaInicio != DateTime.Now) { throw new Exception("La fecha de creación debe ser del día de Hoy "); }
+        #region Servicios -> ...
+        public void Servicio(ServicioDTO Servicio)
+        {
+
         }
+        #endregion
 
+        #region Reservas -> ...
         public void Reserva(ReservaDTO Reserva)
-        { 
+        {
             if (Reserva.cliente == null) { throw new Exception("No se puede generar una reserva sin un Cliente"); }
 
-            if(Reserva.servicio== null) { throw new Exception("No se puede generar una reserva sin un servicio"); }
+            if (Reserva.servicio == null) { throw new Exception("No se puede generar una reserva sin un servicio"); }
         }
+        #endregion
 
-        public void Servicio(ServicioDTO Servicio) 
-        { 
-         
-           
-        }
+        #region Agendas -> ...
 
         public void Agenda(AgendaDTO Agenda) { }
+        #endregion
 
-
-
+        #region Promociones -> ...
+        public void Promociones(PromocionDTO promociones)
+        {
+            if (promociones.fechaInicio != DateTime.Now) { throw new Exception("La fecha de creación debe ser del día de Hoy "); }
+        }
+        #endregion
     }
 }

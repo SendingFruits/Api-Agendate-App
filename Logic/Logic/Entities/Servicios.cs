@@ -16,9 +16,9 @@ namespace Logic.Entities
 
         public string Nombre { get; set; }
 
-        public DateTime HoraInicio { get; set; }
+        public decimal HoraInicio { get; set; }
 
-        public DateTime HoraFin { get; set; }
+        public decimal HoraFin { get; set; }
 
         public string DiasDefinidosSemana { get; set; }
 

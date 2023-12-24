@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Api_Agendate_App.DTOs;
+using Api_Agendate_App.DTOs.Empresas;
 
 namespace Api_Agendate_App.DTOs
 {

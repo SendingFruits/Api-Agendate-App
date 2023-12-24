@@ -23,6 +23,7 @@
         public const int ErrorInesperadoActualizarEmpresa = 1203;
         public const int ErrorInesperadoRegistrarEmpresa = 1204;
         public const int ErrorInesperadoEliminarEmpresa = 1205;
+        public const int ErrorEmpresaNoEncontrada = 1206;
         #endregion
 
         #region Usuarios 1301 al 1400 -> ...
@@ -129,6 +130,9 @@
                         break;
                     case ErrorInesperadoEliminarEmpresa:
                         mensaje = "Ocurrio un error inesperado al intentar eliminar su cuenta";
+                        break;
+                    case ErrorEmpresaNoEncontrada:
+                        mensaje = "La empresa no existe";
                         break;
                 }
             }

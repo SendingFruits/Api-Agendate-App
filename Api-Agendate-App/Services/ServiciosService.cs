@@ -1,5 +1,6 @@
 ﻿using Api_Agendate_App.Constantes;
 using Api_Agendate_App.DTOs.Empresas;
+using Api_Agendate_App.DTOs.Horarios;
 using Api_Agendate_App.DTOs.Servicio;
 using Api_Agendate_App.Utilidades;
 using AutoMapper;
@@ -119,7 +120,7 @@ namespace Api_Agendate_App.Services
 
         }
 
-        public async Task<ActionResult<APIRespuestas>> ObtenerServicioPorNombreEmpresa(string nombreEmp)
+        public async Task<APIRespuestas> ObtenerServicioPorNombreEmpresa(string nombreEmp)
         {
             try
             {
@@ -138,7 +139,7 @@ namespace Api_Agendate_App.Services
            
         }
 
-        public async Task<ActionResult<APIRespuestas>> ObtenerServicioPorIdEmpresa(int id)
+        public async Task<APIRespuestas> ObtenerServicioPorIdEmpresa(int id)
         {
             try
             {
@@ -162,6 +163,32 @@ namespace Api_Agendate_App.Services
 
         }
 
+        public async Task<ActionResult<APIRespuestas>> ObtenerHorariosDisponibles(int idServicio, DateTime? fecha)
+        {
+
+            return _respuestas;
+        }
+
+        private List<HorariosDTO> ObtenerHorariosDisponibles(decimal horaDesde, decimal horaHasta, DateTime fecha)
+        {
+            List<HorariosDTO> listaHorarios = new List<HorariosDTO>();
+            DateTime fechaDesde = CrearFechaSegunHoraDecimales(horaDesde, fecha);
+            DateTime fechaHasta = CrearFechaSegunHoraDecimales(horaHasta, fecha);
+
+            return listaHorarios;
+        }
+
+
+        private DateTime CrearFechaSegunHoraDecimales (decimal hora, DateTime fechaBase)
+        {
+            // Multiplica las horas decimales por 60 para obtener los minutos
+            int minutos = (int)(hora * 60);
+
+            // Crea un objeto DateTime con una fecha base y agrega los minutos
+            DateTime fecha = new DateTime(fechaBase.Year, fechaBase.Month, fechaBase.Day, minutos / 60, minutos % 60, 0);
+
+            return fecha;
+        }
         private void ActualizarAtributos(ref Servicios servicioContext, ServicioActualizarDTO servicioMapeado)
         {
             try

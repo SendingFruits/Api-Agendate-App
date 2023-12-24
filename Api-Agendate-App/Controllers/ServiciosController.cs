@@ -22,7 +22,7 @@ namespace Api_Agendate_App.Controllers
 
         
         [HttpGet("BuscarServicioPorIdEmpresa")]
-        public async Task<ActionResult> BuscarServicioPorIdEmpresa(int id)
+        public async Task<ActionResult<APIRespuestas>> BuscarServicioPorIdEmpresa(int id)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace Api_Agendate_App.Controllers
                     _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
                     _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
                 }
-                _respuestas.Resultado = respuesta;
+                _respuestas.Resultado = respuesta.Resultado;
                 _respuestas.codigo = 0;
 
                 return Ok(_respuestas.Resultado);
@@ -48,7 +48,7 @@ namespace Api_Agendate_App.Controllers
 
         
         [HttpGet("BuscarServicioPorNombreEmpresa")]
-        public async Task<ActionResult> BuscarServicioPorNombreEmpresa(string nombreEmpresa)
+        public async Task<ActionResult<APIRespuestas>> BuscarServicioPorNombreEmpresa(string nombreEmpresa)
         {
             try
             {

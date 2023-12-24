@@ -76,7 +76,6 @@ builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IEmpresa, EmpresaRepositorio>();
 builder.Services.AddScoped<INotificaciones, NotificacionRepositortio>();
 builder.Services.AddScoped<IServicios, ServicioRepositorios>();
-builder.Services.AddScoped<IHorarios, HorariosRepositorio>();
 var app = builder.Build();
 
 

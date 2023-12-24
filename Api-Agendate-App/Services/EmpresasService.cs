@@ -82,7 +82,7 @@ namespace Api_Agendate_App.Services
                     return _respuestas;
                 }
 
-                var empresaConRutIgual = await _EmpRepo.Obtener(c => c.RutDocumento == entidad.RutDocumento);
+                var empresaConRutIgual = await _EmpRepo.Obtener(c => c.RutDocumento == entidad.RutDocumento && c.Id != entidad.Id);
                 if (empresaConRutIgual != null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaConDocumentoExistente;

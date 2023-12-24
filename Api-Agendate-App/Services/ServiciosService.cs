@@ -1,5 +1,6 @@
 ﻿using Api_Agendate_App.Constantes;
-using Api_Agendate_App.DTOs;
+using Api_Agendate_App.DTOs.Empresas;
+using Api_Agendate_App.DTOs.Servicio;
 using Api_Agendate_App.Utilidades;
 using AutoMapper;
 using Logic.Entities;
@@ -12,17 +13,15 @@ namespace Api_Agendate_App.Services
     {
 
         private readonly IServicios _ServRepo;
-        private readonly IHorarios _HorariosRepo;
         private readonly IEmpresa _EmpresaRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
 
-        public ServiciosService(IServicios servRepo, IHorarios horarioRepo, IEmpresa empresaRepo, IMapper mapper, APIRespuestas respuestas)
+        public ServiciosService(IServicios servRepo, IEmpresa empresaRepo, IMapper mapper, APIRespuestas respuestas)
         {
             _ServRepo = servRepo;
             _Mapper = mapper;
             _respuestas = respuestas;
-            _HorariosRepo = horarioRepo;
             _EmpresaRepo = empresaRepo;
         }
 
@@ -56,80 +55,53 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-
-        public APIRespuestas Delete(int id)
+        public async Task<APIRespuestas> Delete(int id)
         {
-            var existe = _ServRepo.Obtener(ser => ser.Id == id);
-            if (existe != null)
+            try
             {
-                Servicios S = _Mapper.Map<Servicios>(existe);
-                //_ServRepo.Remover(S);
-                _respuestas.codigo = 0;
-                return _respuestas;
+                var existe = await _ServRepo.Obtener(emp => emp.Id == id);
+                if (existe == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    return _respuestas;
+
+                }
+                await _ServRepo.Remover(id);
+
+            }
+            catch (Exception ex)
+            {
+                _respuestas.codigo = 9999;
+                _respuestas.mensaje = ex.Message;
+            }
+            return _respuestas;
+        }
+
+        public async Task<APIRespuestas> Update([FromBody] ServicioActualizarDTO entidad)
+        {
+            try
+            {
+                var servicioObtenido = await _ServRepo.Obtener(c => c.Id == entidad.Id);
+                if (servicioObtenido == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    return _respuestas;
+                }
+
+                ActualizarAtributos(ref servicioObtenido, entidad);
+                await _ServRepo.Actualizar(servicioObtenido);
+
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
             }
 
-            _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
-
-            return _respuestas;
-        }
-        public APIRespuestas Update([FromBody] ServicioDTO entidad)
-        {
-            //try
-            //{
-            //    //var Actualizo = _ServRepo.Obtener(e => e.Id == entidad.Id);
-            //    if (Actualizo != null)
-            //    {
-            //        /* var Servicio = new Servicio
-            //         {
-            //             Id = entidad.Id,
-            //             Nombre = entidad.Nombre,
-            //             Logo = entidad.Logo,
-            //             Calle = entidad.Calle,
-            //             Celular = entidad.Celular,
-            //             Contrasenia = entidad.Contrasenia,
-            //             NombreUsuario = entidad.NombreUsuario,
-            //             RutDocumento = entidad.RutDocumento,
-            //             RazonSocial = entidad.RazonSocial,
-            //             Descripcion = entidad.Descripcion,
-            //             Apellido = entidad.Apellido,
-            //             Ciudad = entidad.Ciudad,
-            //             Correo = entidad.Correo,
-            //             Latitud = entidad.Latitud,
-            //             NumeroPuerta = entidad.NumeroPuerta,
-            //             Longitud = entidad.Longitud,
-            //             NombrePropietario = entidad.NombrePropietario,
-            //             Rubro = entidad.Rubro
-            //         };*/
-
-
-            //        Servicios S = _Mapper.Map<Servicios>(entidad);
-            //        //_ServRepo.Actualizar(S);
-
-
-            //        _respuestas.codigo = 0;
-
-
-
-            //    }
-            //    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
-
-
-            //}
-            //catch (Exception)
-            //{
-            //    _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
-
-            //}
-
-
             return _respuestas;
 
         }
 
-
-
-
-        public async Task<IEnumerable<ServicioDTO>> GetSErvicios()
+        public async Task<IEnumerable<ServicioDTO>> GetServicios()
         {
             try
             {
@@ -147,33 +119,40 @@ namespace Api_Agendate_App.Services
 
         }
 
-        internal async Task<ActionResult<ServicioDTO>> ObtenerServicioPorNombreEmpresa(string nombreEmp)
+        public async Task<ActionResult<APIRespuestas>> ObtenerServicioPorNombreEmpresa(string nombreEmp)
         {
             try
             {
-                var Servis =await  _ServRepo.ObtenerTodos(i => i.empresa.Nombre == nombreEmp);
+                var Servis = await  _ServRepo.ObtenerTodos(i => i.empresa.Nombre == nombreEmp);
                 
                 ServicioDTO EServ = _Mapper.Map<ServicioDTO>(Servis);
                 _respuestas.Resultado = EServ;
-                return EServ;
+                return _respuestas;
             }
             catch (Exception ex)
             {
+                _respuestas.codigo = 9999;
                 _respuestas.mensaje = ex.Message;
-                return null;
+                return _respuestas;
             }
            
         }
 
-        internal async Task<ActionResult<ServicioDTO>> ObtenerServicioPorIdEmpresa(int id)
+        public async Task<ActionResult<APIRespuestas>> ObtenerServicioPorIdEmpresa(int id)
         {
             try
             {
-                var Servis = await _ServRepo.Obtener(i => i.empresa.Id == id);
+                var encontreServicio = await _ServRepo.Obtener(i => i.empresa.Id == id);
+                if (encontreServicio == null)
+                {
+                    _respuestas.Resultado = null;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorServicioNoEncontrado;
+                    return _respuestas;
+                }
 
-                ServicioDTO EServ = _Mapper.Map<ServicioDTO>(Servis);
+                ServicioDTO EServ = _Mapper.Map<ServicioDTO>(encontreServicio);
                 _respuestas.Resultado = EServ;
-                return EServ;
+                return _respuestas;
             }
             catch (Exception ex)
             {
@@ -181,6 +160,34 @@ namespace Api_Agendate_App.Services
                 return null;
             }
 
+        }
+
+        private void ActualizarAtributos(ref Servicios servicioContext, ServicioActualizarDTO servicioMapeado)
+        {
+            try
+            {
+                if (servicioContext.Nombre != servicioMapeado.Nombre)
+                    servicioContext.Nombre = servicioMapeado.Nombre;
+                if (servicioContext.HoraInicio != servicioMapeado.HoraInicio)
+                    servicioContext.HoraInicio = servicioMapeado.HoraInicio;
+                if (servicioContext.HoraFin != servicioMapeado.HoraFin)
+                    servicioContext.HoraFin = servicioMapeado.HoraFin;
+                if (servicioContext.DiasDefinidosSemana != servicioMapeado.DiasDefinidosSemana)
+                    servicioContext.DiasDefinidosSemana = servicioMapeado.DiasDefinidosSemana;
+                if (servicioContext.DuracionTurno != servicioMapeado.DuracionTurno)
+                    servicioContext.DuracionTurno = servicioMapeado.DuracionTurno;
+                if (servicioContext.TipoServicio != servicioMapeado.TipoServicio)
+                    servicioContext.TipoServicio = servicioMapeado.TipoServicio;
+                if (servicioContext.Costo != servicioMapeado.Costo)
+                    servicioContext.Costo = servicioMapeado.Costo;
+                if (servicioContext.Descripcion != servicioMapeado.Descripcion)
+                    servicioContext.Descripcion = servicioMapeado.Descripcion;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

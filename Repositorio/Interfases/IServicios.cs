@@ -10,9 +10,7 @@ namespace Repositorio.Interfases
 {
     public interface IServicios: IRepositorio<Servicios>
     {
-
-        //Task<Servicios> Actualizar(Servicios entidad);
-
+        Task<Servicios> Actualizar(Servicios entidad);
 
     }
 }

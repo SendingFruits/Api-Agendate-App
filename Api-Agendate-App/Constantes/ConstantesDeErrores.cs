@@ -36,6 +36,7 @@
 
         #region Servicios 1401 al 1500 -> ...
         public const int ErrorYaExisteElNombreDelServicio = 1401;
+        public const int ErrorServicioNoEncontrado = 1402;
 
         #endregion
 
@@ -170,6 +171,9 @@
                 {
                     case ErrorYaExisteElNombreDelServicio:
                         mensaje = "Error ya existe un servicio creado con ese nombre";
+                        break;
+                    case ErrorServicioNoEncontrado:
+                        mensaje = "Error servicio con la id asociada no fue encontrado";
                         break;
                 }
             }

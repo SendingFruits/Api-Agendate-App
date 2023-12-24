@@ -1,4 +1,4 @@
-﻿using Api_Agendate_App.DTOs;
+﻿using Api_Agendate_App.DTOs.Servicio;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
 using Microsoft.AspNetCore.Authorization;
@@ -90,9 +90,9 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpPut("ActualizarServicio")]
-        public async Task<ActionResult<APIRespuestas>> Actualizar(ServicioDTO dTO)
+        public async Task<ActionResult<APIRespuestas>> UpdateServicio (ServicioActualizarDTO servicio)
         {
-            APIRespuestas respuestas = _serviciosService.Update(dTO);
+            APIRespuestas respuestas = await _serviciosService.Update(servicio);
             if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);
@@ -109,9 +109,7 @@ namespace Api_Agendate_App.Controllers
         [HttpDelete("EliminarServicio")]
         public async Task<ActionResult<APIRespuestas>> Eliminar(int Id)
         {
-
-            
-            APIRespuestas respuestas = _serviciosService.Delete(Id);
+            APIRespuestas respuestas = await _serviciosService.Delete(Id);
             if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);

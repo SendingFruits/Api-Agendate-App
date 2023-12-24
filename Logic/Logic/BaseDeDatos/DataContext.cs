@@ -17,10 +17,6 @@ namespace Logic.Data
 
         public DbSet<Notificaciones> Notificaciones { get; set; }
 
-        public DbSet<HorariosServicios> HorariosServicios { get; set; }
-
-        public DbSet<Horarios> Horarios { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuarios>()
@@ -34,12 +30,6 @@ namespace Logic.Data
 
             modelBuilder.Entity<Servicios>()
                 .ToTable("Servicios");
-
-            modelBuilder.Entity<HorariosServicios>()
-                .ToTable("HorariosServicios");
-
-            modelBuilder.Entity<Horarios>()
-                .ToTable("Horarios");
 
         }
 

@@ -2,6 +2,7 @@
 using Logic.Entities;
 using AutoMapper;
 using Api_Agendate_App.DTOs.Empresas;
+using Api_Agendate_App.DTOs.Servicio;
 
 namespace Api_Agendate_App.Utilidades
 {

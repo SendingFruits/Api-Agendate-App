@@ -12,9 +12,7 @@ namespace Repositorio.Interfases
 {
     public interface IEmpresa:IRepositorio<Empresas>
     {
-
         public  Task<Empresas> Actualizar(Empresas entidad);
-
 
     }
 }

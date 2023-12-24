@@ -158,7 +158,7 @@ namespace Api_Agendate_App.Services
                 }
                 var Lista = _Mapper.Map<IEnumerable<EmpresaMapaDTO>>(empresasZona);
 
-                var empresasRadio = CalculadorDePuntosEnCircunferencia.EmpresasDentroDelRadio(Lista, longitudeCli, latitudeCli, radioCircunferenciaUbicacion);
+                var empresasRadio = LogicaObtenerPuntosSegunRadio.EmpresasDentroDelRadio(Lista, longitudeCli, latitudeCli, radioCircunferenciaUbicacion);
                 _respuestas.Resultado = empresasRadio;
                 return _respuestas;
             }

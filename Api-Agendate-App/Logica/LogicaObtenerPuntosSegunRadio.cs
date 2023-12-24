@@ -4,10 +4,8 @@ using System.Collections.Generic;
 
 namespace Api_Agendate_App.Logica
 {
-    public class CalculadorDePuntosEnCircunferencia
+    public class LogicaObtenerPuntosSegunRadio
     {
-        ////////////////////INFO\\\\\\\\\\\\\\\\\\\\
-        //Formula: √( (x - a)^2 + (y - b)^2 ) = r
 
         /// <summary>
         /// Segun la longitud, la latitud del usuario y el radio de la circunferencia de la ubicacion, se filtran las empresas
@@ -25,7 +23,7 @@ namespace Api_Agendate_App.Logica
 
             foreach (EmpresaMapaDTO empMap in listaEmpresas)
             {
-                double distancia = CalculateDistance(latitudCli, longitudCli, empMap.Latitude, empMap.Longitude);
+                double distancia = CalcularDistancia(latitudCli, longitudCli, empMap.Latitude, empMap.Longitude);
 
                 if (distancia <= radioKm) //<= porque el calculo puede ser impreciso
                 {
@@ -36,15 +34,15 @@ namespace Api_Agendate_App.Logica
             return empresasDentroDelRadio;
         }
 
-        public static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+        private static double CalcularDistancia(double lat1, double lon1, double lat2, double lon2)
         {
             const double EarthRadius = 6371; // Radio de la Tierra en kilómetros
 
             // Convertir latitudes y longitudes de grados a radianes
-            double lat1Rad = DegreesToRadians(lat1);
-            double lon1Rad = DegreesToRadians(lon1);
-            double lat2Rad = DegreesToRadians(lat2);
-            double lon2Rad = DegreesToRadians(lon2);
+            double lat1Rad = ConvertirARadians(lat1);
+            double lon1Rad = ConvertirARadians(lon1);
+            double lat2Rad = ConvertirARadians(lat2);
+            double lon2Rad = ConvertirARadians(lon2);
 
             // Diferencia de latitudes y longitudes
             double dLat = lat2Rad - lat1Rad;
@@ -62,7 +60,7 @@ namespace Api_Agendate_App.Logica
             return distance;
         }
 
-        public static double DegreesToRadians(double degrees)
+        private static double ConvertirARadians(double degrees)
         {
             return degrees * Math.PI / 180;
         }

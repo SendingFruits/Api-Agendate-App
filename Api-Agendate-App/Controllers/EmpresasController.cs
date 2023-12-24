@@ -1,5 +1,5 @@
 ﻿using Api_Agendate_App.Constantes;
-using Api_Agendate_App.DTOs;
+using Api_Agendate_App.DTOs.Empresas;
 using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
@@ -72,6 +72,32 @@ namespace Api_Agendate_App.Controllers
             }
         }
 
+        [HttpGet("ObtenerEmpresaPorId")]
+        public async Task<ActionResult> GetEmpresas(int id)
+        {
+            try
+            {
+                var respuesta = await _empresasService.GetEmpresaPorId(id);
+                if (respuesta.Resultado == null)
+                {
+                    _respuestas.codigo = respuesta.codigo;
+                    _respuestas.ObtenerMensaje(_respuestas.codigo);
+                    return BadRequest(_respuestas.mensaje);
+                }
+                _respuestas.Resultado = respuesta.Resultado;
+                _respuestas.codigo = 0;
+
+                return Ok(_respuestas.Resultado);
+
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
+                return BadRequest(_respuestas);
+            }
+        }
+
 
         [HttpGet("ObtenerEmpresasMapa")]
         public async Task<ActionResult<APIRespuestas>> GetEmpresasMapa(float radioCircunferencia, float latitudeCliente, float longitudeCliente)
@@ -93,7 +119,7 @@ namespace Api_Agendate_App.Controllers
         
         //[Authorize]
         [HttpPut("ActualizarEmpresa")]
-        public async Task<ActionResult<EmpresaDTO>> Actualizar(EmpresaDTO dTO)
+        public async Task<ActionResult<EmpresaDatosBasicosDTO>> Actualizar(EmpresaDatosBasicosDTO dTO)
         {
             APIRespuestas respuesta = new APIRespuestas();
             try

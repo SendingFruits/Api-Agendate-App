@@ -1,5 +1,4 @@
 ﻿using Api_Agendate_App.Constantes;
-using Api_Agendate_App.DTOs;
 using Api_Agendate_App.Utilidades;
 using Logic.Entities;
 using AutoMapper;
@@ -8,6 +7,7 @@ using Repositorio;
 using Repositorio.Interfases;
 using System.Collections.Generic;
 using Api_Agendate_App.Logica;
+using Api_Agendate_App.DTOs.Empresas;
 
 namespace Api_Agendate_App.Services
 {
@@ -71,35 +71,27 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> UpdateAsync(EmpresaDTO entidad)
+        public async Task<APIRespuestas> UpdateAsync(EmpresaDatosBasicosDTO entidad)
         {
             try
             {
-                var empresaBD = await _EmpRepo.Obtener(c => c.Id == entidad.Id);
-                if (empresaBD == null)
+                var empresaObtenida = await _EmpRepo.Obtener(c => c.Id == entidad.Id);
+                if (empresaObtenida == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                     return _respuestas;
                 }
 
-                empresaBD = await _EmpRepo.Obtener(c => c.RutDocumento == entidad.RutDocumento);
-                if (empresaBD != null)
+                var empresaConRutIgual = await _EmpRepo.Obtener(c => c.RutDocumento == entidad.RutDocumento);
+                if (empresaConRutIgual != null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaConDocumentoExistente;
                     _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
 
-                var existe = await _EmpRepo.Obtener(emp => emp.NombreUsuario == entidad.NombreUsuario);
-                if (existe != null)
-                {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaConUsuarioExistente;
-                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
-                    return _respuestas;
-                }
-
-                var empresa = _Mapper.Map<Empresas>(entidad);
-                await _EmpRepo.Actualizar(empresa);
+                ActualizarAtributos(ref empresaObtenida, entidad);
+                await _EmpRepo.Actualizar(empresaObtenida);
 
             }
             catch (Exception)
@@ -122,6 +114,28 @@ namespace Api_Agendate_App.Services
                 }
                 var Lista = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona).ToList();
                 _respuestas.Resultado = Lista;
+                return _respuestas;
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.Message;
+
+            }
+            return _respuestas;
+        }
+
+        public async Task<APIRespuestas> GetEmpresaPorId(int id)
+        {
+            try
+            {
+                var empresa = await _EmpRepo.Obtener(e => e.Id == id);
+                if (empresa == null)
+                {
+                    _respuestas.Resultado = null;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaNoEncontrada;
+                }
+                var empresaMapeada = _Mapper.Map<EmpresaDTO>(empresa);
+                _respuestas.Resultado = empresaMapeada;
                 return _respuestas;
             }
             catch (Exception ex)
@@ -181,7 +195,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var existe = _EmpRepo.Obtener(emp => emp.Id == id);
+                var existe = await _EmpRepo.Obtener(emp => emp.Id == id);
                 if (existe == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
@@ -196,6 +210,35 @@ namespace Api_Agendate_App.Services
                 _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
             }
             return _respuestas;
+        }
+
+        private void ActualizarAtributos(ref Empresas empresaContext, EmpresaDatosBasicosDTO empresaMapeada)
+        {
+            try
+            {
+                if (empresaContext.RutDocumento != empresaMapeada.RutDocumento)
+                    empresaContext.RutDocumento = empresaMapeada.RutDocumento;
+                if (empresaContext.RazonSocial != empresaMapeada.RazonSocial)
+                    empresaContext.RazonSocial = empresaMapeada.RazonSocial;
+                if (empresaContext.NombrePropietario != empresaMapeada.NombrePropietario)
+                    empresaContext.NombrePropietario = empresaMapeada.NombrePropietario;
+                if (empresaContext.Rubro != empresaMapeada.Rubro)
+                    empresaContext.Rubro = empresaMapeada.Rubro;
+                if (empresaContext.Direccion != empresaMapeada.Direccion)
+                    empresaContext.Direccion = empresaMapeada.Direccion;
+                if (empresaContext.Ciudad != empresaMapeada.Ciudad)
+                    empresaContext.Ciudad = empresaMapeada.Ciudad;
+                if (empresaContext.Descripcion != empresaMapeada.Descripcion)
+                    empresaContext.Descripcion = empresaMapeada.Descripcion;
+                if (empresaContext.Latitude != empresaMapeada.Latitude)
+                    empresaContext.Latitude = empresaMapeada.Latitude;
+                if (empresaContext.Longitude != empresaMapeada.Longitude)
+                    empresaContext.Longitude = empresaMapeada.Longitude;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

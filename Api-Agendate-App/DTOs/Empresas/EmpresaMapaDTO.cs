@@ -1,8 +1,7 @@
-﻿using Api_Agendate_App.DTOs;
-using System.Numerics;
+﻿using System.Numerics;
 using System.Text.Json.Serialization;
 
-namespace Api_Agendate_App.DTOs
+namespace Api_Agendate_App.DTOs.Empresas
 {
     public class EmpresaMapaDTO
     {

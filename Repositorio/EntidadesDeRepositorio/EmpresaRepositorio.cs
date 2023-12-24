@@ -19,41 +19,11 @@ namespace Repositorio.EntidadesDeRepositorio
             var Encontre = _db.Empresas.FirstOrDefault(Emp => Emp.Id == entidad.Id);
             if (Encontre != null)
             {
-                ActurlizarAtributos(ref Encontre, entidad);
                 await Modificar(Encontre);
             }
             return entidad;
         }
 
-        private void ActurlizarAtributos(ref Empresas encontre, Empresas entidad)
-        {
-            try
-            {
-                if (entidad.Nombre != encontre.Nombre)
-                    encontre.Nombre = entidad.Nombre;
-                if (entidad.Apellido != encontre.Apellido)
-                    encontre.Apellido = entidad.Apellido;
-                if (entidad.Rubro != encontre.Rubro)
-                    encontre.Rubro = entidad.Rubro;
-                if (entidad.Celular != encontre.Celular)
-                    encontre.Celular = entidad.Celular;
-                if (entidad.Correo != encontre.Correo)
-                    encontre.Correo = entidad.Correo;
-                if (entidad.Direccion != encontre.Direccion)
-                    encontre.Direccion = entidad.Direccion;
-                if (entidad.Ciudad != encontre.Ciudad)
-                    encontre.Ciudad = entidad.Ciudad;
-                if (entidad.Latitude != encontre.Latitude)
-                    encontre.Latitude = entidad.Latitude;
-                if (entidad.Longitude != encontre.Longitude)
-                    encontre.Longitude = entidad.Longitude;
-                if (entidad.Direccion != encontre.Direccion)
-                    encontre.Descripcion = entidad.Descripcion;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+
     }
 }

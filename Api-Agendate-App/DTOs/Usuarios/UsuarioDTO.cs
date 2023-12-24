@@ -6,7 +6,6 @@ namespace Api_Agendate_App.DTOs
 {
     public class UsuarioDTO
     {
-        [JsonIgnore]
         [Required(ErrorMessage = "El campo No puede ser nulo o vacio")]
         public int Id { get; set; }
 

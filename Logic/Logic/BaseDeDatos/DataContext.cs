@@ -15,7 +15,13 @@ namespace Logic.Data
 
         public DbSet<Clientes> Clientes { get; set; }
 
+        public DbSet<Reservas> Reservas { get; set; }
+
         public DbSet<Notificaciones> Notificaciones { get; set; }
+
+        public DbSet<Promociones> Promociones { get; set; }
+
+        public DbSet<Favoritos> Favoritos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +36,18 @@ namespace Logic.Data
 
             modelBuilder.Entity<Servicios>()
                 .ToTable("Servicios");
+
+            modelBuilder.Entity<Reservas>()
+                .ToTable("Reservas");
+
+            modelBuilder.Entity<Notificaciones>()
+                .ToTable("Notificaciones");
+
+            modelBuilder.Entity<Promociones>()
+                .ToTable("Promociones");
+
+            modelBuilder.Entity<Favoritos>()
+                .ToTable("Favoritos");
 
         }
 

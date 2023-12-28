@@ -18,7 +18,9 @@ namespace Logic.Entities
         public DateTime FechaRealiada { get; set; }
 
         [Required]
-        public string Estado { get; set; }
+        public DateTime FechaHoraReserva { get; set; }
+        [Required]
+        public string Estado { get ; set; }
 
         [Required]
         public int ServicioID { get; set; }

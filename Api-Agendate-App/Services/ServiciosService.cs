@@ -28,7 +28,7 @@ namespace Api_Agendate_App.Services
 
         public async Task<APIRespuestas> Create([FromBody] ServicioDTO NuevoServicio)
         {
-            var Existe = await _ServRepo.Obtener(ser => ser.Nombre == NuevoServicio.Nombre && ser.empresa.Id == NuevoServicio.IdEmpresa);
+            var Existe = await _ServRepo.Obtener(ser => ser.Nombre == NuevoServicio.Nombre && ser.Empresa.Id == NuevoServicio.IdEmpresa);
             if (Existe != null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteElNombreDelServicio;
@@ -46,10 +46,10 @@ namespace Api_Agendate_App.Services
 
             Servicios S = _Mapper.Map<Servicios>(NuevoServicio);
 
-            var empresa = await _EmpresaRepo.Obtener(emp => emp.Id == S.empresa.Id);
+            var empresa = await _EmpresaRepo.Obtener(emp => emp.Id == S.Empresa.Id);
 
             if (empresa != null)
-                S.empresa = empresa;
+                S.Empresa = empresa;
 
             await _ServRepo.Crear(S);
 
@@ -124,7 +124,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var Servis = await  _ServRepo.ObtenerTodos(i => i.empresa.Nombre == nombreEmp);
+                var Servis = await  _ServRepo.ObtenerTodos(i => i.Empresa.Nombre == nombreEmp);
                 
                 ServicioDTO EServ = _Mapper.Map<ServicioDTO>(Servis);
                 _respuestas.Resultado = EServ;
@@ -143,7 +143,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var encontreServicio = await _ServRepo.Obtener(i => i.empresa.Id == id);
+                var encontreServicio = await _ServRepo.Obtener(i => i.Empresa.Id == id);
                 if (encontreServicio == null)
                 {
                     _respuestas.Resultado = null;

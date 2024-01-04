@@ -71,9 +71,6 @@ namespace Api_Agendate_App.Mapper
         #region Reservas -> ...
         public void Reserva(ReservaDTO Reserva)
         {
-            if (Reserva.cliente == null) { throw new Exception("No se puede generar una reserva sin un Cliente"); }
-
-            if (Reserva.servicio == null) { throw new Exception("No se puede generar una reserva sin un servicio"); }
         }
         #endregion
 

@@ -72,7 +72,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 //Repositorios
 builder.Services.AddScoped<IUsuario, UsuarioRepositorio>();
-builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+builder.Services.AddScoped<ICliente, ClienteRepositorio>();
 builder.Services.AddScoped<IEmpresa, EmpresaRepositorio>();
 builder.Services.AddScoped<INotificaciones, NotificacionRepositortio>();
 builder.Services.AddScoped<IServicios, ServicioRepositorios>();

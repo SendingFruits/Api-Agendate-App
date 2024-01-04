@@ -34,7 +34,7 @@ builder.Services.AddScoped<ClientesService>();
 builder.Services.AddScoped<EmpresasService>();
 builder.Services.AddScoped<MensajeriaService>();
 builder.Services.AddScoped<PromocionesService>();
-builder.Services.AddScoped<ReservaService>();
+builder.Services.AddScoped<ReservasService>();
 builder.Services.AddScoped<ServiciosService>();
 builder.Services.AddScoped<UsuariosService>();
 

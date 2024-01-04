@@ -40,8 +40,8 @@
 
         #endregion
 
-        #region Horarios 1501 al 1600 -> ...
-        public const int ErrorNoExisteElHorario = 1501;
+        #region Reservas 1501 al 1600 -> ...
+        public const int ErrorYaExisteTurnoReservado = 1501;
 
         #endregion
 
@@ -186,8 +186,8 @@
             {
                 switch (codigoError)
                 {
-                    case ErrorNoExisteElHorario:
-                        mensaje = "Error el id ingresado no pertenece a un horario";
+                    case ErrorYaExisteTurnoReservado:
+                        mensaje = "El turno a reservar ya existe para el servicio.";
                         break;
                 }
             }

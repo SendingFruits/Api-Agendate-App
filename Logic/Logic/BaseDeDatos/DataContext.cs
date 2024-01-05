@@ -36,12 +36,14 @@ namespace Logic.Data
             modelBuilder.Entity<Reservas>()
             .HasOne(r => r.Cliente)
             .WithMany(c => c.Reservas)
-            .HasForeignKey(r => r.ClienteId);
+            .HasForeignKey(r => r.ClienteId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Reservas>()
                 .HasOne(r => r.Servicio)
                 .WithMany(s => s.Reservas)
-                .HasForeignKey(r => r.ServicioId);
+                .HasForeignKey(r => r.ServicioId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

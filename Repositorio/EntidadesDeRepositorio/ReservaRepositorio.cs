@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repositorio.EntidadesDeRepositorio
 {
-    internal class ReservaRepositorio : Repositorio<Reservas>, IReserva
+    public class ReservaRepositorio : Repositorio<Reservas>, IReserva
     {
         private readonly DataContext _db;
         public ReservaRepositorio(DataContext db) : base(db)

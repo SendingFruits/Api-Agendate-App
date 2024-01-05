@@ -10,6 +10,8 @@ namespace Api_Agendate_App.DTOs.Empresas
 
         public string RazonSocial { get; set; }
 
+        public byte[]? logo { get; set; }
+
         public string NombrePropietario { get; set; }
 
         public string Rubro { get; set; }

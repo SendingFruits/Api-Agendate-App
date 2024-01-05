@@ -9,6 +9,8 @@ namespace Api_Agendate_App.DTOs.Empresas
 
         public string RazonSocial { get; set; }
 
+        public byte[]? logo { get; set; }
+
         public string Rubro { get; set; }
 
         public string Direccion { get; set; }
@@ -19,8 +21,7 @@ namespace Api_Agendate_App.DTOs.Empresas
 
         public float Latitude { get; set; }
 
-        //public byte[]? Logo { get; set; }
-
+       
         public string Descripcion { get; set; }
     }
 }

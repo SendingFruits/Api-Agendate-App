@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Buffers.Text;
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Logic.Entities
@@ -10,6 +12,8 @@ namespace Logic.Entities
         public string RutDocumento { get; set; }
         
         public string RazonSocial { get; set; }
+
+        public byte[]? logo { get; set; }
 
         public string NombrePropietario { get; set; }
 

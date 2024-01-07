@@ -175,7 +175,7 @@ values
     (4,4, '2024-07-12',Getdate(), 'Pendiente'),
     (5,5, '2023-12-05',Getdate(), 'Realizada'),
     (6,6, '2024-03-09',Getdate(), 'Pendiente'),
-    (7,17, '2024-08-01',Getdate(), 'Rechazada')
+    (7,8, '2024-08-01',Getdate(), 'Rechazada')
 ;
 go
 

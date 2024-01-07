@@ -13,10 +13,10 @@ namespace Logic.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        
+        [Column(TypeName = "datetime2(0)")]
         public DateTime FechaRealizada { get; set; }
 
-        
+        [Column(TypeName = "datetime2(0)")]
         public DateTime FechaHoraReserva { get; set; }
         
 

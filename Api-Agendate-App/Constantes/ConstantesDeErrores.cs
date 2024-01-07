@@ -42,6 +42,7 @@
 
         #region Reservas 1501 al 1600 -> ...
         public const int ErrorYaExisteTurnoReservado = 1501;
+        public const int ErrorInesperadoAlObtenerHorariosSegunFecha = 1502;
 
         #endregion
 
@@ -188,6 +189,9 @@
                 {
                     case ErrorYaExisteTurnoReservado:
                         mensaje = "El turno a reservar ya existe para el servicio.";
+                        break;
+                    case ErrorInesperadoAlObtenerHorariosSegunFecha:
+                        mensaje = "Error inesperado al obtener los horarios segun la fecha";
                         break;
                 }
             }

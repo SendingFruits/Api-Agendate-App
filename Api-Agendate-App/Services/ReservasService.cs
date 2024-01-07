@@ -134,17 +134,48 @@ namespace Api_Agendate_App.Services
 
         }
 
-        public async Task<ActionResult<APIRespuestas>> ObtenerHorariosDisponibles(int idServicio, DateTime? fecha)
+        public async Task<APIRespuestas> ObtenerHorariosSegunFecha(int idServicio, DateTime fecha)
         {
+            var servicio = await _ServiciosRepo.Obtener(s => s.Id == idServicio);
+            if (servicio == null)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorServicioNoEncontrado;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
 
+            var listaHorarios = await ObtenerHorariosServicioSegunFecha(servicio, fecha);
+
+            if (listaHorarios == null)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoAlObtenerHorariosSegunFecha;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
+
+            _respuestas.Resultado = listaHorarios;
             return _respuestas;
         }
 
-        private List<HorariosDTO> ObtenerHorariosDisponibles(decimal horaDesde, decimal horaHasta, DateTime fecha)
+        private async Task<List<HorariosDTO>> ObtenerHorariosServicioSegunFecha (Servicios servicioAsociado, DateTime fechaAsociada)
         {
             List<HorariosDTO> listaHorarios = new List<HorariosDTO>();
-            DateTime fechaDesde = CrearFechaSegunHoraDecimales(horaDesde, fecha);
-            DateTime fechaHasta = CrearFechaSegunHoraDecimales(horaHasta, fecha);
+            DateTime fechaDesde = CrearFechaSegunHoraDecimales(servicioAsociado.HoraInicio, fechaAsociada);
+            DateTime fechaHasta = CrearFechaSegunHoraDecimales(servicioAsociado.HoraFin, fechaAsociada);
+            var reservasParaLaFecha = await _ReservaRepo.ObtenerTodos(r => r.FechaHoraReserva >= fechaDesde && r.FechaHoraReserva <= fechaHasta);
+
+            double horaSumarFechas = servicioAsociado.DuracionTurno == 30 ? 0.5 : 1;
+            while (fechaDesde <= fechaHasta)
+            {
+                bool horarioDisponible = reservasParaLaFecha.Any(r => r.FechaHoraReserva == fechaDesde);
+                listaHorarios.Add(new HorariosDTO(fechaDesde, horarioDisponible));
+                if (servicioAsociado.DuracionTurno == 30)
+                    horaSumarFechas += 0.5;
+                else
+                    horaSumarFechas++;
+
+                fechaDesde.AddHours(horaSumarFechas);
+            }
 
             return listaHorarios;
         }

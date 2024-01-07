@@ -69,5 +69,19 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(respuestas.mensaje);
             }
         }
+
+        [HttpGet("ObtenerHorariosSegunFecha")]
+        public async Task<ActionResult<APIRespuestas>> ObtenerHorariosSegunFecha(int idServicio, DateTime fecha)
+        {
+            APIRespuestas respuesta = await _ReservasService.ObtenerHorariosSegunFecha(idServicio, fecha);
+
+            if (respuesta.codigo == 0)
+            {
+                return Ok(respuesta);
+            }
+            else
+                return BadRequest(respuesta.mensaje);
+
+        }
     }
 }

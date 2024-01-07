@@ -2,8 +2,8 @@
 {
     public class HorariosDTO
     {
-        DateTime FechaHora { get; set; }
-        bool Disponible { get; set; }
+        public DateTime FechaHora { get; set; }
+        public bool Disponible { get; set; }
 
         public HorariosDTO (DateTime fechaHora, bool disponible)
         {

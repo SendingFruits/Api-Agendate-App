@@ -71,16 +71,23 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpGet("ObtenerHorariosSegunFecha")]
-        public async Task<ActionResult<APIRespuestas>> ObtenerHorariosSegunFecha(int idServicio, DateTime fecha)
+        public async Task<ActionResult> ObtenerHorariosSegunFecha(int idServicio, DateTime fecha)
         {
-            APIRespuestas respuesta = await _ReservasService.ObtenerHorariosSegunFecha(idServicio, fecha);
-
-            if (respuesta.codigo == 0)
+            try
             {
-                return Ok(respuesta);
+                APIRespuestas respuesta = await _ReservasService.ObtenerHorariosSegunFecha(idServicio, fecha);
+                _respuestas.Resultado = respuesta.Resultado;
+                _respuestas.codigo = respuesta.codigo;
+                if (respuesta.codigo != 0)
+                {
+                    return BadRequest(_respuestas);
+                }
             }
-            else
-                return BadRequest(respuesta.mensaje);
+            catch (Exception)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+            }
+            return Ok(_respuestas.Resultado);
 
         }
     }

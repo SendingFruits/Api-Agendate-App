@@ -167,17 +167,16 @@ insert into Servicios (
 go
   
 insert into Reservas(
-    ClienteId,ServicioId,FechaRealizada, FechaHoraReserva, Estado)
+    ClienteId, ServicioId, FechaRealizada, FechaHoraTurno, Estado)
 values
-    (1,1,'2023-12-12',Getdate(), 'Realizada'),
-    (2,2, '2024-04-02',Getdate(), 'Pendiente'),
-    (3,3, '2024-06-03',Getdate(), 'Cancelada'),
-    (4,4, '2024-07-12',Getdate(), 'Pendiente'),
-    (5,5, '2023-12-05',Getdate(), 'Realizada'),
-    (6,6, '2024-03-09',Getdate(), 'Pendiente'),
-    (7,8, '2024-08-01',Getdate(), 'Rechazada')
+    (1,1, '2023-12-12 00:00:00', '2023-12-12 00:00:00', 'Realizada'),
+    (2,2, '2024-04-02 00:00:00', '2023-12-12 00:00:00', 'Pendiente'),
+    (3,3, '2024-06-03 00:00:00', '2023-12-12 00:00:00', 'Cancelada'),
+    (4,4, '2024-07-12 00:00:00', '2023-12-12 00:00:00', 'Pendiente'),
+    (5,5, '2023-12-05 00:00:00', '2023-12-12 00:00:00', 'Realizada'),
+    (6,6, '2024-03-09 00:00:00', '2023-12-12 00:00:00', 'Pendiente'),
+    (7,8, '2024-08-01 00:00:00', '2023-12-12 00:00:00', 'Rechazada')
 ;
-go
 
 
 

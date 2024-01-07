@@ -17,7 +17,7 @@ namespace Logic.Entities
         public DateTime FechaRealizada { get; set; }
 
         [Column(TypeName = "datetime2(0)")]
-        public DateTime FechaHoraReserva { get; set; }
+        public DateTime FechaHoraTurno { get; set; }
         
 
         public string Estado { get; set; }

@@ -120,42 +120,43 @@ insert into Clientes(
 go
 
 insert into Empresas (
-	Id, RutDocumento, RazonSocial, Direccion, Rubro, Descripcion, Latitude, Longitude, NombrePropietario, Ciudad
+	Id, RutDocumento, RazonSocial, Direccion, Rubro, Descripcion, Latitude, Longitude, NombrePropietario, Ciudad, Logo
 ) values
-	(39, '100005001234', 'Panaderia y Rotiseria.', 'Vilardebo 4565','Gastronomia','Panaderia y Rotiseria donde podes realizar tu reserva de pedido y venir a retirar...', -34.84784073123643,-56.17782158777118,'Jose','Montevideo'),
-	(40, '100123451234', 'Peluqueria El Tato.', 'Av Gral Flores 3175','Estetica','Peluqueria donde encontraras...', -34.87687835086815,-56.18044914677739,'Ana','Montevideo'),
-	(41, '100123450000', 'ABM Tatú.', 'Rivadavia 1234','Estetica','Local de tatuajes, pedi tu reserva para venir a realizarte los mejores tatuajes...', -34.88075873144812,-56.17954256013036,'Jorge','Montevideo'),
-	(42, '100123451200', 'Peluqueria Sofia.', 'Guadalupe 123','Estetica','Cortes, brushing y mas, todo unisex....', -34.87917915703534,-56.16783572360873,'Sofia','Montevideo'),
-	(43, '100050001234', 'Taller Mauro.', 'Ofelia Machado Bonet 1548','Automotriz','Taller donde podes reservar con anticipacion una revision sin costo... \n Gomeria, chapa y Pintura', -34.846390668781666,-56.23299362137914,'Mauro','Montevideo'),
-    (44, '100987654321', 'MyMBarbería', 'Gualeguay 3355', 'Peluquería', 'Cortes unicos.', -34.867454968378674, -56.170369443929275, 'María', 'Montevideo'),
-    (45, '100876543210', 'salón Colonial', 'Dr.Juan Camisteguy 2921', 'Salon', 'Salón para todo evento .', -34.87338859431686, -56.16882303731943, 'Carlos', 'Montevideo'),
-    (46, '100654321098', 'Masajes al Alma', 'Charrúa', 'Masajes', 'Masajes de alta calidad.', -34.90556868296726, -56.16377949857722, 'Raquel ', 'Montevideo'),
-    (47, '100543210987', 'Rebel Peluquería', 'Juan María Peréz 2833', 'Peluquería', 'Peluquría de alto nivel ', -34.87654321098765, -56.20789012345678, 'Laura', 'Montevideo'),
-    (48, '100432109876', 'Painville Tatto', 'Francisco Araúcho 1374', 'Tatuajes', 'Estudiio de tatuajes profecionales con más de 10 años ', -34.90342693768367, -56.16147531691662, 'José', 'Montevideo'),
-    (49, '100321098765', 'Tatuajes 26', '26 de Marzo 1281', 'Tatuajes', 'Estudio de tatuajes con artistas especializados en diversos estilos.', -34.90849794284651, -56.1475394248725, 'Marcela', 'Montevideo'),
-    (50, '100210987654', 'Be yogi, be young', 'C.Jaime Cibils 2835', 'Yoga', 'Centro de yoga con clases para principiantes y avanzados.', -34.88504386504662, -56.153585507934544, 'Eduardo', 'Montevideo'),
-    (51, '100109876543', 'Peluquería el Tato bsrbershop', 'Dr. Manuel Landeira 3436', 'Barbería', 'Tu pelo, nuestro compromiso.', -34.892466400565326, -56.0924870246575, 'Tato', 'Montevideo'),
-    (52, '100098765432', 'Café Bohemia bar', 'Av.de las Americas 7852', 'Gastronomía', 'Café y bar con un ambiente bohemio y opciones de comida gourmet.',-34.86958770026516, -56.02679339169592, 'Gabriel', 'Montevideo'),
-    (53, '100907654329', 'Clinica Dental D', 'Miravlles 4437', 'Salud Bucal', 'Consultorio odontológico  con el respaldo de MSP ', -34.89031690224368, -56.12041598750196, 'Lucía', 'Montevideo'),
-    (54, '100816543219', 'Yoga Pilates Malvin', 'Mississipi 1526', 'Yoga', 'Centro de Yoga con  especializados en técnicas relajantes.', -34.79876543210987, -56.23122345675432, 'Javier', 'Montevideo'),
-    (55, '100725432109', 'Psicóloga Laura Capi', 'Av.Italia y Candelaria', 'Psicológa', 'Psicoológa egresada en udelar', -34.88701556462457, -56.11091385228516, 'Laura', 'Montevideo'),
-    (56, '100634321090', 'Golden Quiropráctica', 'San Jose 1073', 'Quiropráctico','La salud de tú cuerpo no puede esperar', -34.906173651060215, -56.19255412985705 ,'Jose','Montevideo'),
-    (57, '100543210981', 'Técnica en Pedicuría ', 'Chiringuanos 2702', 'Pedicura', 'Técnica en pedicuría profecional y Terapeuta', -34.878974612950714, -56.163826116898626, 'Valeria', 'Montevideo'),
-    (58, '100452109872', 'Uñas Carol', 'Carlos María Ramirez 3563', 'Uñas', 'Uñas esculpidas, Uñas Gel y todos los diseños que imaginas', -34.873905648773814, -56.248513111450904, 'Carol', 'Montevideo'),
-    (59, '100361098763', 'Old Barber', 'Av.Carlos María Ramírez 1547', 'BarberShop','Cortes modernos a tú medida', -34.873810530255, -56.247545980442716, 'Fernando', 'Montevideo'),
-    (60, '100270987654', 'Gomería La Maquina ', 'Carlos María Ramírez 1838', 'Gomería', 'Todos los repuestos y gomería ', -34.87437767877278, -56.25425033510361, 'Luis', 'Montevideo'),
-    (61, '100280987654', 'tatuajes SINALOA', 'Shakespiere 1610', 'Tatuajes', 'Tatauajes impreresionantes.', -34.82158305414252, -56.19590582687553, 'Luis', 'Montevideo'),
-    (62, '100290987654', 'Topdent Clínica Dental', 'Hilario Ascasubi 4260', 'Odontología', 'Nos ocupamos de tú sonrisa.', -34.86521222324026, -56.23241900986077, 'Marcos', 'Montevideo'),
-    (63, '100280987114', '', '', '', '', 0.00, 0.00, '', ''),
-    (64, '100290987004', '', '', '', '', 0.00, 0.00, '', '')
+	(39, '100005001234', 'Panaderia y Rotiseria.', 'Vilardebo 4565','Gastronomia','Panaderia y Rotiseria donde podes realizar tu reserva de pedido y venir a retirar...', -34.84784073123643, -56.17782158777118,'Jose','Montevideo',''),
+	(40, '100123451234', 'Peluqueria El Tato.', 'Av Gral Flores 3175','Estetica','Peluqueria donde encontraras...', -34.87687835086815, -56.18044914677739,'Ana','Montevideo',''),
+	(41, '100123450000', 'ABM Tatú.', 'Rivadavia 1234','Estetica','Local de tatuajes, pedi tu reserva para venir a realizarte los mejores tatuajes...', -34.88075873144812, -56.17954256013036,'Jorge','Montevideo',''),
+	(42, '100123451200', 'Peluqueria Sofia.', 'Guadalupe 123','Estetica','Cortes, brushing y mas, todo unisex....', -34.87917915703534, -56.16783572360873,'Sofia','Montevideo',''),
+	(43, '100050001234', 'Taller Mauro.', 'Ofelia Machado Bonet 1548','Automotriz','Taller donde podes reservar con anticipacion una revision sin costo... \n Gomeria, chapa y Pintura', -34.846390668781666, -56.23299362137914,'Mauro','Montevideo',''),
+    (44, '100987654321', 'MyMBarbería', 'Gualeguay 3355', 'Peluquería', 'Cortes unicos.', -34.867454968378674, -56.170369443929275, 'María', 'Montevideo',''),
+    (45, '100876543210', 'salón Colonial', 'Dr.Juan Camisteguy 2921', 'Salon', 'Salón para todo evento .', -34.87338859431686, -56.16882303731943, 'Carlos', 'Montevideo',''),
+    (46, '100654321098', 'Masajes al Alma', 'Charrúa', 'Masajes', 'Masajes de alta calidad.', -34.90556868296726, -56.16377949857722, 'Raquel ', 'Montevideo',''),
+    (47, '100543210987', 'Rebel Peluquería', 'Juan María Peréz 2833', 'Peluquería', 'Peluquría de alto nivel ', -34.87654321098765, -56.20789012345678, 'Laura', 'Montevideo',''),
+    (48, '100432109876', 'Painville Tatto', 'Francisco Araúcho 1374', 'Tatuajes', 'Estudiio de tatuajes profecionales con más de 10 años ', -34.90342693768367, -56.16147531691662, 'José', 'Montevideo',''),
+    (49, '100321098765', 'Tatuajes 26', '26 de Marzo 1281', 'Tatuajes', 'Estudio de tatuajes con artistas especializados en diversos estilos.', -34.90849794284651, -56.1475394248725, 'Marcela', 'Montevideo',''),
+    (50, '100210987654', 'Be yogi, be young', 'C.Jaime Cibils 2835', 'Yoga', 'Centro de yoga con clases para principiantes y avanzados.', -34.88504386504662, -56.153585507934544, 'Eduardo', 'Montevideo',''),
+    (51, '100109876543', 'Peluquería el Tato bsrbershop', 'Dr. Manuel Landeira 3436', 'Barbería', 'Tu pelo, nuestro compromiso.', -34.892466400565326, -56.0924870246575, 'Tato', 'Montevideo',''),
+    (52, '100098765432', 'Café Bohemia bar', 'Av.de las Americas 7852', 'Gastronomía', 'Café y bar con un ambiente bohemio y opciones de comida gourmet.',-34.86958770026516, -56.02679339169592, 'Gabriel', 'Montevideo',''),
+    (53, '100907654329', 'Clinica Dental D', 'Miravlles 4437', 'Salud Bucal', 'Consultorio odontológico  con el respaldo de MSP ', -34.89031690224368, -56.12041598750196, 'Lucía', 'Montevideo',''),
+    (54, '100816543219', 'Yoga Pilates Malvin', 'Mississipi 1526', 'Yoga', 'Centro de Yoga con  especializados en técnicas relajantes.', -34.79876543210987, -56.23122345675432, 'Javier', 'Montevideo',''),
+    (55, '100725432109', 'Psicóloga Laura Capi', 'Av.Italia y Candelaria', 'Psicológa', 'Psicoológa egresada en udelar', -34.88701556462457, -56.11091385228516, 'Laura', 'Montevideo',''),
+    (56, '100634321090', 'Golden Quiropráctica', 'San Jose 1073', 'Quiropráctico','La salud de tú cuerpo no puede esperar', -34.906173651060215, -56.19255412985705 ,'Jose','Montevideo',''),
+    (57, '100543210981', 'Técnica en Pedicuría ', 'Chiringuanos 2702', 'Pedicura', 'Técnica en pedicuría profecional y Terapeuta', -34.878974612950714, -56.163826116898626, 'Valeria', 'Montevideo',''),
+    (58, '100452109872', 'Uñas Carol', 'Carlos María Ramirez 3563', 'Uñas', 'Uñas esculpidas, Uñas Gel y todos los diseños que imaginas', -34.873905648773814, -56.248513111450904, 'Carol', 'Montevideo',''),
+    (59, '100361098763', 'Old Barber', 'Av.Carlos María Ramírez 1547', 'BarberShop','Cortes modernos a tú medida', -34.873810530255, -56.247545980442716, 'Fernando', 'Montevideo',''),
+    (60, '100270987654', 'Gomería La Maquina ', 'Carlos María Ramírez 1838', 'Gomería', 'Todos los repuestos y gomería ', -34.87437767877278, -56.25425033510361, 'Luis', 'Montevideo',''),
+    (61, '100280987654', 'tatuajes SINALOA', 'Shakespiere 1610', 'Tatuajes', 'Tatauajes impreresionantes.', -34.82158305414252, -56.19590582687553, 'Luis', 'Montevideo',''),
+    (62, '100290987654', 'Topdent Clínica Dental', 'Hilario Ascasubi 4260', 'Odontología', 'Nos ocupamos de tú sonrisa.', -34.86521222324026, -56.23241900986077, 'Marcos', 'Montevideo',''),
+    (63, '100280987114', '', '', '', '', 0.00, 0.00, '', '', ''),
+    (64, '100290987004', '', '', '', '', 0.00, 0.00, '', '', '')
 ;
 
+go
 
 insert into Servicios (
     Nombre, HoraInicio, HoraFin, DiasDefinidosSemana, DuracionTurno, TipoServicio , Costo, Descripcion, empresaId
 ) values
-    ('Entregas a Domicilio', 9.0, 18.0, 'Lunes;Miércoles;Viernes', 30, 'Gastronomia', 300.00,'Realizamos pedidos', 39),
-    ('Corte de Pelo', 9.0, 18.0, 'Lunes;Miércoles;Viernes', 1, 'Peluquería', 300.00,'Degradado y barba', 42),
+    ('Entregas a Domicilio', 9.0, 18.0, 'Lunes;Miercoles;Viernes', 30, 'Gastronomia', 300.00,'Realizamos pedidos', 39),
+    ('Corte de Pelo', 9.0, 18.0, 'Lunes;Miercoles;Viernes', 1, 'Peluquería', 300.00,'Degradado y barba', 42),
     ('Masaje Relajante', 10.0, 20.0, 'Martes:Jueves;Sabado', 1, 'Centro de Masajes', 800.00,'Masajes ', 46),
     ('Café Gourmet', 8.0, 17.0, 'Lunes;Martes;Miercoles;Jueves;Viernes;Sabado;Domingo', 24, 'Cafetería', 500.00,'Date un gusto', 52),
     ('Clases de Yoga', 17.0, 18.0, 'Lunes;Miercoles', 1, 'Centro de Yoga', 250.00,'Yoga para el alma', 54),
@@ -165,12 +166,12 @@ insert into Servicios (
 ;
 
 go
-  
+
 insert into Reservas(
     ClienteId, ServicioId, FechaRealizada, FechaHoraTurno, Estado)
 values
-    (1,1, '2023-12-12 00:00:00', '2023-12-12 00:00:00', 'Realizada'),
-    (2,2, '2024-04-02 00:00:00', '2023-12-12 00:00:00', 'Pendiente'),
+    (1,1, '2023-12-12 00:00:00', '2024-01-01 09:00:00', 'Realizada'),
+    (1,1, '2024-04-02 00:00:00', '2024-01-01 09:30:00', 'Realizada'),
     (3,3, '2024-06-03 00:00:00', '2023-12-12 00:00:00', 'Cancelada'),
     (4,4, '2024-07-12 00:00:00', '2023-12-12 00:00:00', 'Pendiente'),
     (5,5, '2023-12-05 00:00:00', '2023-12-12 00:00:00', 'Realizada'),
@@ -178,6 +179,13 @@ values
     (7,8, '2024-08-01 00:00:00', '2023-12-12 00:00:00', 'Rechazada')
 ;
 
+go
+   
+select * from Usuarios
+select * from Clientes
+select * from Empresas
+select * from Servicios
+select * from Reservas
 
 
 /*  
@@ -211,11 +219,3 @@ insert into Notificaciones (
 go 
 
 */
-
-
-
-select * from Usuarios order by Id
-select * from Clientes order by Id
-select * from Empresas order by Id
-select * from Servicios order by Id
-select * from Reservas order by Id

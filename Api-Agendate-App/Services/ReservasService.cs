@@ -8,6 +8,8 @@ using Logic.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Repositorio.Interfases;
 using Repositorio.IRepositorio;
+using System.Globalization;
+using System.Text;
 
 namespace Api_Agendate_App.Services
 {
@@ -144,6 +146,15 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
+            string diaDeLaFechaSinTilde = DevolverDiaDeSemanaEspanol(fecha);
+
+            if (!servicio.DiasDefinidosSemana.Contains(diaDeLaFechaSinTilde))
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorDiasDefinidosServicioNoMatcheaFechaReserva;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+                
+            }
             var listaHorarios = await ObtenerHorariosServicioSegunFecha(servicio, fecha);
 
             if (listaHorarios == null)
@@ -184,6 +195,30 @@ namespace Api_Agendate_App.Services
             DateTime fecha = new DateTime(fechaBase.Year, fechaBase.Month, fechaBase.Day, minutos / 60, minutos % 60, 0);
 
             return fecha;
+        }
+
+        private string DevolverDiaDeSemanaEspanol (DateTime fecha)
+        {
+            DayOfWeek diaDeLaFecha = fecha.DayOfWeek;
+            switch (diaDeLaFecha)
+            {
+                case DayOfWeek.Sunday:
+                    return "Domingo";
+                case DayOfWeek.Monday:
+                    return "Lunes";
+                case DayOfWeek.Tuesday:
+                    return "Martes";
+                case DayOfWeek.Wednesday:
+                    return "Miercoles";
+                case DayOfWeek.Thursday:
+                    return "Jueves";
+                case DayOfWeek.Friday:
+                    return "Viernes";
+                case DayOfWeek.Saturday:
+                    return "Sabado";
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

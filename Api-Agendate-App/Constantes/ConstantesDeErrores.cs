@@ -37,6 +37,7 @@
         #region Servicios 1401 al 1500 -> ...
         public const int ErrorYaExisteElNombreDelServicio = 1401;
         public const int ErrorServicioNoEncontrado = 1402;
+        public const int ErrorDiasDefinidosServicioNoMatcheaFechaReserva = 1403;
 
         #endregion
 
@@ -80,7 +81,7 @@
                         mensaje = "La entidad a crear ya existe en el sistema";
                         break;
                     case ErrorInsertandoEntidad:
-                        mensaje = "Error insertando la entidad en el sistema";
+                        mensaje = "Error: insertando la entidad en el sistema";
                         break;
                     case ErrorEntidadInexistente:
                         mensaje = "La entidad no existe";
@@ -158,7 +159,7 @@
                         mensaje = "La contraseña vieja ingresada no coincide con la del usuario";
                         break;
                     case ErrorInesperadoActualizarContrasenia:
-                        mensaje = "Error inesperado al intentar actualizar la contraseña";
+                        mensaje = "Error:  inesperado al intentar actualizar la contraseña";
                         break;
                 }
             }
@@ -171,10 +172,13 @@
                 switch(codigoError)
                 {
                     case ErrorYaExisteElNombreDelServicio:
-                        mensaje = "Error ya existe un servicio creado con ese nombre";
+                        mensaje = "Error: ya existe un servicio creado con ese nombre";
                         break;
                     case ErrorServicioNoEncontrado:
-                        mensaje = "Error servicio con la id asociada no fue encontrado";
+                        mensaje = "Error: servicio con la id asociada no fue encontrado";
+                        break;
+                    case ErrorDiasDefinidosServicioNoMatcheaFechaReserva:
+                        mensaje = "Error: El servicio no esta disponible para el dia en que se quiere hacer la reserva";
                         break;
                 }
             }
@@ -191,7 +195,7 @@
                         mensaje = "El turno a reservar ya existe para el servicio.";
                         break;
                     case ErrorInesperadoAlObtenerHorariosSegunFecha:
-                        mensaje = "Error inesperado al obtener los horarios segun la fecha";
+                        mensaje = "Error:  inesperado al obtener los horarios segun la fecha";
                         break;
                 }
             }
@@ -223,7 +227,7 @@
                         mensaje = "Las entidades a crear ya existen en el sistema";
                         break;
                     case ErrorInsertandoEntidad:
-                        mensaje = "Error insertando las entidades en el sistema";
+                        mensaje = "Error: insertando las entidades en el sistema";
                         break;
                     case ErrorEntidadInexistente:
                         mensaje = "Las entidades no existen";

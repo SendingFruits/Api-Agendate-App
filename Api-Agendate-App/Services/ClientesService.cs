@@ -12,12 +12,12 @@ namespace Api_Agendate_App.Services
     {
         
         private readonly IUsuario _UsuRepo;
-        private readonly IClienteRepositorio _CliRepo;
+        private readonly ICliente _CliRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
         private readonly MensajeriaService _SNoticar;
 
-        public ClientesService(IUsuario UsuRepo,IMapper mapper, APIRespuestas respuestas, IClienteRepositorio cliRepo, MensajeriaService sNoticar)
+        public ClientesService(IUsuario UsuRepo,IMapper mapper, APIRespuestas respuestas, ICliente cliRepo, MensajeriaService sNoticar)
         {
             _Mapper = mapper;
             _respuestas = respuestas;

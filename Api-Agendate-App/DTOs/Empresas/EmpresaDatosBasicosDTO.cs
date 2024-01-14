@@ -18,6 +18,8 @@ namespace Api_Agendate_App.DTOs.Empresas
 
         public string Ciudad { get; set; }
 
+        public string? Logo { get; set; }
+
         public string Descripcion { get; set; }
 
         public float Latitude { get; set; }

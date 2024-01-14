@@ -1,5 +1,6 @@
 ﻿using Api_Agendate_App.DTOs;
 using Api_Agendate_App.DTOs.Empresas;
+using Api_Agendate_App.DTOs.Reservas;
 using Api_Agendate_App.DTOs.Servicio;
 using Api_Agendate_App.DTOs.Usuarios;
 using System.Text.RegularExpressions;
@@ -70,9 +71,6 @@ namespace Api_Agendate_App.Mapper
         #region Reservas -> ...
         public void Reserva(ReservaDTO Reserva)
         {
-            if (Reserva.cliente == null) { throw new Exception("No se puede generar una reserva sin un Cliente"); }
-
-            if (Reserva.servicio == null) { throw new Exception("No se puede generar una reserva sin un servicio"); }
         }
         #endregion
 

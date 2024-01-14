@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Logic.Entities
 {
     public class Reservas
@@ -13,24 +12,26 @@ namespace Logic.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
-        [Required]
-        public DateTime FechaRealiada { get; set; }
 
-        [Required]
+        [Column(TypeName = "datetime2(0)")]
+        public DateTime FechaRealizada { get; set; }
+
+        [Column(TypeName = "datetime2(0)")]
+        public DateTime FechaHoraTurno { get; set; }
+        
+
         public string Estado { get; set; }
 
-        [Required]
-        public int ServicioID { get; set; }
+        // Clave externa para la relación con Clientes
+        public int ClienteId { get; set; }
 
-        [Required]
-        public int ClienteID { get; set; }
-
-        [Required]
+        // Propiedad de navegación inversa
         public virtual Clientes Cliente { get; set; }
 
-        [Required]
-        public virtual Servicios Servicio { get; set; }
+        // Clave externa para la relación con Servicios
+        public int ServicioId { get; set; }
 
+        // Propiedad de navegación inversa
+        public virtual Servicios Servicio { get; set; }
     }
 }

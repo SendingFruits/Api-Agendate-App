@@ -34,7 +34,7 @@ builder.Services.AddScoped<ClientesService>();
 builder.Services.AddScoped<EmpresasService>();
 builder.Services.AddScoped<MensajeriaService>();
 builder.Services.AddScoped<PromocionesService>();
-builder.Services.AddScoped<ReservaService>();
+builder.Services.AddScoped<ReservasService>();
 builder.Services.AddScoped<ServiciosService>();
 builder.Services.AddScoped<UsuariosService>();
 
@@ -72,10 +72,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 //Repositorios
 builder.Services.AddScoped<IUsuario, UsuarioRepositorio>();
-builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+builder.Services.AddScoped<ICliente, ClienteRepositorio>();
 builder.Services.AddScoped<IEmpresa, EmpresaRepositorio>();
 builder.Services.AddScoped<INotificaciones, NotificacionRepositortio>();
 builder.Services.AddScoped<IServicios, ServicioRepositorios>();
+builder.Services.AddScoped<IReserva, ReservaRepositorio>();
 var app = builder.Build();
 
 

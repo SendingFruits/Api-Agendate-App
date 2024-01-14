@@ -17,6 +17,8 @@ namespace Logic.Data
 
         public DbSet<Notificaciones> Notificaciones { get; set; }
 
+        public DbSet<Reservas> Reservas { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuarios>()
@@ -31,6 +33,17 @@ namespace Logic.Data
             modelBuilder.Entity<Servicios>()
                 .ToTable("Servicios");
 
+            modelBuilder.Entity<Reservas>()
+            .HasOne(r => r.Cliente)
+            .WithMany(c => c.Reservas)
+            .HasForeignKey(r => r.ClienteId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Reservas>()
+                .HasOne(r => r.Servicio)
+                .WithMany(s => s.Reservas)
+                .HasForeignKey(r => r.ServicioId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

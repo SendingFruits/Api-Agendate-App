@@ -4,7 +4,7 @@ using Repositorio.IRepositorio;
 
 namespace Repositorio
 {
-    public class ClienteRepositorio : Repositorio<Clientes>, IClienteRepositorio
+    public class ClienteRepositorio : Repositorio<Clientes>, ICliente
     {
         private readonly DataContext _db;
         public ClienteRepositorio(DataContext db) : base(db)

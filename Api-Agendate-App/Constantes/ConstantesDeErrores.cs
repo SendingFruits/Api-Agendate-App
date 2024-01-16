@@ -44,7 +44,7 @@
         #region Reservas 1501 al 1600 -> ...
         public const int ErrorYaExisteTurnoReservado = 1501;
         public const int ErrorInesperadoAlObtenerHorariosSegunFecha = 1502;
-
+        public const int ErrorNoExistenReservasParaLaFechaDada = 1503;
         #endregion
 
         #region Errores Generales 1901 al 2000 -> ...
@@ -196,6 +196,9 @@
                         break;
                     case ErrorInesperadoAlObtenerHorariosSegunFecha:
                         mensaje = "Error:  inesperado al obtener los horarios segun la fecha";
+                        break;
+                    case ErrorNoExistenReservasParaLaFechaDada:
+                        mensaje = "No existen reservas para la fecha seleccionada.";
                         break;
                 }
             }

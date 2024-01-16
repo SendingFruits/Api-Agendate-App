@@ -90,5 +90,26 @@ namespace Api_Agendate_App.Controllers
             return Ok(_respuestas.Resultado);
 
         }
+
+        [HttpGet("ObtenerReservasDeEmpresas")]
+        public async Task<ActionResult> ObtenerReservasDeEmpresas(int idServicio, DateTime fecha)
+        {
+            try
+            {
+                APIRespuestas respuesta = await _ReservasService.ObtenerReservasSegunFechaParaEmpresas(idServicio, fecha);
+                _respuestas.Resultado = respuesta.Resultado;
+                _respuestas.codigo = respuesta.codigo;
+                if (respuesta.codigo != 0)
+                {
+                    return BadRequest(_respuestas);
+                }
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+            }
+            return Ok(_respuestas.Resultado);
+
+        }
     }
 }

@@ -168,6 +168,53 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
+        public async Task<APIRespuestas> ObtenerReservasSegunFechaParaEmpresas(int idServicio, DateTime fecha)
+        {
+            var servicio = await _ServiciosRepo.Obtener(s => s.Id == idServicio);
+            if (servicio == null)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorServicioNoEncontrado;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
+
+            DateTime fechaDesde = CrearFechaSegunHoraDecimales(servicio.HoraInicio, fecha);
+            DateTime fechaHasta = CrearFechaSegunHoraDecimales(servicio.HoraFin, fecha);
+            var reservasServicio = await _ReservaRepo.ObtenerTodos(r => r.ServicioId == idServicio && r.FechaHoraTurno >= fechaDesde && r.FechaHoraTurno <= fechaHasta);
+            if (reservasServicio == null && reservasServicio.Count() == 0)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorNoExistenReservasParaLaFechaDada;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
+
+            List<int> IDsClientes = reservasServicio.Select(r => r.ClienteId).ToList();
+
+            var clientes = await _ClienteRepo.ObtenerTodos(c => IDsClientes.Contains(c.Id));
+
+            List<ReservasDeEmpresasDTO> listaReservasEmpresa = new List<ReservasDeEmpresasDTO>();
+            
+            foreach (var reserva in reservasServicio)
+            {
+                var cliente = clientes.FirstOrDefault(c => c.Id == reserva.ClienteId);
+                listaReservasEmpresa.Add(new ReservasDeEmpresasDTO
+                {
+                    Id = reserva.Id,
+                    IdCliente = reserva.ClienteId,
+                    IdServicio = reserva.ServicioId,
+                    FechaHoraTurno = reserva.FechaHoraTurno,
+                    Estado = reserva.Estado,
+                    NombreCliente = cliente.Nombre,
+                    ApellidoCliente = cliente.Apellido,
+                    CorreoCliente = cliente.Correo,
+                    CelularCliente = cliente.Celular
+                });
+            }
+
+            _respuestas.Resultado = listaReservasEmpresa;
+            return _respuestas;
+        }
+
         private async Task<List<HorariosDTO>> ObtenerHorariosServicioSegunFecha (Servicios servicioAsociado, DateTime fechaAsociada)
         {
             List<HorariosDTO> listaHorarios = new List<HorariosDTO>();

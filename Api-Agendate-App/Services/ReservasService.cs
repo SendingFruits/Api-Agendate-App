@@ -19,16 +19,18 @@ namespace Api_Agendate_App.Services
         private readonly IReserva _ReservaRepo;
         private readonly IServicios _ServiciosRepo;
         private readonly ICliente _ClienteRepo;
+        private readonly IEmpresa _EmpresaRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
 
-        public ReservasService(IReserva reservRepo, ICliente clienteRepo, IMapper mapper, IServicios serviciosRepo, APIRespuestas respuestas)
+        public ReservasService(IReserva reservRepo, ICliente clienteRepo, IMapper mapper, IServicios serviciosRepo, IEmpresa empresaRepo, APIRespuestas respuestas)
         {
             _ReservaRepo = reservRepo;
             _Mapper = mapper;
             _respuestas = respuestas;
             _ClienteRepo = clienteRepo;
             _ServiciosRepo = serviciosRepo;
+            _EmpresaRepo = empresaRepo;
         }
 
         public async Task<APIRespuestas> Create([FromBody] ReservaDTO nuevaReserva)
@@ -211,7 +213,55 @@ namespace Api_Agendate_App.Services
                 });
             }
 
-            _respuestas.Resultado = listaReservasEmpresa;
+            _respuestas.Resultado = listaReservasEmpresa.OrderByDescending(r => r.FechaHoraTurno); ;
+            return _respuestas;
+        }
+
+        public async Task<APIRespuestas> ObtenerReservasParaClientes(int idCliente)
+        {
+            var cliente = await _ServiciosRepo.Obtener(s => s.Id == idCliente);
+            if (cliente == null)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
+
+            var reservasCliente = await _ReservaRepo.ObtenerTodos(r => r.ClienteId == cliente.Id);
+            if (reservasCliente == null && reservasCliente.Count() == 0)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorNoExistenReservasParaElIdCliente;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
+
+            List<int> IDsServicios = reservasCliente.Select(r => r.ServicioId).ToList();
+
+            var serviciosReservas = await _ServiciosRepo.ObtenerTodos(c => IDsServicios.Contains(c.Id));
+
+            List<int> IDsEmpresas = serviciosReservas.Select(r => r.Empresa.Id).ToList();
+
+            var empresasReservas = await _EmpresaRepo.ObtenerTodos(c => IDsEmpresas.Contains(c.Id));
+
+            List<ReservasDeClientesDTO> listaReservasCliente = new List<ReservasDeClientesDTO>();
+
+            foreach (var reserva in reservasCliente)
+            {
+                var servicio = serviciosReservas.FirstOrDefault(s => s.Id == reserva.ServicioId);
+                var empresa = empresasReservas.FirstOrDefault(s => s.Id == servicio.Empresa.Id);
+                listaReservasCliente.Add(new ReservasDeClientesDTO
+                {
+                    Id = reserva.Id,
+                    IdCliente = reserva.ClienteId,
+                    IdServicio = reserva.ServicioId,
+                    FechaHoraTurno = reserva.FechaHoraTurno,
+                    Estado = reserva.Estado,
+                    NombreServicio = servicio.Nombre,
+                    NombreEmpresa = empresa.RazonSocial
+                }); ;
+            }
+
+            _respuestas.Resultado = listaReservasCliente.OrderByDescending(r => r.FechaHoraTurno);
             return _respuestas;
         }
 

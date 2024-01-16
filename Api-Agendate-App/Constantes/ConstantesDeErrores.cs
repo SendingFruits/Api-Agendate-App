@@ -15,6 +15,7 @@
         public const int ErrorInesperadoActualizarCliente = 1103;
         public const int ErrorInesperadoRegistrarCliente = 1104;
         public const int ErrorInesperadoEliminarCliente = 1105;
+        public const int ErrorClienteConIdNoEncontrado = 1106;
         #endregion
 
         #region Empresas 1201 al 1300 -> ...
@@ -45,6 +46,7 @@
         public const int ErrorYaExisteTurnoReservado = 1501;
         public const int ErrorInesperadoAlObtenerHorariosSegunFecha = 1502;
         public const int ErrorNoExistenReservasParaLaFechaDada = 1503;
+        public const int ErrorNoExistenReservasParaElIdCliente = 1504;
         #endregion
 
         #region Errores Generales 1901 al 2000 -> ...
@@ -109,6 +111,9 @@
                         break;
                     case ErrorInesperadoEliminarCliente:
                         mensaje = "Ocurrio un error inesperado al intentar eliminar su cuenta";
+                        break;
+                    case ErrorClienteConIdNoEncontrado:
+                        mensaje = "No existe el cliente con el Id ingresado";
                         break;
                 }
             }
@@ -199,6 +204,9 @@
                         break;
                     case ErrorNoExistenReservasParaLaFechaDada:
                         mensaje = "No existen reservas para la fecha seleccionada.";
+                        break;
+                    case ErrorNoExistenReservasParaElIdCliente:
+                        mensaje = "No existen reservas registradas.";
                         break;
                 }
             }

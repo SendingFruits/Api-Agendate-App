@@ -60,6 +60,7 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
+            nuevaReserva.Estado = ConstantesParaClases.ConstantesReservas.EstadoReservaSolicitada;
             Reservas reserva = _Mapper.Map<Reservas>(nuevaReserva);
 
             await _ReservaRepo.Crear(reserva);
@@ -278,19 +279,36 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        private async Task<List<HorariosDTO>> ObtenerHorariosServicioSegunFecha (Servicios servicioAsociado, DateTime fechaAsociada)
+        /// <summary>
+        /// Metodo que obtiene los horarios segun una fecha y un servicio asociado.
+        /// <para></para>
+        /// Parte de la fecha de inicio del servicio para iterar hasta la fecha de fin del mismo. Iterando y sumando a la fecha de inicio el intervalo (duracion del turno)
+        /// En cada iteracion, se creara un horario. Que se devolvera en la lista siempre y cuando la fecha y hora de ese horario > a la fecha actual (Datetime.Now).
+        /// <para></para>
+        /// El horario estara disponible (en TRUE) siempre y cuando no haya un turno reservado para dicho horario y el mismo sea != Cancelado
+        /// </summary>
+        /// <param name="servicioAsociado"></param>
+        /// <param name="fechaAsociada"></param>
+        /// <returns>Una lista de HorariosDTO. Excluyendo los horarios menores a la fecha y la hora actual</returns>
+        private async Task<List<HorariosDTO>> ObtenerHorariosServicioSegunFecha(Servicios servicioAsociado, DateTime diaDeConsulta)
         {
             List<HorariosDTO> listaHorarios = new List<HorariosDTO>();
-            DateTime fechaDesde = CrearFechaSegunHoraDecimales(servicioAsociado.HoraInicio, fechaAsociada);
-            DateTime fechaHasta = CrearFechaSegunHoraDecimales(servicioAsociado.HoraFin, fechaAsociada);
-            var reservasParaLaFecha = await _ReservaRepo.ObtenerTodos(r => r.FechaHoraTurno >= fechaDesde && r.FechaHoraTurno <= fechaHasta);
+            DateTime fechaPosibleTurno = CrearFechaSegunHoraDecimales(servicioAsociado.HoraInicio, diaDeConsulta); //Parto del horario inicio del servicio
+            DateTime fechaHastaPosibleHorario = CrearFechaSegunHoraDecimales(servicioAsociado.HoraFin, diaDeConsulta);
 
-            double horaSumarFechas = servicioAsociado.DuracionTurno == 30 ? 0.5 : 1;
-            while (fechaDesde < fechaHasta)
+            var reservasParaLaFecha = await _ReservaRepo.ObtenerTodos(r => r.FechaHoraTurno >= fechaPosibleTurno && r.FechaHoraTurno <= fechaHastaPosibleHorario);
+            double intervaloHorarioServicio = servicioAsociado.DuracionTurno == 30 ? 0.5 : 1;
+
+            while (fechaPosibleTurno < fechaHastaPosibleHorario) //Itero desde la fechaDesde hasta la fechaHasta del servicio. Para ir creando todos los horarios segun la duracion del servicio
             {
-                bool horarioDisponible = !reservasParaLaFecha.Any(r => r.FechaHoraTurno == fechaDesde);
-                listaHorarios.Add(new HorariosDTO(fechaDesde, horarioDisponible));
-                fechaDesde = fechaDesde.AddHours(horaSumarFechas);
+                if (fechaPosibleTurno > DateTime.Now) //La fechaDesde (horario x) debe ser mayor a hoy, sino no voy a devolver un turno
+                {
+                    //Si existe una reserva para la fecha y la misma no esta cancelada ==> Horario no disponible
+                    bool horarioDisponible = !reservasParaLaFecha.Any(r => r.FechaHoraTurno == fechaPosibleTurno && r.Estado != ConstantesParaClases.ConstantesReservas.EstadoReservaCancelada);
+                    listaHorarios.Add(new HorariosDTO(fechaPosibleTurno, horarioDisponible));
+                }
+
+                fechaPosibleTurno = fechaPosibleTurno.AddHours(intervaloHorarioServicio);
             }
 
             return listaHorarios;

@@ -234,6 +234,8 @@ namespace Api_Agendate_App.Services
                     empresaContext.Latitude = empresaMapeada.Latitude;
                 if (empresaContext.Longitude != empresaMapeada.Longitude)
                     empresaContext.Longitude = empresaMapeada.Longitude;
+                if (empresaContext.Logo != empresaMapeada.Logo)
+                    empresaContext.Logo = empresaMapeada.Logo;
             }
             catch (Exception ex)
             {

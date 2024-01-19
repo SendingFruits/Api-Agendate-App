@@ -209,8 +209,9 @@ namespace Api_Agendate_App.Services
                     NombreCliente = cliente.Nombre,
                     ApellidoCliente = cliente.Apellido,
                     CorreoCliente = cliente.Correo,
-                    CelularCliente = cliente.Celular
-                });
+                    CelularCliente = cliente.Celular,
+                    Documento = cliente.Documento
+                }); ;
             }
 
             _respuestas.Resultado = listaReservasEmpresa.OrderByDescending(r => r.FechaHoraTurno); ;
@@ -257,7 +258,19 @@ namespace Api_Agendate_App.Services
                     FechaHoraTurno = reserva.FechaHoraTurno,
                     Estado = reserva.Estado,
                     NombreServicio = servicio.Nombre,
-                    NombreEmpresa = empresa.RazonSocial
+                    HoraInicioServicio = servicio.HoraInicio,
+                    HoraFinServicio = servicio.HoraFin,
+                    DiasDefinidosSemana = servicio.DiasDefinidosSemana,
+                    DuracionTurno = servicio.DuracionTurno,
+                    Costo = servicio.Costo,
+                    Descripcion = servicio.Descripcion,
+                    NombreEmpresa = empresa.RazonSocial,
+                    Rubro = empresa.Rubro,
+                    Direccion = empresa.Direccion,
+                    Ciudad = empresa.Ciudad,
+                    DescripcionEmpresa = empresa.Descripcion,
+                    Latitude = empresa.Latitude,
+                    Longitude = empresa.Longitude
                 }); ;
             }
 

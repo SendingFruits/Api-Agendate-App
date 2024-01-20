@@ -37,27 +37,43 @@ namespace Api_Agendate_App.Controllers
 
         }
 
-        [HttpPut("ActualizarReserva")]
-        public async Task<ActionResult<APIRespuestas>> UpdateReserva(ReservaDTO pReserva)
+
+        [HttpDelete("EliminarReserva")]
+        public async Task<ActionResult<APIRespuestas>> Eliminar(int Id)
         {
-            APIRespuestas respuestas = await _ReservasService.Update(pReserva);
+            APIRespuestas respuestas = await _ReservasService.Delete(Id);
             if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);
+
             }
             else
             {
                 respuestas.ObtenerMensaje(respuestas.codigo);
                 return BadRequest(respuestas.mensaje);
             }
-
         }
 
-
-        [HttpDelete("EliminarReserva")]
-        public async Task<ActionResult<APIRespuestas>> Eliminar(int Id)
+        [HttpDelete("CancelarReserva")]
+        public async Task<ActionResult<APIRespuestas>> CancelarReserva(int idReserva)
         {
-            APIRespuestas respuestas = await _ReservasService.Delete(Id);
+            APIRespuestas respuestas = await _ReservasService.Delete(idReserva);
+            if (respuestas.codigo == 0)
+            {
+                return Ok(respuestas);
+
+            }
+            else
+            {
+                respuestas.ObtenerMensaje(respuestas.codigo);
+                return BadRequest(respuestas.mensaje);
+            }
+        }
+
+        [HttpDelete("CambiarEstadoReserva")]
+        public async Task<ActionResult<APIRespuestas>> CambiarEstadoReserva(int idReserva, string estadoNuevo)
+        {
+            APIRespuestas respuestas = await _ReservasService.Delete(idReserva);
             if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);
@@ -87,7 +103,7 @@ namespace Api_Agendate_App.Controllers
             {
                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
             }
-            return Ok(_respuestas.Resultado);
+            return Ok(_respuestas);
 
         }
 

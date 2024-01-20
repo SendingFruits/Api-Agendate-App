@@ -42,11 +42,13 @@
 
         #endregion
 
-        #region Reservas 1501 al 1600 -> ...
+        #region Horarios y Reservas 1501 al 1600 -> ...
         public const int ErrorYaExisteTurnoReservado = 1501;
         public const int ErrorInesperadoAlObtenerHorariosSegunFecha = 1502;
         public const int ErrorNoExistenReservasParaLaFechaDada = 1503;
         public const int ErrorNoExistenReservasParaElIdCliente = 1504;
+        public const int ErrorNoHayHorariosDisponiblesParaLaFecha = 1505;
+        public const int ErrorNoExisteReservaSegunId = 1506;
         #endregion
 
         #region Errores Generales 1901 al 2000 -> ...
@@ -191,7 +193,7 @@
 
             #endregion
 
-            #region Errores de Horarios
+            #region Errores de Horarios y reservas
 
             else if (codigoError >= 1501 && codigoError <= 1600)
             {
@@ -201,13 +203,19 @@
                         mensaje = "El turno a reservar ya existe para el servicio.";
                         break;
                     case ErrorInesperadoAlObtenerHorariosSegunFecha:
-                        mensaje = "Error:  inesperado al obtener los horarios segun la fecha";
+                        mensaje = "Error inesperado al obtener los horarios segun la fecha";
                         break;
                     case ErrorNoExistenReservasParaLaFechaDada:
                         mensaje = "No existen reservas para la fecha seleccionada.";
                         break;
                     case ErrorNoExistenReservasParaElIdCliente:
                         mensaje = "No existen reservas registradas.";
+                        break;
+                    case ErrorNoHayHorariosDisponiblesParaLaFecha:
+                        mensaje = "No hay horarios disponibles para la fecha seleccionada.";
+                        break;
+                    case ErrorNoExisteReservaSegunId:
+                        mensaje = "No existe la reserva con el Id enviado";
                         break;
                 }
             }

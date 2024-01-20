@@ -60,7 +60,7 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
-            nuevaReserva.Estado = ConstantesParaClases.ConstantesReservas.EstadoReservaSolicitada;
+            nuevaReserva.Estado = ConstantesReservas.EstadoReservaSolicitada;
             Reservas reserva = _Mapper.Map<Reservas>(nuevaReserva);
 
             await _ReservaRepo.Crear(reserva);
@@ -92,31 +92,36 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> Update([FromBody] ReservaDTO entidad)
+        public async Task<APIRespuestas> CancelarReserva(int idReserva)
         {
-            try
+            var reserva = await _ReservaRepo.Obtener(r => r.Id == idReserva);
+            if (reserva == null )
             {
-                var reservaObtenida = await _ReservaRepo.Obtener(c => c.Id == entidad.Id);
-                if (reservaObtenida == null)
-                {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
-                    return _respuestas;
-                }
-
-                if (reservaObtenida.Estado != entidad.Estado)
-                {
-                    reservaObtenida.Estado = entidad.Estado;
-
-                    await _ReservaRepo.Actualizar(reservaObtenida);
-                }
-                else
-                    _respuestas.mensaje = "No existen cambios en el estado.";
-            }
-            catch (Exception)
-            {
-                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
+                _respuestas.codigo = ConstantesDeErrores.ErrorNoExisteReservaSegunId;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
             }
 
+            switch (reserva.Estado)
+            {
+                case ConstantesReservas.EstadoReservaCancelada:
+
+                    break;
+                case ConstantesReservas.EstadoReservaRealizada:
+
+                    break;
+                case ConstantesReservas.EstadoReservaRechazada:
+
+                    break;
+            }
+            reserva.Estado = ConstantesReservas.EstadoReservaCancelada;
+            _ReservaRepo.Actualizar(reserva);
+
+            return _respuestas;
+        }
+
+        public async Task<APIRespuestas> CambiarEstadoReserva(int idReserva, string nuevoEstado)
+        {
             return _respuestas;
 
         }
@@ -163,6 +168,13 @@ namespace Api_Agendate_App.Services
             if (listaHorarios == null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoAlObtenerHorariosSegunFecha;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
+
+            if (listaHorarios.Count() == 0)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorNoHayHorariosDisponiblesParaLaFecha;
                 _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                 return _respuestas;
             }
@@ -292,6 +304,7 @@ namespace Api_Agendate_App.Services
         /// <returns>Una lista de HorariosDTO. Excluyendo los horarios menores a la fecha y la hora actual</returns>
         private async Task<List<HorariosDTO>> ObtenerHorariosServicioSegunFecha(Servicios servicioAsociado, DateTime diaDeConsulta)
         {
+
             List<HorariosDTO> listaHorarios = new List<HorariosDTO>();
             DateTime fechaPosibleTurno = CrearFechaSegunHoraDecimales(servicioAsociado.HoraInicio, diaDeConsulta); //Parto del horario inicio del servicio
             DateTime fechaHastaPosibleHorario = CrearFechaSegunHoraDecimales(servicioAsociado.HoraFin, diaDeConsulta);
@@ -304,7 +317,7 @@ namespace Api_Agendate_App.Services
                 if (fechaPosibleTurno > DateTime.Now) //La fechaDesde (horario x) debe ser mayor a hoy, sino no voy a devolver un turno
                 {
                     //Si existe una reserva para la fecha y la misma no esta cancelada ==> Horario no disponible
-                    bool horarioDisponible = !reservasParaLaFecha.Any(r => r.FechaHoraTurno == fechaPosibleTurno && r.Estado != ConstantesParaClases.ConstantesReservas.EstadoReservaCancelada);
+                    bool horarioDisponible = !reservasParaLaFecha.Any(r => r.FechaHoraTurno == fechaPosibleTurno && r.Estado != ConstantesReservas.EstadoReservaCancelada);
                     listaHorarios.Add(new HorariosDTO(fechaPosibleTurno, horarioDisponible));
                 }
 

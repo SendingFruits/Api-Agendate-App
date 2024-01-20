@@ -35,31 +35,33 @@ namespace Api_Agendate_App.Services
 
         public async Task<APIRespuestas> Create([FromBody] ReservaDTO nuevaReserva)
         {
+            //La fecha del turno debe ser mayor a la fecha actual
             if (nuevaReserva.FechaHoraTurno < DateTime.Now)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorCrearReservaTurnoSeleccionadoVencido;
                 return _respuestas;
             }
-            
-            var existeCliente = await _ClienteRepo.Obtener(cli => cli.Id == nuevaReserva.IdCliente);
 
+            #region Corroboracion de existencia de las relaciones ->
+            var existeCliente = await _ClienteRepo.Obtener(cli => cli.Id == nuevaReserva.IdCliente);
             if (existeCliente == null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                 return _respuestas;
             }
 
-            var existeServicio = await _ServiciosRepo.Obtener(cli => cli.Id == nuevaReserva.IdCliente);
-
-            if (existeServicio == null)
+            var servicio = await _ServiciosRepo.Obtener(cli => cli.Id == nuevaReserva.IdCliente);
+            if (servicio == null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                 return _respuestas;
             }
 
-            string diaDeLaFechaSinTilde = DevolverDiaDeSemanaEspanol(nuevaReserva.FechaHoraTurno);
+            #endregion
 
-            if (!existeServicio.DiasDefinidosSemana.Contains(diaDeLaFechaSinTilde))
+            //Si el dia del turno el servicio esta disponible
+            string diaDeLaFechaSinTilde = DevolverDiaDeSemanaEspanol(nuevaReserva.FechaHoraTurno);
+            if (!servicio.DiasDefinidosSemana.Contains(diaDeLaFechaSinTilde))
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorDiasDefinidosServicioNoMatcheaFechaReserva;
                 _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
@@ -67,8 +69,15 @@ namespace Api_Agendate_App.Services
 
             }
 
+            //Fecha del turno esta dentro del rango del horario del servicio
+            if (!FechaTurnoCorrectaParaRangoHorarioServicio(servicio.HoraInicio,servicio.HoraFin,nuevaReserva.FechaHoraTurno))
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorHorarioTurnoNoEstaDentroDelRangoHorarioServicio;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
+
             var existeReserva = await _ReservaRepo.Obtener(res => res.FechaHoraTurno == nuevaReserva.FechaHoraTurno && res.ServicioId == nuevaReserva.IdServicio);
-            
             if (existeReserva != null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteTurnoReservado;
@@ -411,6 +420,27 @@ namespace Api_Agendate_App.Services
             return fecha;
         }
 
+        /// <summary>
+        /// Corrobora si la horaTurno esta dentro del rango de horario del servicio
+        /// </summary>
+        /// <param name="servicioHoraInicio"></param>
+        /// <param name="servicioHoraFin"></param>
+        /// <param name="horaTurno"></param>
+        /// <returns>TRUE si esta dentro del rango, FALSE en caso contrario</returns>
+        private bool FechaTurnoCorrectaParaRangoHorarioServicio(decimal servicioHoraInicio, decimal servicioHoraFin, DateTime horaTurno)
+        {
+            DateTime horaInicioServicio = CrearFechaSegunHoraDecimales(servicioHoraInicio, horaTurno);
+            DateTime horaFinServicio = CrearFechaSegunHoraDecimales(servicioHoraFin, horaTurno);
+
+            return horaTurno >= horaInicioServicio && horaTurno <= horaFinServicio;
+        }
+
+        /// <summary>
+        /// Segun una fecha, devuelve el dia en espanol sin tilde para hacer la corroboracion de la bd
+        /// </summary>
+        /// <param name="fecha"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         private string DevolverDiaDeSemanaEspanol (DateTime fecha)
         {
             DayOfWeek diaDeLaFecha = fecha.DayOfWeek;

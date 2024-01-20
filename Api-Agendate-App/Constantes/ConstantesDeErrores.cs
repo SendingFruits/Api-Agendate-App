@@ -61,6 +61,7 @@ namespace Api_Agendate_App.Constantes
         public const int ErrorInesperadoAlCancelarReserva = 1514;
         public const int ErrorInesperadoAlCambiarEstadoReserva = 1515;
         public const int ErrorCrearReservaTurnoSeleccionadoVencido = 1516;
+        public const int ErrorHorarioTurnoNoEstaDentroDelRangoHorarioServicio = 1517;
         #endregion
 
         #region Errores Generales 1901 al 2000 -> ...
@@ -258,6 +259,9 @@ namespace Api_Agendate_App.Constantes
                         break;
                     case ErrorCrearReservaTurnoSeleccionadoVencido:
                         mensaje = "El turno que se desea reserva ya expiró. La fecha actual es mayor al turno.";
+                        break;
+                    case ErrorHorarioTurnoNoEstaDentroDelRangoHorarioServicio:
+                        mensaje = "Error: El horario seleccionado para el turno no esta dentro del rango de horario del servicio.";
                         break;
                 }
             }

@@ -3,6 +3,7 @@ using Logic.Entities;
 using AutoMapper;
 using Api_Agendate_App.DTOs.Empresas;
 using Api_Agendate_App.DTOs.Servicio;
+using Api_Agendate_App.DTOs.Reservas;
 
 namespace Api_Agendate_App.Utilidades
 {
@@ -17,6 +18,9 @@ namespace Api_Agendate_App.Utilidades
             CreateMap<Servicios, ServicioDTO>()
             .ForMember(dest => dest.IdEmpresa, opt => opt.MapFrom(src => src.Empresa.Id))
             .ReverseMap();
+            CreateMap<Reservas, ReservaDTO>().
+                ForMember(dest => dest.IdCliente, opt => opt.MapFrom(src => src.ClienteId)).
+                ForMember(dest => dest.IdServicio, opt => opt.MapFrom(src => src.ServicioId)).ReverseMap();
         }
     }
 }

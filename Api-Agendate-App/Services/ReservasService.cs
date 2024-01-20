@@ -57,6 +57,16 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
+            string diaDeLaFechaSinTilde = DevolverDiaDeSemanaEspanol(nuevaReserva.FechaHoraTurno);
+
+            if (!existeServicio.DiasDefinidosSemana.Contains(diaDeLaFechaSinTilde))
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorDiasDefinidosServicioNoMatcheaFechaReserva;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+
+            }
+
             var existeReserva = await _ReservaRepo.Obtener(res => res.FechaHoraTurno == nuevaReserva.FechaHoraTurno && res.ServicioId == nuevaReserva.IdServicio);
             
             if (existeReserva != null)
@@ -67,7 +77,7 @@ namespace Api_Agendate_App.Services
 
             nuevaReserva.Estado = ConstantesReservas.EstadoReservaSolicitada;
             Reservas reserva = _Mapper.Map<Reservas>(nuevaReserva);
-
+            reserva.FechaRealizada = DateTime.Now;
             await _ReservaRepo.Crear(reserva);
 
             return _respuestas;
@@ -424,5 +434,7 @@ namespace Api_Agendate_App.Services
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+
     }
 }

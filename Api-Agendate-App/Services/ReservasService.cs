@@ -35,6 +35,11 @@ namespace Api_Agendate_App.Services
 
         public async Task<APIRespuestas> Create([FromBody] ReservaDTO nuevaReserva)
         {
+            if (nuevaReserva.FechaHoraTurno < DateTime.Now)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorCrearReservaTurnoSeleccionadoVencido;
+                return _respuestas;
+            }
             
             var existeCliente = await _ClienteRepo.Obtener(cli => cli.Id == nuevaReserva.IdCliente);
 
@@ -94,36 +99,94 @@ namespace Api_Agendate_App.Services
 
         public async Task<APIRespuestas> CancelarReserva(int idReserva)
         {
-            var reserva = await _ReservaRepo.Obtener(r => r.Id == idReserva);
-            if (reserva == null )
+            try
             {
-                _respuestas.codigo = ConstantesDeErrores.ErrorNoExisteReservaSegunId;
+                var reserva = await _ReservaRepo.Obtener(r => r.Id == idReserva);
+                if (reserva == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorNoExisteReservaSegunId;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
+                if (reserva.FechaHoraTurno < DateTime.Now)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorTurnoReservaAntiguoAlCancelar;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
+                //Si es diferente de solicitada, no se puede modificar.
+                if (reserva.Estado != ConstantesReservas.EstadoReservaSolicitada)
+                {
+                    switch (reserva.Estado)
+                    {
+                        case ConstantesReservas.EstadoReservaCancelada:
+                            _respuestas.codigo = ConstantesDeErrores.ErrorLaReservaYaEstaCancelada;
+                            break;
+                        case ConstantesReservas.EstadoReservaRealizada:
+                            _respuestas.codigo = ConstantesDeErrores.ErrorLaReservaYaEstaRealizada;
+                            break;
+                        case ConstantesReservas.EstadoReservaRechazada:
+                            _respuestas.codigo = ConstantesDeErrores.ErrorLaReservaYaEstaRechazada;
+                            break;
+                    }
+
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
+                reserva.Estado = ConstantesReservas.EstadoReservaCancelada;
+                await _ReservaRepo.Actualizar(reserva);
+            }
+            catch (Exception ex)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoAlCancelarReserva;
                 _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                 return _respuestas;
             }
-
-            switch (reserva.Estado)
-            {
-                case ConstantesReservas.EstadoReservaCancelada:
-
-                    break;
-                case ConstantesReservas.EstadoReservaRealizada:
-
-                    break;
-                case ConstantesReservas.EstadoReservaRechazada:
-
-                    break;
-            }
-            reserva.Estado = ConstantesReservas.EstadoReservaCancelada;
-            _ReservaRepo.Actualizar(reserva);
 
             return _respuestas;
         }
 
         public async Task<APIRespuestas> CambiarEstadoReserva(int idReserva, string nuevoEstado)
         {
-            return _respuestas;
+            var reserva = await _ReservaRepo.Obtener(r => r.Id == idReserva);
+            if (reserva == null)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorNoExisteReservaSegunId;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
 
+            if (nuevoEstado != ConstantesReservas.EstadoReservaCancelada && nuevoEstado != ConstantesReservas.EstadoReservaRechazada && 
+                nuevoEstado != ConstantesReservas.EstadoReservaSolicitada && nuevoEstado != ConstantesReservas.EstadoReservaRealizada)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorEstadoIngresadoNoEsCorrecto;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+                
+            }
+            
+            if (nuevoEstado == ConstantesReservas.EstadoReservaCancelada)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorEmpresasNoPuedenCancelarReservas;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
+
+            if (nuevoEstado == reserva.Estado)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorLaReservaYaTieneEseEstado;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
+
+
+            reserva.Estado = nuevoEstado;
+            _ReservaRepo.Actualizar(reserva);
+
+            return _respuestas;
         }
 
         public async Task<IEnumerable<ReservaDTO>> GetReservas()

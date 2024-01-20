@@ -54,26 +54,31 @@ namespace Api_Agendate_App.Controllers
             }
         }
 
-        [HttpDelete("CancelarReserva")]
+        [HttpPut("CancelarReserva")]
         public async Task<ActionResult<APIRespuestas>> CancelarReserva(int idReserva)
         {
-            APIRespuestas respuestas = await _ReservasService.Delete(idReserva);
-            if (respuestas.codigo == 0)
+            try
             {
-                return Ok(respuestas);
-
+                APIRespuestas respuestas = await _ReservasService.CancelarReserva(idReserva);
+                if (respuestas.codigo == 0)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(respuestas.mensaje);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                respuestas.ObtenerMensaje(respuestas.codigo);
-                return BadRequest(respuestas.mensaje);
+                return BadRequest(ex.Message);
             }
         }
 
-        [HttpDelete("CambiarEstadoReserva")]
+        [HttpPut("CambiarEstadoReserva")]
         public async Task<ActionResult<APIRespuestas>> CambiarEstadoReserva(int idReserva, string estadoNuevo)
         {
-            APIRespuestas respuestas = await _ReservasService.Delete(idReserva);
+            APIRespuestas respuestas = await _ReservasService.CambiarEstadoReserva(idReserva, estadoNuevo);
             if (respuestas.codigo == 0)
             {
                 return Ok(respuestas);

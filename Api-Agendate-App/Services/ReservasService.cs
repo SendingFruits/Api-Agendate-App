@@ -21,9 +21,11 @@ namespace Api_Agendate_App.Services
         private readonly ICliente _ClienteRepo;
         private readonly IEmpresa _EmpresaRepo;
         private readonly IMapper _Mapper;
+
+        private readonly MensajeriaService _SNoticar;
         private readonly APIRespuestas _respuestas;
 
-        public ReservasService(IReserva reservRepo, ICliente clienteRepo, IMapper mapper, IServicios serviciosRepo, IEmpresa empresaRepo, APIRespuestas respuestas)
+        public ReservasService(IReserva reservRepo, ICliente clienteRepo, IMapper mapper, IServicios serviciosRepo, IEmpresa empresaRepo, APIRespuestas respuestas, MensajeriaService sNoticar)
         {
             _ReservaRepo = reservRepo;
             _Mapper = mapper;
@@ -31,6 +33,7 @@ namespace Api_Agendate_App.Services
             _ClienteRepo = clienteRepo;
             _ServiciosRepo = serviciosRepo;
             _EmpresaRepo = empresaRepo;
+            _SNoticar = sNoticar;
         }
 
         public async Task<APIRespuestas> Create([FromBody] ReservaDTO nuevaReserva)
@@ -43,8 +46,8 @@ namespace Api_Agendate_App.Services
             }
 
             #region Corroboracion de existencia de las relaciones ->
-            var existeCliente = await _ClienteRepo.Obtener(cli => cli.Id == nuevaReserva.IdCliente);
-            if (existeCliente == null)
+            var cliente = await _ClienteRepo.Obtener(cli => cli.Id == nuevaReserva.IdCliente);
+            if (cliente == null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
                 return _respuestas;
@@ -57,10 +60,17 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
+            var emp = await _EmpresaRepo.Obtener(srv => srv.Id == servicio.EmpresaId);
+            if (emp == null)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaNoEncontrada;
+                return _respuestas;
+            }
+
             #endregion
 
             //Si el dia del turno el servicio esta disponible
-            string diaDeLaFechaSinTilde = DevolverDiaDeSemanaEspanol(nuevaReserva.FechaHoraTurno);
+            string diaDeLaFechaSinTilde = UtilidadesParaFechas.DevolverDiaDeSemanaEspanol(nuevaReserva.FechaHoraTurno);
             if (!servicio.DiasDefinidosSemana.Contains(diaDeLaFechaSinTilde))
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorDiasDefinidosServicioNoMatcheaFechaReserva;
@@ -88,6 +98,9 @@ namespace Api_Agendate_App.Services
             Reservas reserva = _Mapper.Map<Reservas>(nuevaReserva);
             reserva.FechaRealizada = DateTime.Now;
             await _ReservaRepo.Crear(reserva);
+
+            await _SNoticar.CreateMail(cliente.Correo, NotificacionesReserva.ObtenerAsuntoReservaExitosa(emp.RazonSocial), 
+                                        NotificacionesReserva.ObtenerCuerpoReservaExitosa(cliente.Nombre, servicio.Nombre, reserva.FechaHoraTurno, emp.RazonSocial, emp.Direccion, emp.Celular, emp.Correo));
 
             return _respuestas;
         }
@@ -236,7 +249,7 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
-            string diaDeLaFechaSinTilde = DevolverDiaDeSemanaEspanol(fecha);
+            string diaDeLaFechaSinTilde = UtilidadesParaFechas.DevolverDiaDeSemanaEspanol(fecha);
 
             if (!servicio.DiasDefinidosSemana.Contains(diaDeLaFechaSinTilde))
             {
@@ -433,36 +446,6 @@ namespace Api_Agendate_App.Services
             DateTime horaFinServicio = CrearFechaSegunHoraDecimales(servicioHoraFin, horaTurno);
 
             return horaTurno >= horaInicioServicio && horaTurno <= horaFinServicio;
-        }
-
-        /// <summary>
-        /// Segun una fecha, devuelve el dia en espanol sin tilde para hacer la corroboracion de la bd
-        /// </summary>
-        /// <param name="fecha"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        private string DevolverDiaDeSemanaEspanol (DateTime fecha)
-        {
-            DayOfWeek diaDeLaFecha = fecha.DayOfWeek;
-            switch (diaDeLaFecha)
-            {
-                case DayOfWeek.Sunday:
-                    return "Domingo";
-                case DayOfWeek.Monday:
-                    return "Lunes";
-                case DayOfWeek.Tuesday:
-                    return "Martes";
-                case DayOfWeek.Wednesday:
-                    return "Miercoles";
-                case DayOfWeek.Thursday:
-                    return "Jueves";
-                case DayOfWeek.Friday:
-                    return "Viernes";
-                case DayOfWeek.Saturday:
-                    return "Sabado";
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
 
 

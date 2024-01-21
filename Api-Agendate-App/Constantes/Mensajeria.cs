@@ -1,4 +1,5 @@
-﻿using MimeKit;
+﻿using Api_Agendate_App.Utilidades;
+using MimeKit;
 
 namespace Api_Agendate_App.Constantes
 {
@@ -62,24 +63,50 @@ namespace Api_Agendate_App.Constantes
 
     public class NotificacionesReserva
     {
-        public static string AsuntoReservaExitosa = "Nueva reserva registrada - AgendateApp";
-
-        public static string ObtenerCuerpoReservaExitosa(string nombreUsuario, string nombreEmpresa, string nombreServicio)
+        public static string ObtenerAsuntoReservaExitosa (string nombreEmpresa)
         {
-            return $@"
+            return $"Nueva reserva en {nombreEmpresa} - AgendateApp";
+        }
+
+        public static string ObtenerCuerpoReservaExitosa(string nombreUsuario, string nombreServicio, DateTime fechaTurno, string nombreEmpresa, string direccionEmpresa, string? celularEmpresa, string? correoEmpresa)
+        {
+            string Cuerpo =  $@"
                 <html>
                   <body>
                     <p>¡Hola {nombreUsuario}!</p>
-                    <p>Gracias por registrarte en AgendateApp</p>
-                    <p>Esperamos que tu experiencia sea grata en la aplicación</p>
+                    <p>Te informamos que tu reserva para el servicio: {nombreServicio}, de la empresa: {nombreEmpresa} fue registrada correctamente.</p>
+                    <p>Recuerda presentarte el día: <b>{UtilidadesParaFechas.DevolverDiaDeSemanaEspanol(fechaTurno)}</b> {fechaTurno.Date.Day} de {UtilidadesParaFechas.DevolverMesEspanol(fechaTurno)} a las {fechaTurno.Hour}:{fechaTurno.Minute} </p>
+                    <p>La dirección de donde debes presentarte es: {direccionEmpresa}</p>
+                    
+                    {(celularEmpresa == null && correoEmpresa == null ? "<p><b>La empresa no proporcionó información de contacto por lo que debes presentarte en la dirección o buscar otro método de contacto</b></p>" :
+                    "")}
+                    {(celularEmpresa != null || correoEmpresa != null ? "<p><b>Información de contacto de la empresa:</b> $$CorreoEmpresa $$CelularEmpresa</p>" :
+                    "")}
                     <p></p>
-                    <p>Atte.</p>
-                    <p></p>
-                    <p> -> El equipo de Sending Fruits <- </p>
                     <img>
                   </body>
                 </html>
                 ";
+
+            if (correoEmpresa != null && celularEmpresa != null)
+            {
+                Cuerpo = Cuerpo.Replace("$$CorreoEmpresa", correoEmpresa);
+                Cuerpo = Cuerpo.Replace("$$CelularEmpresa", " | " + celularEmpresa);
+            }
+            else
+            {
+                if (correoEmpresa != null)
+                    Cuerpo =Cuerpo.Replace("$$CorreoEmpresa", correoEmpresa);
+                else
+                    Cuerpo =Cuerpo.Replace("$$CorreoEmpresa", "");
+
+                if (celularEmpresa != null)
+                    Cuerpo = Cuerpo.Replace("$$CorreoEmpresa", celularEmpresa);
+                else
+                    Cuerpo = Cuerpo.Replace("$$CorreoEmpresa", "");
+            }
+
+            return Cuerpo;
         }
     }
 

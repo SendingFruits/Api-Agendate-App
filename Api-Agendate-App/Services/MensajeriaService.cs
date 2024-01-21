@@ -68,7 +68,7 @@ namespace Api_Agendate_App.Services
         private string ObtenerRutaImagenApp ()
         {
             // Obtén la ruta del directorio de ejecución de la aplicación
-            string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
+            string directorioBase = Environment.CurrentDirectory;
 
             // Construye la ruta relativa a la imagen
             string rutaRelativaImagen = Path.Combine("Recursos", "ImagenesCorreo", "Logo App.png");
@@ -79,9 +79,9 @@ namespace Api_Agendate_App.Services
             return rutaCompletaImagen;
         }
 
-        private string SustituirTagImg(string cid, ref string cuerpoCorreo)
+        private void SustituirTagImg(string cid, ref string cuerpoCorreo)
         {
-            return cuerpoCorreo.Replace("<img>", $"<img src=\"\"cid:{cid}\"\" alt=\"\"Logo de AgendateApp\"\">");
+            cuerpoCorreo = cuerpoCorreo.Replace("<img>", $"<img src=\"cid:{cid}\" alt=\"Logo de AgendateApp \" >");
         }
     }
 }

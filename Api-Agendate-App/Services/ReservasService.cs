@@ -46,14 +46,14 @@ namespace Api_Agendate_App.Services
             var existeCliente = await _ClienteRepo.Obtener(cli => cli.Id == nuevaReserva.IdCliente);
             if (existeCliente == null)
             {
-                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
                 return _respuestas;
             }
 
             var servicio = await _ServiciosRepo.Obtener(cli => cli.Id == nuevaReserva.IdCliente);
             if (servicio == null)
             {
-                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                _respuestas.codigo = ConstantesDeErrores.ErrorServicioConIdNoEncontrado;
                 return _respuestas;
             }
 

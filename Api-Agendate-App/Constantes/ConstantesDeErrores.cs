@@ -41,7 +41,7 @@ namespace Api_Agendate_App.Constantes
         public const int ErrorYaExisteElNombreDelServicio = 1401;
         public const int ErrorServicioNoEncontrado = 1402;
         public const int ErrorDiasDefinidosServicioNoMatcheaFechaReserva = 1403;
-
+        public const int ErrorServicioConIdNoEncontrado = 1404;
         #endregion
 
         #region Horarios y Reservas 1501 al 1600 -> ...
@@ -201,6 +201,9 @@ namespace Api_Agendate_App.Constantes
                     case ErrorDiasDefinidosServicioNoMatcheaFechaReserva:
                         mensaje = "El servicio no esta disponible para el dia en que se quiere hacer la reserva";
                         break;
+                    case ErrorServicioConIdNoEncontrado:
+                        mensaje = "El servicio con el ID asociado no fue encontrado.";
+                        break
                 }
             }
 

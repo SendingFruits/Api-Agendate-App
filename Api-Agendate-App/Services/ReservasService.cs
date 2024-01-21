@@ -50,7 +50,7 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
-            var servicio = await _ServiciosRepo.Obtener(cli => cli.Id == nuevaReserva.IdCliente);
+            var servicio = await _ServiciosRepo.Obtener(srv => srv.Id == nuevaReserva.IdServicio);
             if (servicio == null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorServicioConIdNoEncontrado;

@@ -1,4 +1,6 @@
-﻿namespace Api_Agendate_App.Constantes
+﻿using Microsoft.Identity.Client;
+
+namespace Api_Agendate_App.Constantes
 {
     public class ConstantesDeErrores
     {   
@@ -15,6 +17,7 @@
         public const int ErrorInesperadoActualizarCliente = 1103;
         public const int ErrorInesperadoRegistrarCliente = 1104;
         public const int ErrorInesperadoEliminarCliente = 1105;
+        public const int ErrorClienteConIdNoEncontrado = 1106;
         #endregion
 
         #region Empresas 1201 al 1300 -> ...
@@ -41,10 +44,24 @@
 
         #endregion
 
-        #region Reservas 1501 al 1600 -> ...
+        #region Horarios y Reservas 1501 al 1600 -> ...
         public const int ErrorYaExisteTurnoReservado = 1501;
         public const int ErrorInesperadoAlObtenerHorariosSegunFecha = 1502;
-
+        public const int ErrorNoExistenReservasParaLaFechaDada = 1503;
+        public const int ErrorNoExistenReservasParaElIdCliente = 1504;
+        public const int ErrorNoHayHorariosDisponiblesParaLaFecha = 1505;
+        public const int ErrorNoExisteReservaSegunId = 1506;
+        public const int ErrorLaReservaYaEstaCancelada = 1507;
+        public const int ErrorLaReservaYaEstaRealizada = 1508;
+        public const int ErrorLaReservaYaEstaRechazada = 1509;
+        public const int ErrorLaReservaYaTieneEseEstado = 1510;
+        public const int ErrorEmpresasNoPuedenCancelarReservas = 1511;
+        public const int ErrorEstadoIngresadoNoEsCorrecto = 1512;
+        public const int ErrorTurnoReservaAntiguoAlCancelar = 1513;
+        public const int ErrorInesperadoAlCancelarReserva = 1514;
+        public const int ErrorInesperadoAlCambiarEstadoReserva = 1515;
+        public const int ErrorCrearReservaTurnoSeleccionadoVencido = 1516;
+        public const int ErrorHorarioTurnoNoEstaDentroDelRangoHorarioServicio = 1517;
         #endregion
 
         #region Errores Generales 1901 al 2000 -> ...
@@ -54,6 +71,7 @@
         #endregion
 
         #endregion
+
         // Del 2001 al 3000
         #region Errores por entidades (Plural) -> ...
         public const int ErrorEntidadesExistentes = 2001;
@@ -109,6 +127,9 @@
                         break;
                     case ErrorInesperadoEliminarCliente:
                         mensaje = "Ocurrio un error inesperado al intentar eliminar su cuenta";
+                        break;
+                    case ErrorClienteConIdNoEncontrado:
+                        mensaje = "No existe el cliente con el Id ingresado";
                         break;
                 }
             }
@@ -175,17 +196,17 @@
                         mensaje = "Error: ya existe un servicio creado con ese nombre";
                         break;
                     case ErrorServicioNoEncontrado:
-                        mensaje = "Error: servicio con la id asociada no fue encontrado";
+                        mensaje = "Error: El servicio con la id asociada no fue encontrado";
                         break;
                     case ErrorDiasDefinidosServicioNoMatcheaFechaReserva:
-                        mensaje = "Error: El servicio no esta disponible para el dia en que se quiere hacer la reserva";
+                        mensaje = "El servicio no esta disponible para el dia en que se quiere hacer la reserva";
                         break;
                 }
             }
 
             #endregion
 
-            #region Errores de Horarios
+            #region Errores de Horarios y reservas
 
             else if (codigoError >= 1501 && codigoError <= 1600)
             {
@@ -195,7 +216,52 @@
                         mensaje = "El turno a reservar ya existe para el servicio.";
                         break;
                     case ErrorInesperadoAlObtenerHorariosSegunFecha:
-                        mensaje = "Error:  inesperado al obtener los horarios segun la fecha";
+                        mensaje = "Error inesperado al obtener los horarios segun la fecha";
+                        break;
+                    case ErrorNoExistenReservasParaLaFechaDada:
+                        mensaje = "No existen reservas para la fecha seleccionada.";
+                        break;
+                    case ErrorNoExistenReservasParaElIdCliente:
+                        mensaje = "No existen reservas registradas.";
+                        break;
+                    case ErrorNoHayHorariosDisponiblesParaLaFecha:
+                        mensaje = "No hay horarios disponibles para la fecha seleccionada.";
+                        break;
+                    case ErrorNoExisteReservaSegunId:
+                        mensaje = "No existe la reserva con el Id enviado";
+                        break;
+                    case ErrorLaReservaYaEstaCancelada:
+                        mensaje = "La reserva ya se encuentra cancelada y no se puede modificar.";
+                        break;
+                    case ErrorLaReservaYaEstaRealizada:
+                        mensaje = "La reserva ya se encuentra realizada y no se puede modificar.";
+                        break;
+                    case ErrorLaReservaYaEstaRechazada:
+                        mensaje = "La reserva ya se encuentra rechazada y no se puede modificar.";
+                        break;
+                    case ErrorLaReservaYaTieneEseEstado:
+                        mensaje = "La reserva tiene el mismo estado al que se le quiere modificar";
+                        break;
+                    case ErrorEmpresasNoPuedenCancelarReservas:
+                        mensaje = "Solo los clientes pueden cancelar reservas. Las empresas deben rechazarlas";
+                        break;
+                    case ErrorEstadoIngresadoNoEsCorrecto:
+                        mensaje = "El estado ingresado para modificar no es correcto.";
+                        break;
+                    case ErrorTurnoReservaAntiguoAlCancelar:
+                        mensaje = "La hora del turno ya expiró, no se puede cancelar la reserva.";
+                        break;
+                    case ErrorInesperadoAlCancelarReserva:
+                        mensaje = "Error inesperado al cancelar la reserva.";
+                        break;
+                    case ErrorInesperadoAlCambiarEstadoReserva:
+                        mensaje = "Error inesperado al cambiar el estado de la reserva.";
+                        break;
+                    case ErrorCrearReservaTurnoSeleccionadoVencido:
+                        mensaje = "El turno que se desea reserva ya expiró. La fecha actual es mayor al turno.";
+                        break;
+                    case ErrorHorarioTurnoNoEstaDentroDelRangoHorarioServicio:
+                        mensaje = "Error: El horario seleccionado para el turno no esta dentro del rango de horario del servicio.";
                         break;
                 }
             }

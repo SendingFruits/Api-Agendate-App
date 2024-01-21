@@ -19,7 +19,11 @@ namespace Repositorio.EntidadesDeRepositorio
 
         public async Task<Reservas> Actualizar(Reservas entidad)
         {
-            await Actualizar(entidad);
+            var Encontre = _db.Reservas.FirstOrDefault(r => r.Id == entidad.Id);
+            if (Encontre != null)
+            {
+                await Modificar(Encontre);
+            }
             return entidad;
         }
     }

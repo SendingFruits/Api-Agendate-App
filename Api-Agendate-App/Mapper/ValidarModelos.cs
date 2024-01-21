@@ -74,11 +74,6 @@ namespace Api_Agendate_App.Mapper
         }
         #endregion
 
-        #region Agendas -> ...
-
-        public void Agenda(AgendaDTO Agenda) { }
-        #endregion
-
         #region Promociones -> ...
         public void Promociones(PromocionDTO promociones)
         {

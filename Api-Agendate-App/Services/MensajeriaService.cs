@@ -16,8 +16,7 @@ namespace Api_Agendate_App.Services
         private readonly APIRespuestas _respuestas;
         private readonly Mensajeria _mailConfig;
 
-        private readonly string Servidor = "smtp.gmail.com";
-        private readonly int Puerto = 465;
+        
 
         public MensajeriaService(INotificaciones notiRepo, IMapper mapper, APIRespuestas respuestas, IOptions<Mensajeria> mailConfig)
         {
@@ -36,7 +35,7 @@ namespace Api_Agendate_App.Services
                 MimeMessage mMessage = new MimeMessage();
                 mMessage.From.Add(new MailboxAddress("AgendateApp", Mensajeria.GmailUser));
                 mMessage.To.Add(new MailboxAddress("Destino", correoDestinatario));
-                mMessage.Subject = Mensajes.AsuntoRegistro;
+                mMessage.Subject = ;
 
                 // BodyBuilder CuerpoMensaje = new BodyBuilder();
                 // CuerpoMensaje.TextBody = Noti.cuerpo;

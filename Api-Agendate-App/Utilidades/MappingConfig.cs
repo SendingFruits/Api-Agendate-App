@@ -16,7 +16,7 @@ namespace Api_Agendate_App.Utilidades
             CreateMap<Empresas, EmpresaDTO>().ReverseMap();
             CreateMap<Empresas, EmpresaMapaDTO>().ReverseMap();
             CreateMap<Servicios, ServicioDTO>()
-            .ForMember(dest => dest.IdEmpresa, opt => opt.MapFrom(src => src.Empresa.Id))
+            .ForMember(dest => dest.IdEmpresa, opt => opt.MapFrom(src => src.EmpresaId))
             .ReverseMap();
             CreateMap<Reservas, ReservaDTO>().
                 ForMember(dest => dest.IdCliente, opt => opt.MapFrom(src => src.ClienteId)).

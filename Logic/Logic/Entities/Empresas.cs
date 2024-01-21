@@ -27,5 +27,7 @@ namespace Logic.Entities
 
         public float Longitude { get; set; }
 
+        public virtual ICollection<Servicios> Servicios { get; set; }
+
     }
 }

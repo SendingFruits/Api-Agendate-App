@@ -33,14 +33,30 @@ namespace Api_Agendate_App.Constantes
         #endregion
     }
 
+    #region Mensajes para los cuerpos y asuntos de mails ->
+    //Recordar siempre el tag <img> sera sustituido al crear el mail en MensajeriaService. Dejarlo donde se quiera sustituir la imagen del logo.
+    //De tal manera de que cuando obtenga el cid para el elemento que se quiere incrustar, el mismo sea sustituido.
+    //Porque los correos de Mime los crea la clase anteriormente mencionada y el cid lo genera Mime para los HTML de los correos.
+
     public class NotificacionesRegistro
     {
         public static string AsuntoRegistro = "Registro Exitoso - AgendateApp";
 
         public static string ObtenerCuerpoRegistro(string nombreUsuario)
         {
-            return $"Gracias por registrarte en AgendateApp {nombreUsuario}, estamos muy felices de que formes parte de esta comunidad. " +
-                    "Aquí podrás encontrar a muchos clientes de tu zona buscando tu Servicio.";
+            return $@"
+                <html>
+                  <body>
+                    <p>¡Hola {nombreUsuario}!</p>
+                    <p>Gracias por registrarte en AgendateApp</p>
+                    <p>Esperamos que tu experiencia sea grata en la aplicación</p>
+                    <p></p>
+                    <p>Atte.</p>
+                    <p></p>
+                    <p> -> El equipo de Sending Fruits <- </p>
+                    <img>
+                  </body>
+                </html>";
         }
     }
 
@@ -48,11 +64,24 @@ namespace Api_Agendate_App.Constantes
     {
         public static string AsuntoReservaExitosa = "Nueva reserva registrada - AgendateApp";
 
-        public static string ObtenerCuerpoReservaExitosa(string nombreUsuario, string nombreEmpresa, string nombreServicio, )
+        public static string ObtenerCuerpoReservaExitosa(string nombreUsuario, string nombreEmpresa, string nombreServicio)
         {
-            return $"Gracias por registrarte en AgendateApp {nombreUsuario}, estamos muy felices de que formes parte de esta comunidad. " +
-                    "Aquí podrás encontrar a muchos clientes de tu zona buscando tu Servicio.";
+            return $@"
+                <html>
+                  <body>
+                    <p>¡Hola {nombreUsuario}!</p>
+                    <p>Gracias por registrarte en AgendateApp</p>
+                    <p>Esperamos que tu experiencia sea grata en la aplicación</p>
+                    <p></p>
+                    <p>Atte.</p>
+                    <p></p>
+                    <p> -> El equipo de Sending Fruits <- </p>
+                    <img>
+                  </body>
+                </html>
+                ";
         }
     }
 
+    #endregion
 }

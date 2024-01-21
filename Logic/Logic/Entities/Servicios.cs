@@ -30,6 +30,7 @@ namespace Logic.Entities
 
         public string Descripcion { get; set; }
 
+        public int EmpresaId { get; set; }
         public virtual Empresas Empresa { get; set; }
 
         public virtual ICollection<Reservas> Reservas { get; set; }

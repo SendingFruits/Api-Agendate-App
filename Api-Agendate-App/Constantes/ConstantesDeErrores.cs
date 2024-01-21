@@ -62,6 +62,10 @@ namespace Api_Agendate_App.Constantes
         public const int ErrorInesperadoAlCambiarEstadoReserva = 1515;
         public const int ErrorCrearReservaTurnoSeleccionadoVencido = 1516;
         public const int ErrorHorarioTurnoNoEstaDentroDelRangoHorarioServicio = 1517;
+        #endregion\
+
+        #region Mensajeria 1601 al 1700 -> ...
+        public const int ErrorInesperadoEnviarMensaje = 1601;
         #endregion
 
         #region Errores Generales 1901 al 2000 -> ...
@@ -203,7 +207,7 @@ namespace Api_Agendate_App.Constantes
                         break;
                     case ErrorServicioConIdNoEncontrado:
                         mensaje = "El servicio con el ID asociado no fue encontrado.";
-                        break
+                        break;
                 }
             }
 
@@ -265,6 +269,15 @@ namespace Api_Agendate_App.Constantes
                         break;
                     case ErrorHorarioTurnoNoEstaDentroDelRangoHorarioServicio:
                         mensaje = "Error: El horario seleccionado para el turno no esta dentro del rango de horario del servicio.";
+                        break;
+                }
+            }
+            else if (codigoError >= 1601 && codigoError <= 1700)
+            {
+                switch (codigoError)
+                {
+                    case ErrorInesperadoEnviarMensaje:
+                        mensaje = "Error inesperado al intentar enviar el mensaje";
                         break;
                 }
             }

@@ -72,7 +72,7 @@ namespace Api_Agendate_App.Services
                 Clientes cliente1= _Mapper.Map<Clientes>(p_nuevoCliente);
                 await _CliRepo.Crear(cliente1);
                 
-                await _SNoticar.CreateMail(p_nuevoCliente.Correo);
+                await _SNoticar.CreateMail(p_nuevoCliente.Correo, NotificacionesRegistro.AsuntoRegistro, NotificacionesRegistro.ObtenerCuerpoRegistro(p_nuevoCliente.Nombre));
                 _respuestas.codigo = 0;
             }
             catch (Exception )

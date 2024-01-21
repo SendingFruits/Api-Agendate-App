@@ -62,7 +62,8 @@ namespace Api_Agendate_App.Services
                 Empresas E = _Mapper.Map<Empresas>(nuevaEmpresa);
                 await _EmpRepo.Crear(E);
 
-                await _SNoticar.CreateMail(nuevaEmpresa.Correo);
+                await _SNoticar.CreateMail(nuevaEmpresa.Correo, NotificacionesRegistro.AsuntoRegistro, NotificacionesRegistro.ObtenerCuerpoRegistro(nuevaEmpresa.Nombre));
+
             }
             catch (Exception ex)
             {

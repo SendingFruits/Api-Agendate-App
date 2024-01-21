@@ -335,7 +335,7 @@ namespace Api_Agendate_App.Services
 
             var serviciosReservas = await _ServiciosRepo.ObtenerTodos(c => IDsServicios.Contains(c.Id));
 
-            List<int> IDsEmpresas = serviciosReservas.Select(r => r.Empresa.Id).ToList();
+            List<int> IDsEmpresas = serviciosReservas.Select(r => r.EmpresaId).ToList();
 
             var empresasReservas = await _EmpresaRepo.ObtenerTodos(c => IDsEmpresas.Contains(c.Id));
 

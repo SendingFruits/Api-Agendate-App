@@ -6,6 +6,7 @@ using Repositorio.IRepositorio;
 using Logic.Entities;
 using MimeKit;
 using MailKit.Net.Smtp;
+using MimeKit.Utils;
 
 namespace Api_Agendate_App.Services
 {
@@ -14,58 +15,73 @@ namespace Api_Agendate_App.Services
         private readonly INotificaciones _NotiRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
-        private readonly Mensajeria _mailConfig;
 
         
-
         public MensajeriaService(INotificaciones notiRepo, IMapper mapper, APIRespuestas respuestas, IOptions<Mensajeria> mailConfig)
         {
             _NotiRepo = notiRepo;
             _Mapper = mapper;
             _respuestas = respuestas;
-            _mailConfig = mailConfig.Value;
         }
 
-        public async Task<APIRespuestas> CreateMail(string correoDestinatario)
+        public async Task<APIRespuestas> CreateMail(string correoDestinatario, string asuntoCorreo, string cuerpoCorreo)
         {
             try
             {
-                Mensajeria mensajeria = new Mensajeria();
-                //Armamos el mensaje Notificacion
-                MimeMessage mMessage = new MimeMessage();
-                mMessage.From.Add(new MailboxAddress("AgendateApp", Mensajeria.GmailUser));
-                mMessage.To.Add(new MailboxAddress("Destino", correoDestinatario));
-                mMessage.Subject = ;
+                //Datos Basicos
+                MimeMessage correoMime = new MimeMessage();
+                var bodyBuilder = new BodyBuilder();
+                correoMime.From.Add(new MailboxAddress("AgendateApp", Mensajeria.GmailUser));
+                correoMime.To.Add(new MailboxAddress("Destino", correoDestinatario));
+                correoMime.Subject = asuntoCorreo;
 
-                // BodyBuilder CuerpoMensaje = new BodyBuilder();
-                // CuerpoMensaje.TextBody = Noti.cuerpo;
 
-                // mMessage.Body = CuerpoMensaje.ToMessageBody();
-                mMessage.Body = new TextPart("html") { Text = Mensajes.CuerpoRegistro };
-                //enviamos el mail 
+                //Insercion imagen del logo AgendateApp
+                var imagenLogoAgendateApp = bodyBuilder.LinkedResources.Add(ObtenerRutaImagenApp());
+                var cid = MimeUtils.GenerateMessageId();
+                imagenLogoAgendateApp.ContentId = cid;
+                SustituirTagImg(cid, ref cuerpoCorreo);
+
+
+                bodyBuilder.HtmlBody = cuerpoCorreo;
+                correoMime.Body = bodyBuilder.ToMessageBody();
+
                 using (var client = new SmtpClient())
                 {
-                    await client.ConnectAsync(Servidor,Puerto,true);
+                    await client.ConnectAsync(Mensajeria.Servidor, Mensajeria.Puerto, true);
                     await client.AuthenticateAsync(Mensajeria.GmailUser, Mensajeria.GmailPassword);
-                    await client.SendAsync(mMessage);
+                    await client.SendAsync(correoMime);
                     await client.DisconnectAsync(true);
                 }
-                //SmtpClient ClienteSmtp = new SmtpClient();
-                //ClienteSmtp.CheckCertificateRevocation = false;
-                //ClienteSmtp.Connect(_mailConfig.Servidor, _mailConfig.Puerto, MailKit.Security.SecureSocketOptions.StartTls);
-                //ClienteSmtp.Authenticate(_mailConfig.GmailUser, _mailConfig.GmailPassword);
-                //ClienteSmtp.Send(mMessage);
-                //desconectamos el servidor 
-                //ClienteSmtp.Disconnect(true);
 
                 return (_respuestas);
 
             }
             catch (Exception)
             {
-                _respuestas.codigo = 1002;
+                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoEnviarMensaje;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                 return (_respuestas);
             }
+        }
+
+        private string ObtenerRutaImagenApp ()
+        {
+            // Obtén la ruta del directorio de ejecución de la aplicación
+            string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Construye la ruta relativa a la imagen
+            string rutaRelativaImagen = Path.Combine("Recursos", "ImagenesCorreo", "Logo App.png");
+
+            // Combina la ruta relativa con el directorio base para obtener la ruta completa
+            string rutaCompletaImagen = Path.Combine(directorioBase, rutaRelativaImagen);
+
+            return rutaCompletaImagen;
+        }
+
+        private string SustituirTagImg(string cid, ref string cuerpoCorreo)
+        {
+            return cuerpoCorreo.Replace("<img>", $"<img src=\"\"cid:{cid}\"\" alt=\"\"Logo de AgendateApp\"\">");
         }
     }
 }

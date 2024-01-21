@@ -33,10 +33,18 @@ namespace Logic.Data
             modelBuilder.Entity<Servicios>()
                 .ToTable("Servicios");
 
+            modelBuilder.Entity<Servicios>()
+            .HasOne(s => s.Empresa)
+            .WithMany(c => c.Servicios)
+            .HasForeignKey(s => s.EmpresaId)
+            .HasPrincipalKey(c => c.Id)
+            .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Reservas>()
             .HasOne(r => r.Cliente)
-            .WithMany(c => c.Reservas)
+            .WithMany(c => (ICollection<Reservas>)c.Reservas)
             .HasForeignKey(r => r.ClienteId)
+            .HasPrincipalKey(c => c.Id)
             .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Reservas>()

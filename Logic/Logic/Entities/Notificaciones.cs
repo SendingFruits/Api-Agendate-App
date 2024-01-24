@@ -20,5 +20,7 @@ namespace Logic.Entities
         public DateTime fechaEnvio { get; set; }
 
         public string cuerpo { get; set; }
+
+        public int? IdEmpresa { get; set; }
     }
 }

@@ -54,6 +54,14 @@ namespace Api_Agendate_App.Services
                     await client.DisconnectAsync(true);
                 }
 
+                Notificaciones notificacionNueva = new Notificaciones();
+                notificacionNueva.fechaEnvio = DateTime.Now;
+                notificacionNueva.correoDestinatario = correoDestinatario;
+                notificacionNueva.asunto = asuntoCorreo;
+                notificacionNueva.cuerpo = cuerpoCorreo;
+                notificacionNueva.IdEmpresa = null;
+                _NotiRepo.Crear(notificacionNueva);
+
                 return (_respuestas);
 
             }
@@ -64,6 +72,56 @@ namespace Api_Agendate_App.Services
                 return (_respuestas);
             }
         }
+
+
+        //public async Task<APIRespuestas> CreateMailPromocion(string correoDestinatario, string asuntoCorreo, string cuerpoCorreo. int idEmpresa)
+        //{
+        //    try
+        //    {
+        //        //Datos Basicos
+        //        MimeMessage correoMime = new MimeMessage();
+        //        var bodyBuilder = new BodyBuilder();
+        //        correoMime.From.Add(new MailboxAddress("AgendateApp", Mensajeria.GmailUser));
+        //        correoMime.To.Add(new MailboxAddress("Destino", correoDestinatario));
+        //        correoMime.Subject = asuntoCorreo;
+
+
+        //        //Insercion imagen del logo AgendateApp
+        //        var imagenLogoAgendateApp = bodyBuilder.LinkedResources.Add(ObtenerRutaImagenApp());
+        //        var cid = MimeUtils.GenerateMessageId();
+        //        imagenLogoAgendateApp.ContentId = cid;
+        //        SustituirTagImg(cid, ref cuerpoCorreo);
+
+
+        //        bodyBuilder.HtmlBody = cuerpoCorreo;
+        //        correoMime.Body = bodyBuilder.ToMessageBody();
+
+        //        using (var client = new SmtpClient())
+        //        {
+        //            await client.ConnectAsync(Mensajeria.Servidor, Mensajeria.Puerto, true);
+        //            await client.AuthenticateAsync(Mensajeria.GmailUser, Mensajeria.GmailPassword);
+        //            await client.SendAsync(correoMime);
+        //            await client.DisconnectAsync(true);
+        //        }
+
+        //        Notificaciones notificacionNueva = new Notificaciones();
+        //        notificacionNueva.fechaEnvio = DateTime.Now;
+        //        notificacionNueva.correoDestinatario = correoDestinatario;
+        //        notificacionNueva.asunto = asuntoCorreo;
+        //        notificacionNueva.cuerpo = cuerpoCorreo;
+        //        notificacionNueva.IdEmpresa = null;
+        //        _NotiRepo.Crear(notificacionNueva);
+
+        //        return (_respuestas);
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //        _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoEnviarMensaje;
+        //        _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+        //        return (_respuestas);
+        //    }
+        //}
 
         private string ObtenerRutaImagenApp ()
         {

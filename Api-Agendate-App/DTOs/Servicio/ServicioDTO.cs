@@ -1,4 +1,6 @@
-﻿namespace Api_Agendate_App.DTOs.Servicio
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Api_Agendate_App.DTOs.Servicio
 {
     public class ServicioDTO
     {
@@ -20,6 +22,10 @@
         public string Descripcion { get; set; }
 
         public int IdEmpresa { get; set; }
+
+        [Required(ErrorMessage = "El campo No puede ser nulo")]
+        public bool Activo { get; set; } = true;
+
 
     }
 }

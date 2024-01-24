@@ -35,5 +35,8 @@ namespace Logic.Entities
 
         public virtual ICollection<Reservas> Reservas { get; set; }
 
+        [Required(ErrorMessage = "El campo No puede ser nulo")]
+        public bool Activo { get; set; } = true;
+
     }
 }

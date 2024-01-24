@@ -28,6 +28,10 @@ namespace Api_Agendate_App.DTOs
         public string Correo { get; set; }
         
         public string TipoUsuario { get; set; }
+
+        [Required(ErrorMessage = "El campo No puede ser nulo")]
+        public bool Activo { get; set; } = true;
+
     }
 
     public class UsuarioPassDTO

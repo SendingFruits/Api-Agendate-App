@@ -12,5 +12,14 @@ namespace Repositorio
             _db = db;
         }
 
+        public async Task<Clientes> Actualizar(Clientes entidad)
+        {
+            var Encontre = _db.Clientes.FirstOrDefault(cli => cli.Id == entidad.Id);
+            if (Encontre != null)
+            {
+                await Modificar(Encontre);
+            }
+            return entidad;
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var clienteRepo = await _CliRepo.Obtener(cli => cli.NombreUsuario == username && cli.Contrasenia == password);
+                var clienteRepo = await _CliRepo.Obtener(cli => cli.NombreUsuario == username && cli.Contrasenia == password && cli.Activo == true);
                 
                 if (clienteRepo == null) 
                 {
@@ -87,7 +87,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var encontre = await _CliRepo.Obtener(cli => cli.Documento == ci);
+                var encontre = await _CliRepo.Obtener(cli => cli.Documento == ci && cli.Activo == true);
                 if (encontre != null)
                 {
                     _respuestas.codigo = 0;
@@ -110,7 +110,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                IEnumerable<Clientes> UsuarioList = await _CliRepo.ObtenerTodos();
+                IEnumerable<Clientes> UsuarioList = await _CliRepo.ObtenerTodos(cli => cli.Activo == true);
                 IEnumerable<ClienteDTO> UsuariosList = _Mapper.Map<IEnumerable<ClienteDTO>>(UsuarioList);
                 _respuestas.Resultado = UsuariosList;
                 return _respuestas;
@@ -128,16 +128,17 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var existe  = await _CliRepo.Obtener(cli => cli.Id == id);
+                var existe  = await _CliRepo.Obtener(cli => cli.Id == id && cli.Activo == true);
 
                 if (existe == null)
                 {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
                     _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
 
-                await _CliRepo.Remover(id);
+                existe.Activo = false;
+                await _CliRepo.Actualizar(existe);
                 return _respuestas;
             }
             catch (Exception)

@@ -22,8 +22,7 @@ namespace Logic.Entities
 
         public virtual Servicios? Servicio { get; set; }
 
-        public int? EmpresaId { get; set; }
+        public bool recibirNotificaciones { get; set ; } = true;
 
-        public virtual Empresas? Empresa { get; set; }
     }
 }

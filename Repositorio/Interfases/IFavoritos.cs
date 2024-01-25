@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Logic.Entities;
+using Repositorio.IRepositorio;
 namespace Repositorio.Interfases
 {
-    internal class IFavoritos
+    public interface IFavoritos : IRepositorio<Favoritos>
     {
+        public Task<Favoritos> Actualizar(Favoritos entidad);
+
     }
 }

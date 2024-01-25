@@ -19,6 +19,8 @@ namespace Logic.Data
 
         public DbSet<Reservas> Reservas { get; set; }
 
+        public DbSet<Favoritos> Favoritos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuarios>()
@@ -52,6 +54,13 @@ namespace Logic.Data
                 .WithMany(s => s.Reservas)
                 .HasForeignKey(r => r.ServicioId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Favoritos>()
+            .HasOne(s => s.Cliente)
+            .WithMany(c => c.Favoritos)
+            .HasForeignKey(s => s.ClienteId)
+            .HasPrincipalKey(c => c.Id)
+            .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

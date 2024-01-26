@@ -25,6 +25,28 @@ namespace Api_Agendate_App.Services
             _respuestas = respuestas;
             _SNoticar = sNoticar;
         }
-        
+
+        public async Task<APIRespuestas> GetFavoritos(int id)
+        {
+            try
+            {
+                var EmpresasZona = await _FavoRepo.ObtenerTodos(f => f.ClienteId);
+                if (!EmpresasZona.Any())
+                {
+                    _respuestas.Resultado = null;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                }
+                var Lista = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona).ToList();
+                _respuestas.Resultado = Lista;
+                return _respuestas;
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.Message;
+
+            }
+            return _respuestas;
+        }
+
     }
 }

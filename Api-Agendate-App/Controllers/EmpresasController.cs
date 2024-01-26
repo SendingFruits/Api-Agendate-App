@@ -26,7 +26,6 @@ namespace Api_Agendate_App.Controllers
 
         [HttpPost("RegistrarEmpresa")]
         public async Task<ActionResult<EmpresaDTO>> Registrarse(EmpresaDTO empresa)
-
         {
             APIRespuestas respuesta = new APIRespuestas();
             try

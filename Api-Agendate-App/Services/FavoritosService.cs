@@ -8,6 +8,7 @@ using Repositorio.Interfases;
 using System.Collections.Generic;
 using Api_Agendate_App.Logica;
 using Api_Agendate_App.DTOs.Empresas;
+using Api_Agendate_App.DTOs.Favoritos;
 
 namespace Api_Agendate_App.Services
 {
@@ -26,17 +27,17 @@ namespace Api_Agendate_App.Services
             _SNoticar = sNoticar;
         }
 
-        public async Task<APIRespuestas> GetFavoritos(int id)
+        public async Task<APIRespuestas> GetFavoritos(int idCliente)
         {
             try
             {
-                var EmpresasZona = await _FavoRepo.ObtenerTodos(f => f);
-                if (!EmpresasZona.Any())
+                var favoritosCliente = await _FavoRepo.ObtenerTodos(f => f.ClienteId == idCliente);
+                if (!favoritosCliente.Any())
                 {
                     _respuestas.Resultado = null;
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                 }
-                var Lista = _Mapper.Map<IEnumerable<EmpresaDTO>>(EmpresasZona).ToList();
+                var Lista = _Mapper.Map<IEnumerable<FavoritosDTO>>(favoritosCliente).ToList();
                 _respuestas.Resultado = Lista;
                 return _respuestas;
             }

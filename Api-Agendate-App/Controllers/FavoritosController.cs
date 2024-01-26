@@ -9,13 +9,12 @@ namespace Api_Agendate_App.Controllers
 {
 
     [ApiController]
-    [Route("api/Empresas")]
+    [Route("api/Favoritos")]
     public class FavoritosController : ControllerBase
     {
         private readonly APIRespuestas _respuestas;
         private readonly FavoritosService _favoritosService;
         private readonly MensajeriaService _SNoticar;
-        private readonly 
 
         public FavoritosController(FavoritosService favoritosService, APIRespuestas respuestas, MensajeriaService sNoticar)
         {
@@ -25,9 +24,9 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpGet("ObtenerFavorito")]
-        public async Task<ActionResult<APIRespuestas>> ObtenerFavorito(int id) 
+        public async Task<ActionResult<APIRespuestas>> ObtenerFavorito(int idCliente) 
         {
-            var respuesta = await _favoritosService.();
+            var respuesta = await _favoritosService.GetFavoritos(idCliente);
             if (respuesta.Resultado == null)
             {
                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;

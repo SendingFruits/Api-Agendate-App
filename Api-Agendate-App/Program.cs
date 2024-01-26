@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Api_Agendate_App.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,7 @@ builder.Services.AddScoped<PromocionesService>();
 builder.Services.AddScoped<ReservasService>();
 builder.Services.AddScoped<ServiciosService>();
 builder.Services.AddScoped<UsuariosService>();
+builder.Services.AddScoped<FavoritosService>();
 
 //Implementacion JWT
 //todo esto es para obtener nuestra clave secreta y convertirla en byte
@@ -77,6 +79,7 @@ builder.Services.AddScoped<IEmpresa, EmpresaRepositorio>();
 builder.Services.AddScoped<INotificaciones, NotificacionRepositortio>();
 builder.Services.AddScoped<IServicios, ServicioRepositorios>();
 builder.Services.AddScoped<IReserva, ReservaRepositorio>();
+builder.Services.AddScoped<IFavoritos, FavoritosRepositorio>();
 var app = builder.Build();
 
 

@@ -15,10 +15,10 @@ namespace Logic.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public int? ClienteId { get; set; }
+        public int ClienteId { get; set; }
         public virtual Clientes? Cliente { get; set; }
 
-        public int? ServicioId { get; set; }
+        public int ServicioId { get; set; }
 
         public virtual Servicios? Servicio { get; set; }
 

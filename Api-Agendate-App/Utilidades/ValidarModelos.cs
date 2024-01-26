@@ -5,7 +5,7 @@ using Api_Agendate_App.DTOs.Servicio;
 using Api_Agendate_App.DTOs.Usuarios;
 using System.Text.RegularExpressions;
 
-namespace Api_Agendate_App.Mapper
+namespace Api_Agendate_App.Utilidades
 {
     public class ValidarModelos
     {

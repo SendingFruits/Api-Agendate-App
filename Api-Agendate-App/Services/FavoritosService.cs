@@ -30,7 +30,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var EmpresasZona = await _FavoRepo.ObtenerTodos(f => f.ClienteId);
+                var EmpresasZona = await _FavoRepo.ObtenerTodos(f => f);
                 if (!EmpresasZona.Any())
                 {
                     _respuestas.Resultado = null;

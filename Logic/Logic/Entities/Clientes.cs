@@ -14,6 +14,7 @@ namespace Logic.Entities
 
         public virtual ICollection<Reservas> Reservas { get; set; }
 
+        public virtual ICollection<Favoritos> Favoritos { get; set; }
     }
 
 }

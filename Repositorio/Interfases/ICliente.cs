@@ -9,6 +9,6 @@ namespace Repositorio.IRepositorio
 {
     public interface ICliente : IRepositorio<Clientes>
     {
-
+        public Task<Clientes> Actualizar(Clientes entidad);
     }
 }

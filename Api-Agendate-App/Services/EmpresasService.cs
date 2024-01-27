@@ -28,7 +28,7 @@ namespace Api_Agendate_App.Services
 
         public async Task<EmpresaDTO> Login(string username, string password)
         {
-            var empresaRepo = await _EmpRepo.Obtener(empe => empe.NombreUsuario == username && empe.Contrasenia == password);
+            var empresaRepo = await _EmpRepo.Obtener(empe => empe.NombreUsuario == username && empe.Contrasenia == password && empe.Activo == true) ;
 
             if (empresaRepo == null)
             {
@@ -76,7 +76,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var empresaObtenida = await _EmpRepo.Obtener(c => c.Id == entidad.Id);
+                var empresaObtenida = await _EmpRepo.Obtener(c => c.Id == entidad.Id && c.Activo == true) ;
                 if (empresaObtenida == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
@@ -107,7 +107,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var EmpresasZona = await _EmpRepo.ObtenerTodos();
+                var EmpresasZona = await _EmpRepo.ObtenerTodos(emp => emp.Activo == true);
                 if (!EmpresasZona.Any())
                 {
                     _respuestas.Resultado = null;
@@ -129,7 +129,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var empresa = await _EmpRepo.Obtener(e => e.Id == id);
+                var empresa = await _EmpRepo.Obtener(e => e.Id == id && e.Activo == true);
                 if (empresa == null)
                 {
                     _respuestas.Resultado = null;
@@ -151,7 +151,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {   
-                var empresasZona = await _EmpRepo.ObtenerTodos();
+                var empresasZona = await _EmpRepo.ObtenerTodos(emp => emp.Activo == true);
                 if (!empresasZona.Any())
                 {
                     _respuestas.Resultado = null;
@@ -174,7 +174,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var Esta = await _EmpRepo.Obtener(empre => empre.RutDocumento == rut);
+                var Esta = await _EmpRepo.Obtener(empre => empre.RutDocumento == rut && empre.Activo == true);
                 if(Esta==null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
@@ -199,11 +199,12 @@ namespace Api_Agendate_App.Services
                 var existe = await _EmpRepo.Obtener(emp => emp.Id == id);
                 if (existe == null)
                 {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaNoEncontrada;
                     return _respuestas;
 
                 }
-                await _EmpRepo.Remover(id);
+                existe.Activo = false;
+                await _EmpRepo.Actualizar(existe);
                 
             }
             catch (Exception ex)

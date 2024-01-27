@@ -60,7 +60,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var existe = await _ServRepo.Obtener(emp => emp.Id == id);
+                var existe = await _ServRepo.Obtener(s => s.Id == id && s.Activo == true);
                 if (existe == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
@@ -82,7 +82,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var servicioObtenido = await _ServRepo.Obtener(c => c.Id == entidad.Id);
+                var servicioObtenido = await _ServRepo.Obtener(c => c.Id == entidad.Id && c.Activo == true);
                 if (servicioObtenido == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
@@ -106,7 +106,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                IEnumerable<Servicios> LServis = await _ServRepo.ObtenerTodos();
+                IEnumerable<Servicios> LServis = await _ServRepo.ObtenerTodos(s => s.Activo == true);
                 IEnumerable<ServicioDTO> Lista = _Mapper.Map<IEnumerable<ServicioDTO>>(LServis);
                 _respuestas.Resultado = Lista;
                 return Lista;
@@ -124,7 +124,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var Servis = await  _ServRepo.ObtenerTodos(i => i.Empresa.Nombre == nombreEmp);
+                var Servis = await  _ServRepo.ObtenerTodos(i => i.Empresa.Nombre == nombreEmp && i.Activo == true);
                 
                 ServicioDTO EServ = _Mapper.Map<ServicioDTO>(Servis);
                 _respuestas.Resultado = EServ;
@@ -143,7 +143,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var encontreServicio = await _ServRepo.Obtener(i => i.Empresa.Id == id);
+                var encontreServicio = await _ServRepo.Obtener(i => i.Empresa.Id == id && i.Activo == true);
                 if (encontreServicio == null)
                 {
                     _respuestas.Resultado = null;

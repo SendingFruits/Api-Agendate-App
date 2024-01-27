@@ -41,5 +41,8 @@ namespace Logic.Entities
 
         public string TipoUsuario { get; set; }
 
+        [Required(ErrorMessage = "El campo No puede ser nulo")]
+        public bool Activo { get; set; } = true;
+
     }
 }

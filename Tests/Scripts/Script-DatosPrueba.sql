@@ -3,73 +3,73 @@ use AgendateApp
 go
 
 insert into Usuarios (
-	NombreUsuario, Contrasenia, Correo, Nombre, Apellido, Celular, TipoUsuario
+	NombreUsuario, Contrasenia, Correo, Nombre, Apellido, Celular, TipoUsuario,Activo
 ) values 
-	('admin','0350MwGjTiI4C8O8o61/VA==','john@example.com','John','Doe','1234567890','customer'),
-    ('userX','0350MwGjTiI4C8O8o61/VA==','userX@example.com','User','Equiz','545654888','customer'),
-	('0use147rX','0350MwGjTiI4C8O8o61/VA==','userX@example.com','User','Equiz','099654888','customer'),
-	('a1dmin01','0350MwGjTiI4C8O8o61/VA==','john@example.com','John','Doe','094457890','customer'),
-	('0Rob55ert','0350MwGjTiI4C8O8o61/VA==','Robert@example.com','Robert','Dino','094467801','customer'),
-	('1car4ol','0350MwGjTiI4C8O8o61/VA==','carol@example.com','Carol','Gonzaléz','099567812','customer'),
-	('J4uaquin','0350MwGjTiI4C8O8o61/VA==','juaquin@example.com','Juaquin','Mendéz','091567890','customer'),
-	('Roberto01','0350MwGjTiI4C8O8o61/VA==','Roberto@example.com','Roberto','Dinero','1234567802','customer'),
-    ('carolina','0350MwGjTiI4C8O8o61/VA==','carolina@example.com','Carolina','González','094467813','customer'),
-    ('Juanitkio','0350MwGjTiI4C8O8o61/VA==','juanito@example.com','Juanito','Méndez','091567891','customer'),
-    ('userZ','0350MwGjTiI4C8O8o61/VA==','userZ@example.com','User','Zeta','098565489','customer'),
-    ('admifgn3','0350MwGjTiI4C8O8o61/VA==','Jhon@example.com','John','Jones','0924567892','customer'),
-    ('Roben4rta','0350MwGjTiI4C8O8o61/VA==','Roberta@example.com','Roberta','Dinamita','094567803','customer'),
-    ('car4los22','0350MwGjTiI4C8O8o61/VA==','carlos@example.com','Carlos','Gómez','099567814','customer'),
-    ('J1uan4ita','0350MwGjTiI4C8O8o61/VA==','juanita@example.com','Juanita','Méndez','097567892','customer'),
-    ('use4rA44','0350MwGjTiI4C8O8o61/VA==','userA@example.com','User','Aguilar','096654891','customer'),
-    ('a1dmin4','0350MwGjTiI4C8O8o61/VA==','admin4@example.com','John','Johnson','091567893','customer'),
-    ('Roberlto2','0350MwGjTiI4C8O8o61/VA==','Roberto2@example.com','Roberto','Dinosaurio','0994567804','customer'),
-    ('car4la','0350MwGjTiI4C8O8o61/VA==','carla@example.com','Carla','González','092567815','customer'),
-    ('Ju5anc0ho','0350MwGjTiI4C8O8o61/VA==','juancho@example.com','Juancho','Méndez','099567893','customer'),
-    ('use5rpB','0350MwGjTiI4C8O8o61/VA==','userB@example.com','User','Bellido','091654892','customer'),
-    ('admin5','0350MwGjTiI4C8O8o61/VA==','admin5@example.com','John','Doe','1234567894','customer'),
-    ('Roberta2','0350MwGjTiI4C8O8o61/VA==','Roberta2@example.com','Roberta','Dinamitada','096567805','customer'),
-    ('carl5os2','0350MwGjTiI4C8O8o61/VA==','carlos2@example.com','Carlos','Gómez','091567816','customer'),
-    ('Juan5ita23','0350MwGjTiI4C8O8o61/VA==','juanita2@example.com','Juanita','Méndez','092567894','customer'),
-    ('use5rC','0350MwGjTiI4C8O8o61/VA==','userC@example.com','User','Cabrera','0935654893','customer'),
-    ('admin6','0350MwGjTiI4C8O8o61/VA==','admin6@example.com','John','Smith','096567895','customer'),
-    ('Rop5berto3','0350MwGjTiI4C8O8o61/VA==','Roberto3@example.com','Ricardo','Peralta','095567806','customer'),
-    ('car5olpina2','0350MwGjTiI4C8O8o61/VA==','carolina2@example.com','Carolina','Goméz','098567817','customer'),
-    ('Juapnito2','0350MwGjTiI4C8O8o61/VA==','juanito2@example.com','Juanito','Méndez','099567895','customer'),
-    ('user5D','0350MwGjTiI4C8O8o61/VA==','userD@example.com','User','Delgado','097654894','customer'),
-    ('adpmin7','0350MwGjTiI4C8O8o61/VA==','admin7@example.com','John','Jones','094567896','customer'),
-    ('Robperta3','0350MwGjTiI4C8O8o61/VA==','Roberta3@example.com','Roberta','Dinamita','097567807','customer'),
-    ('car5los3','0350MwGjTiI4C8O8o61/VA==','carlos3@example.com','Carlos','Gómez','099567818','customer'),
-    ('Juanita3','0350MwGjTiI4C8O8o61/VA==','juanita3@example.com','Juanita','Méndez','091567896','customer'),
-    ('useprE21','0350MwGjTiI4C8O8o61/VA==','userE@example.com','User','Escobar','092654895','customer'),
-    ('sebas83','0350MwGjTiI4C8O8o61/VA==','admin8@example.com','Sebastian','Marset','096567897','customer'),
-    ('Michael45','0350MwGjTiI4C8O8o61/VA==','Michael4@example.com','Michael','Roman','098567808','customer'),
+	('admin','0350MwGjTiI4C8O8o61/VA==','john@example.com','John','Doe','1234567890','customer',1),
+    ('userX','0350MwGjTiI4C8O8o61/VA==','userX@example.com','User','Equiz','545654888','customer',1),
+	('0use147rX','0350MwGjTiI4C8O8o61/VA==','userX@example.com','User','Equiz','099654888','customer',1),
+	('a1dmin01','0350MwGjTiI4C8O8o61/VA==','john@example.com','John','Doe','094457890','customer',1),
+	('0Rob55ert','0350MwGjTiI4C8O8o61/VA==','Robert@example.com','Robert','Dino','094467801','customer',1),
+	('1car4ol','0350MwGjTiI4C8O8o61/VA==','carol@example.com','Carol','Gonzaléz','099567812','customer',1),
+	('J4uaquin','0350MwGjTiI4C8O8o61/VA==','juaquin@example.com','Juaquin','Mendéz','091567890','customer',1),
+	('Roberto01','0350MwGjTiI4C8O8o61/VA==','Roberto@example.com','Roberto','Dinero','1234567802','customer',1),
+    ('carolina','0350MwGjTiI4C8O8o61/VA==','carolina@example.com','Carolina','González','094467813','customer',1),
+    ('Juanitkio','0350MwGjTiI4C8O8o61/VA==','juanito@example.com','Juanito','Méndez','091567891','customer',1),
+    ('userZ','0350MwGjTiI4C8O8o61/VA==','userZ@example.com','User','Zeta','098565489','customer',1),
+    ('admifgn3','0350MwGjTiI4C8O8o61/VA==','Jhon@example.com','John','Jones','0924567892','customer',1),
+    ('Roben4rta','0350MwGjTiI4C8O8o61/VA==','Roberta@example.com','Roberta','Dinamita','094567803','customer',1),
+    ('car4los22','0350MwGjTiI4C8O8o61/VA==','carlos@example.com','Carlos','Gómez','099567814','customer',1),
+    ('J1uan4ita','0350MwGjTiI4C8O8o61/VA==','juanita@example.com','Juanita','Méndez','097567892','customer',1),
+    ('use4rA44','0350MwGjTiI4C8O8o61/VA==','userA@example.com','User','Aguilar','096654891','customer',1),
+    ('a1dmin4','0350MwGjTiI4C8O8o61/VA==','admin4@example.com','John','Johnson','091567893','customer',1),
+    ('Roberlto2','0350MwGjTiI4C8O8o61/VA==','Roberto2@example.com','Roberto','Dinosaurio','0994567804','customer',1),
+    ('car4la','0350MwGjTiI4C8O8o61/VA==','carla@example.com','Carla','González','092567815','customer',1),
+    ('Ju5anc0ho','0350MwGjTiI4C8O8o61/VA==','juancho@example.com','Juancho','Méndez','099567893','customer',1),
+    ('use5rpB','0350MwGjTiI4C8O8o61/VA==','userB@example.com','User','Bellido','091654892','customer',1),
+    ('admin5','0350MwGjTiI4C8O8o61/VA==','admin5@example.com','John','Doe','1234567894','customer',1),
+    ('Roberta2','0350MwGjTiI4C8O8o61/VA==','Roberta2@example.com','Roberta','Dinamitada','096567805','customer',1),
+    ('carl5os2','0350MwGjTiI4C8O8o61/VA==','carlos2@example.com','Carlos','Gómez','091567816','customer',1),
+    ('Juan5ita23','0350MwGjTiI4C8O8o61/VA==','juanita2@example.com','Juanita','Méndez','092567894','customer',1),
+    ('use5rC','0350MwGjTiI4C8O8o61/VA==','userC@example.com','User','Cabrera','0935654893','customer',1),
+    ('admin6','0350MwGjTiI4C8O8o61/VA==','admin6@example.com','John','Smith','096567895','customer',1),
+    ('Rop5berto3','0350MwGjTiI4C8O8o61/VA==','Roberto3@example.com','Ricardo','Peralta','095567806','customer',1),
+    ('car5olpina2','0350MwGjTiI4C8O8o61/VA==','carolina2@example.com','Carolina','Goméz','098567817','customer',1),
+    ('Juapnito2','0350MwGjTiI4C8O8o61/VA==','juanito2@example.com','Juanito','Méndez','099567895','customer',1),
+    ('user5D','0350MwGjTiI4C8O8o61/VA==','userD@example.com','User','Delgado','097654894','customer',1),
+    ('adpmin7','0350MwGjTiI4C8O8o61/VA==','admin7@example.com','John','Jones','094567896','customer',1),
+    ('Robperta3','0350MwGjTiI4C8O8o61/VA==','Roberta3@example.com','Roberta','Dinamita','097567807','customer',1),
+    ('car5los3','0350MwGjTiI4C8O8o61/VA==','carlos3@example.com','Carlos','Gómez','099567818','customer',1),
+    ('Juanita3','0350MwGjTiI4C8O8o61/VA==','juanita3@example.com','Juanita','Méndez','091567896','customer',1),
+    ('useprE21','0350MwGjTiI4C8O8o61/VA==','userE@example.com','User','Escobar','092654895','customer',1),
+    ('sebas83','0350MwGjTiI4C8O8o61/VA==','admin8@example.com','Sebastian','Marset','096567897','customer',1),
+    ('Michael45','0350MwGjTiI4C8O8o61/VA==','Michael4@example.com','Michael','Roman','098567808','customer',1),
 
-    ('jose','0350MwGjTiI4C8O8o61/VA==','panaderia@example.com','Jose','Panadero','9876543210','company'),
-	('pelu1','0350MwGjTiI4C8O8o61/VA==','pelu1@example.com','Ana','Gonzales','54656543001','company'),
-	('abm','0350MwGjTiI4C8O8o61/VA==','abm@example.com','Jorge','Belloni','50002543001','company'),
-	('sofi','0350MwGjTiI4C8O8o61/VA==','sofipelu@example.com','Sofia','Rodriguez','098888011','company'),
-	('mauro','0350MwGjTiI4C8O8o61/VA==','mauro.taller@example.com','Mauro','Perez','092789789','company'),
-	('jopselo13','0350MwGjTiI4C8O8o61/VA==','panaderia@example.com','Jose','Panadero','099543210','company'),
-	('pelupo11o','0350MwGjTiI4C8O8o61/VA==','pelu1@example.com','Ana','Gonzales','099543001','company'),
-	('ab111mp33','0350MwGjTiI4C8O8o61/VA==','abm@example.com','Jorge','Belloni','0992543001','company'),
-	('sofpi2','0350MwGjTiI4C8O8o61/VA==','sofipelu@example.com','Sofia','Rodriguez','091888011','company'),
-	('papnaderia12','0350MwGjTiI4C8O8o61/VA==','panaderia1@example.com','Jose','Pastelero','097543211','company'),
-    ('pelpu22','0350MwGjTiI4C8O8o61/VA==','pelu2@example.com','Ana','González','093543002','company'),
-    ('a124pm23','0350MwGjTiI4C8O8o61/VA==','abm2@example.com','Jorge','Beltrano','0912543002','company'),
-    ('sofpi214','0350MwGjTiI4C8O8o61/VA==','sofi2@example.com','Sofia','Rodriguez','098888012','company'),
-    ('panadperi1a222','0350MwGjTiI4C8O8o61/VA==','panaderia2@example.com','Jose','Panadero','094543212','company'),
-    ('pelup333','0350MwGjTiI4C8O8o61/VA==','pelu3@example.com','Ana','González','098543003','company'),
-    ('abmp3k1','0350MwGjTiI4C8O8o61/VA==','abm3@example.com','Jorge','Belloni','093543003','company'),
-    ('sofpi310','0350MwGjTiI4C8O8o61/VA==','sofi3@example.com','Sofia','Rodriguez','098888013','company'),
-    ('panapderia31','0350MwGjTiI4C8O8o61/VA==','panaderia3@example.com','Jose','Panadero','091543213','company'),
-    ('p2elup4','0350MwGjTiI4C8O8o61/VA==','pelu4@example.com','Ana','González','094543004','company'),
-    ('abpm4','0350MwGjTiI4C8O8o61/VA==','abm4@example.com','Jorge','Belloni','097543004','company'),
-    ('sofipp4','0350MwGjTiI4C8O8o61/VA==','sofi4@example.com','Sofia','Rodriguez','098888014','company'),
-    ('panpaderia425','0350MwGjTiI4C8O8o61/VA==','panaderia45@example.com','Jose','Panadero','098765432','company'),
-    ('pelu4500','0350MwGjTiI4C8O8o61/VA==','pelu45@example.com','Ana','González','095465430','company'),
-    ('ab44mp45','0350MwGjTiI4C8O8o61/VA==','abm45@example.com','Jorge','Belloni','099543045','company'),
-    ('sof21211ip45','0350MwGjTiI4C8O8o61/VA==','sofi45@example.com','Sofia','Rodriguez','098888055','company'),
-	('mau21r1po','0350MwGjTiI4C8O8o61/VA==','mauro.taller@example.com','Mauro','Perez','092789789','company')
+    ('jose','0350MwGjTiI4C8O8o61/VA==','panaderia@example.com','Jose','Panadero','9876543210','company',1),
+	('pelu1','0350MwGjTiI4C8O8o61/VA==','pelu1@example.com','Ana','Gonzales','54656543001','company',1),
+	('abm','0350MwGjTiI4C8O8o61/VA==','abm@example.com','Jorge','Belloni','50002543001','company',1),
+	('sofi','0350MwGjTiI4C8O8o61/VA==','sofipelu@example.com','Sofia','Rodriguez','098888011','company',1),
+	('mauro','0350MwGjTiI4C8O8o61/VA==','mauro.taller@example.com','Mauro','Perez','092789789','company',1),
+	('jopselo13','0350MwGjTiI4C8O8o61/VA==','panaderia@example.com','Jose','Panadero','099543210','company',1),
+	('pelupo11o','0350MwGjTiI4C8O8o61/VA==','pelu1@example.com','Ana','Gonzales','099543001','company',1),
+	('ab111mp33','0350MwGjTiI4C8O8o61/VA==','abm@example.com','Jorge','Belloni','0992543001','company',1),
+	('sofpi2','0350MwGjTiI4C8O8o61/VA==','sofipelu@example.com','Sofia','Rodriguez','091888011','company',1),
+	('papnaderia12','0350MwGjTiI4C8O8o61/VA==','panaderia1@example.com','Jose','Pastelero','097543211','company',1),
+    ('pelpu22','0350MwGjTiI4C8O8o61/VA==','pelu2@example.com','Ana','González','093543002','company',1),
+    ('a124pm23','0350MwGjTiI4C8O8o61/VA==','abm2@example.com','Jorge','Beltrano','0912543002','company',1),
+    ('sofpi214','0350MwGjTiI4C8O8o61/VA==','sofi2@example.com','Sofia','Rodriguez','098888012','company',1),
+    ('panadperi1a222','0350MwGjTiI4C8O8o61/VA==','panaderia2@example.com','Jose','Panadero','094543212','company',1),
+    ('pelup333','0350MwGjTiI4C8O8o61/VA==','pelu3@example.com','Ana','González','098543003','company',1),
+    ('abmp3k1','0350MwGjTiI4C8O8o61/VA==','abm3@example.com','Jorge','Belloni','093543003','company',1),
+    ('sofpi310','0350MwGjTiI4C8O8o61/VA==','sofi3@example.com','Sofia','Rodriguez','098888013','company',1),
+    ('panapderia31','0350MwGjTiI4C8O8o61/VA==','panaderia3@example.com','Jose','Panadero','091543213','company',1),
+    ('p2elup4','0350MwGjTiI4C8O8o61/VA==','pelu4@example.com','Ana','González','094543004','company',1),
+    ('abpm4','0350MwGjTiI4C8O8o61/VA==','abm4@example.com','Jorge','Belloni','097543004','company',1),
+    ('sofipp4','0350MwGjTiI4C8O8o61/VA==','sofi4@example.com','Sofia','Rodriguez','098888014','company',1),
+    ('panpaderia425','0350MwGjTiI4C8O8o61/VA==','panaderia45@example.com','Jose','Panadero','098765432','company',1),
+    ('pelu4500','0350MwGjTiI4C8O8o61/VA==','pelu45@example.com','Ana','González','095465430','company',1),
+    ('ab44mp45','0350MwGjTiI4C8O8o61/VA==','abm45@example.com','Jorge','Belloni','099543045','company',1),
+    ('sof21211ip45','0350MwGjTiI4C8O8o61/VA==','sofi45@example.com','Sofia','Rodriguez','098888055','company',1),
+	('mau21r1po','0350MwGjTiI4C8O8o61/VA==','mauro.taller@example.com','Mauro','Perez','092789789','company',1)
 ;
 
 go
@@ -153,16 +153,16 @@ insert into Empresas (
 go
 
 insert into Servicios (
-    Nombre, HoraInicio, HoraFin, DiasDefinidosSemana, DuracionTurno, TipoServicio , Costo, Descripcion, empresaId
+    Nombre, HoraInicio, HoraFin, DiasDefinidosSemana, DuracionTurno, TipoServicio , Costo, Descripcion, empresaId,Activo
 ) values
-    ('Entregas a Domicilio', 9.0, 18.0, 'Lunes;Miercoles;Viernes', 30, 'Gastronomia', 300.00,'Realizamos pedidos', 39),
-    ('Corte de Pelo', 9.0, 18.0, 'Lunes;Miercoles;Viernes', 1, 'Peluquería', 300.00,'Degradado y barba', 42),
-    ('Masaje Relajante', 10.0, 20.0, 'Martes:Jueves;Sabado', 1, 'Centro de Masajes', 800.00,'Masajes ', 46),
-    ('Café Gourmet', 8.0, 17.0, 'Lunes;Martes;Miercoles;Jueves;Viernes;Sabado;Domingo', 24, 'Cafetería', 500.00,'Date un gusto', 52),
-    ('Clases de Yoga', 17.0, 18.0, 'Lunes;Miercoles', 1, 'Centro de Yoga', 250.00,'Yoga para el alma', 54),
-    ('Sesion de Quiropráctica', 7.0, 15.0, 'Lunes;Martes;Miercoles;Jueves;Viernes;Sabado;Domingo', 1, 'Quiropráctica', 150.00,'Aliviamos tu cuerpo',56),
-    ('Tatuaje Personalizado', 13.0, 19.0, 'Viernes', 30, 'Estudio de Tatuajes', 1500.00,'El tatuaje ideal ', 61),
-    ('Consultas Dentales ', 9.0, 19.0, 'Lunes;Jueves', 30, 'Clinica dental', 500.00,'Tú sonrrisa Lista', 62)
+    ('Entregas a Domicilio', 9.0, 18.0, 'Lunes;Miercoles;Viernes', 30, 'Gastronomia', 300.00,'Realizamos pedidos', 39,1),
+    ('Corte de Pelo', 9.0, 18.0, 'Lunes;Miercoles;Viernes', 1, 'Peluquería', 300.00,'Degradado y barba', 42,1),
+    ('Masaje Relajante', 10.0, 20.0, 'Martes:Jueves;Sabado', 1, 'Centro de Masajes', 800.00,'Masajes ', 46,1),
+    ('Café Gourmet', 8.0, 17.0, 'Lunes;Martes;Miercoles;Jueves;Viernes;Sabado;Domingo', 24, 'Cafetería', 500.00,'Date un gusto', 52,1),
+    ('Clases de Yoga', 17.0, 18.0, 'Lunes;Miercoles', 1, 'Centro de Yoga', 250.00,'Yoga para el alma', 54,1),
+    ('Sesion de Quiropráctica', 7.0, 15.0, 'Lunes;Martes;Miercoles;Jueves;Viernes;Sabado;Domingo', 1, 'Quiropráctica', 150.00,'Aliviamos tu cuerpo',56,1),
+    ('Tatuaje Personalizado', 13.0, 19.0, 'Viernes', 30, 'Estudio de Tatuajes', 1500.00,'El tatuaje ideal ', 61,1),
+    ('Consultas Dentales ', 9.0, 19.0, 'Lunes;Jueves', 30, 'Clinica dental', 500.00,'Tú sonrrisa Lista', 62,1)
 ;
 
 go
@@ -180,6 +180,22 @@ values
 ;
 
 go
+
+insert into Favoritos(ClienteId,ServicioId,recibirNotificaciones)
+Values
+	(1,1,1),
+	(1,2,1),
+	(1,3,0),
+	(1,4,1),
+	(1,5,0),
+	(1,6,1),
+	(1,7,1),
+	(1,8,1),
+	(2,3,0),
+	(2,4,0),
+	(2,5,0),
+	(2,5,0)
+Go
    
 select * from Usuarios
 select * from Clientes

@@ -61,6 +61,7 @@ namespace Logic.Data
             .HasForeignKey(s => s.ClienteId)
             .HasPrincipalKey(c => c.Id)
             .OnDelete(DeleteBehavior.Restrict);
+
         }
 
     }

@@ -68,6 +68,11 @@ namespace Api_Agendate_App.Constantes
         public const int ErrorInesperadoEnviarMensaje = 1601;
         #endregion
 
+        #region Favoritos 1701 al 1800 -> ...
+        public const int ErrorFavoritoYaExistente = 1701;
+        public const int ErrorFavoritoConIdInexistente = 1702;
+        #endregion
+
         #region Errores Generales 1901 al 2000 -> ...
         public const int ErrorClaveViejaIngresadaConfirmarVacia = 1901;
         public const int ErrorClaveNuevaIngresadaConfirmarVacia = 1902;
@@ -278,6 +283,19 @@ namespace Api_Agendate_App.Constantes
                 {
                     case ErrorInesperadoEnviarMensaje:
                         mensaje = "Error inesperado al intentar enviar el mensaje";
+                        break;
+                }
+            }
+
+            else if (codigoError >= 1701 && codigoError <= 1800)
+            {
+                switch (codigoError)
+                {
+                    case ErrorFavoritoYaExistente:
+                        mensaje = "El servicio ya se encuentra en los favoritos";
+                        break;
+                    case ErrorFavoritoConIdInexistente:
+                        mensaje = "El favorito que se intenta modificar no fue encontrado";
                         break;
                 }
             }

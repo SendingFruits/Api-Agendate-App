@@ -101,7 +101,7 @@ namespace Api_Agendate_App.Services
 
             await _SNoticar.CreateMail(cliente.Correo, NotificacionesReserva.ObtenerAsuntoReservaExitosa(emp.RazonSocial), 
                                         NotificacionesReserva.ObtenerCuerpoReservaExitosa(cliente.Nombre, servicio.Nombre, reserva.FechaHoraTurno, emp.RazonSocial, emp.Direccion, emp.Celular, emp.Correo));
-
+            
             return _respuestas;
         }
 

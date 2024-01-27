@@ -8,9 +8,6 @@ namespace Api_Agendate_App.DTOs.Favoritos
         public int IdCliente { get; set; }
         public int IdServicio { get; set; }
 
-        public int ClienteId { get; set; }
-        public int ServicioId { get; set; }
-
         public bool recibirNotificaciones { get; set; } = true;
     }
 }

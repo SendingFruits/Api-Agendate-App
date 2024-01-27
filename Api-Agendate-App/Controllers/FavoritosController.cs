@@ -1,5 +1,6 @@
 ﻿using Api_Agendate_App.Constantes;
 using Api_Agendate_App.DTOs.Empresas;
+using Api_Agendate_App.DTOs.Favoritos;
 using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;
@@ -37,6 +38,38 @@ namespace Api_Agendate_App.Controllers
 
             return Ok(_respuestas.Resultado);
 
+        }
+
+        [HttpPost("AgregarFavorito")]
+        public async Task<ActionResult<APIRespuestas>> AgregarFavorito(FavoritosDTO nuevoFavorito)
+        {
+            var respuesta = await _favoritosService.AddFavoritos(nuevoFavorito);
+            if (respuesta.codigo != 0)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidades;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidades);
+                return BadRequest(_respuestas.mensaje);
+            }
+            _respuestas.Resultado = respuesta.Resultado;
+            _respuestas.codigo = 0;
+
+            return Ok(_respuestas.Resultado);
+        }
+
+        [HttpPut("ModificarNotificaciones")]
+        public async Task<ActionResult<APIRespuestas>> ModificarNotificacionesFavoritos(int idFavorito, bool quiereNotificacion)
+        {
+            var respuesta = await _favoritosService.ModificarNotificacionFavorito(idFavorito, quiereNotificacion);
+            if (respuesta.codigo != 0)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidades;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidades);
+                return BadRequest(_respuestas.mensaje);
+            }
+
+            _respuestas.Resultado = respuesta.Resultado;
+
+            return Ok(_respuestas.Resultado);
         }
     }
 }

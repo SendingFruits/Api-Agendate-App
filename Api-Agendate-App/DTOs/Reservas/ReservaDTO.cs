@@ -60,6 +60,8 @@ namespace Api_Agendate_App.DTOs.Reservas
 
         public string DescripcionEmpresa { get; set; }
 
+        public string Celular { get; set; }
+
         public float Latitude { get; set; }
 
         public float Longitude { get; set; }

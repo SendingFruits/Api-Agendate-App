@@ -2,6 +2,7 @@ use AgendateApp
 
 go
 
+--Todas las claves de prueba son 123456
 insert into Usuarios (
 	NombreUsuario, Contrasenia, Correo, Nombre, Apellido, Celular, TipoUsuario,Activo
 ) values 
@@ -197,41 +198,3 @@ Values
 	(2,5,0)
 Go
    
-select * from Usuarios
-select * from Clientes
-select * from Empresas
-select * from Servicios
-select * from Reservas
-
-
-/*  
-
-insert into Promociones (
-    Servicios, Nombre, FechaCreacion, Duracion, UltimoEnvio
-) values
-    (1, 'PromoNavidad', '2023-12-01', '15 días', '2023-12-02'),
-    (2, 'OfertaEspecial Masaje relajante', '2023-12-05', '30 días', '2023-12-05'),
-    (3, 'YogaGratis', '2023-12-07', '7 días', '2023-12-08'),
-    (4, 'TatuFest', '2023-12-10', '20 días', '2023-12-12'),
-    (5, 'Descontractura tú espalda', '2023-12-15', '10 días', '2023-12-17'),
-    (6, 'HoraFelizCafé', '2023-12-20', '14 días', '2023-12-22'),
-    (7, 'Sonrisas Sanas', '2023-12-25', '21 días', '2023-12-28')
-;
-
-go 
-    
-insert into Notificaciones (
-    Empresa, Promocion, Destinatarios, Cuerpo, Asunto, FechaEnvio
-) values
-    (46, 1, 'userX@example.com,juaquin@example.com', '¡No te pierdas nuestra promo especial de Navidad! Descuento en Cortes de pelo y más.', 'Oferta de Navidad', '2023-12-02 08:30:00'),
-    (41, 2, 'carlos2@example.com,juanita2@example.com', '¡Promoción exclusiva! Descuento en masajes relajantes durante todo el mes.', 'Oferta Especial de Masajes', '2023-12-05 10:15:00'),
-    (45, 3, 'juancho@example.com,userZ@example.com', '¡Comienza el año con energía positiva! Clases de yoga gratis por una semana.', 'Yoga Gratis por 7 días', '2023-12-08 12:45:00'),
-    (56, 4, 'Roberta3@example.com', '¡InkFest está aquí! Descuentos en tatuajes personalizados por tiempo limitado.', 'Promoción InkFest', '2023-12-12 15:20:00'),
-    (51, 5, 'Roberta3@example.com,admin3@example.com', 'Descontracturate Ahora!! no esperes más por 10 días descuentos de 50%.', 'Empeza el año aliviado', '2023-12-17 09:30:00'),
-    (47, 6, 'carla@example.com,Michael4@example.com', '¡Hora feliz en Café Bohemio! Descuentos especiales en café gourmet.', 'Hora Feliz Café', '2023-12-22 11:55:00'),
-    (48, 7, 'Jhon@example.comm, carlos@example.com', '¡Captura el momento con nosotros! Descuentos en clases de fotografía por 3 semanas.', 'Promoción Fotografía', '2023-12-28 14:10:00')
-;
-
-go 
-
-*/

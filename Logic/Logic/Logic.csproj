@@ -19,4 +19,10 @@
     <Folder Include="BaseDeDatos\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Datos de Prueba\Script-DatosPrueba.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

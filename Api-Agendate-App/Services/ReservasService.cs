@@ -377,6 +377,7 @@ namespace Api_Agendate_App.Services
                     Direccion = empresa.Direccion,
                     Ciudad = empresa.Ciudad,
                     DescripcionEmpresa = empresa.Descripcion,
+                    Celular = empresa.Celular,
                     Latitude = empresa.Latitude,
                     Longitude = empresa.Longitude
                 }); ;

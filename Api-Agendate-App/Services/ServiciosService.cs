@@ -46,7 +46,7 @@ namespace Api_Agendate_App.Services
 
             Servicios S = _Mapper.Map<Servicios>(NuevoServicio);
 
-            var empresa = await _EmpresaRepo.Obtener(emp => emp.Id == S.Empresa.Id);
+            var empresa = await _EmpresaRepo.Obtener(emp => emp.Id == S.EmpresaId);
 
             if (empresa != null)
                 S.Empresa = empresa;

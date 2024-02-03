@@ -15,7 +15,6 @@ namespace Api_Agendate_App.Services
 {
     public class ReservasService
     {
-
         private readonly IReserva _ReservaRepo;
         private readonly IServicios _ServiciosRepo;
         private readonly ICliente _ClienteRepo;
@@ -87,7 +86,8 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
-            var existeReserva = await _ReservaRepo.Obtener(res => res.FechaHoraTurno == nuevaReserva.FechaHoraTurno && res.ServicioId == nuevaReserva.IdServicio);
+            var existeReserva = await _ReservaRepo.Obtener(res => res.FechaHoraTurno == nuevaReserva.FechaHoraTurno 
+                && res.ServicioId == nuevaReserva.IdServicio && res.Estado != ConstantesReservas.EstadoReservaCancelada);
             if (existeReserva != null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteTurnoReservado;

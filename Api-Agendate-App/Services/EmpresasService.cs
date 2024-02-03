@@ -192,6 +192,33 @@ namespace Api_Agendate_App.Services
             }
         }
 
+
+        public async Task<APIRespuestas> BuscarEnMapa(string nombre)
+        {
+            try
+            {
+                var empresa = await _EmpRepo.Obtener(e => e.RazonSocial.Contains(nombre) && e.Activo == true);
+
+                if (empresa == null)
+                {
+                    _respuestas.Resultado = null;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaNoEncontrada;
+                    return _respuestas;
+                }
+
+                var empresaMapeada = _Mapper.Map<EmpresaBuscadaDTO>(empresa);
+                _respuestas.Resultado = empresaMapeada;
+                return _respuestas;
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.Message;
+
+            }
+            return _respuestas;
+        }
+
+
         public async Task<APIRespuestas> Delete(int id)
         {
             try

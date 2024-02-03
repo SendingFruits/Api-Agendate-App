@@ -3,6 +3,7 @@ use AgendateApp
 go
 
 --Todas las claves de prueba son 123456
+
 insert into Usuarios (
 	NombreUsuario, Contrasenia, Correo, Nombre, Apellido, Celular, TipoUsuario,Activo
 ) values 
@@ -169,8 +170,8 @@ insert into Servicios (
 go
 
 insert into Reservas(
-    ClienteId, ServicioId, FechaRealizada, FechaHoraTurno, Estado)
-values
+    ClienteId, ServicioId, FechaRealizada, FechaHoraTurno, Estado
+) values
     (1,1, '2023-12-12 00:00:00', '2024-01-01 09:00:00', 'Realizada'),
     (1,1, '2024-04-02 00:00:00', '2024-01-01 09:30:00', 'Realizada'),
     (3,3, '2024-06-03 00:00:00', '2023-12-12 00:00:00', 'Cancelada'),
@@ -182,8 +183,9 @@ values
 
 go
 
-insert into Favoritos(ClienteId,ServicioId,recibirNotificaciones)
-Values
+insert into Favoritos(
+    ClienteId,ServicioId,recibirNotificaciones
+) values
 	(1,1,1),
 	(1,2,1),
 	(1,3,0),
@@ -196,5 +198,7 @@ Values
 	(2,4,0),
 	(2,5,0),
 	(2,5,0)
-Go
-   
+;
+
+go
+

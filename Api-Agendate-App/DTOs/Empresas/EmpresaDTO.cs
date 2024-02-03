@@ -26,4 +26,15 @@ namespace Api_Agendate_App.DTOs.Empresas
 
         public float Longitude { get; set; }
     }
+
+    public class EmpresaBuscadaDTO : UsuarioDTO
+    {
+        public string RazonSocial { get; set; }
+
+        public string Descripcion { get; set; }
+
+        public float Latitude { get; set; }
+
+        public float Longitude { get; set; }
+    }
 }

@@ -160,5 +160,33 @@ namespace Api_Agendate_App.Controllers
             return Ok(respuesta.mensaje);
         }
 
+
+
+        [HttpGet("BuscarEnMapa")]
+        public async Task<ActionResult> GetEmpresas(string nombre)
+        {
+            try
+            {
+                var respuesta = await _empresasService.BuscarEnMapa(nombre);
+                if (respuesta.Resultado == null)
+                {
+                    _respuestas.codigo = respuesta.codigo;
+                    _respuestas.ObtenerMensaje(_respuestas.codigo);
+                    return BadRequest(_respuestas.mensaje);
+                }
+                _respuestas.Resultado = respuesta.Resultado;
+                _respuestas.codigo = 0;
+
+                return Ok(_respuestas.Resultado);
+
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
+                return BadRequest(_respuestas);
+            }
+        }
+
     }
 }

@@ -18,12 +18,13 @@ namespace Api_Agendate_App.Services
         private readonly IFavoritos _FavoRepo;
         private readonly IServicios _ServRepo;
         private readonly ICliente _CliRepo;
+        private readonly IEmpresa _EmpRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
         private readonly MensajeriaService _SNoticar;
 
 
-        public FavoritosService(IFavoritos favoRepo, IServicios servRepo, ICliente clieRepo, IMapper mapper, APIRespuestas respuestas, MensajeriaService sNoticar)
+        public FavoritosService(IFavoritos favoRepo,IEmpresa empresa, IServicios servRepo, ICliente clieRepo, IMapper mapper, APIRespuestas respuestas, MensajeriaService sNoticar)
         {
             _FavoRepo = favoRepo;
             _ServRepo = servRepo;
@@ -31,10 +32,12 @@ namespace Api_Agendate_App.Services
             _respuestas = respuestas;
             _SNoticar = sNoticar;
             _CliRepo = clieRepo;
+            _EmpRepo = empresa;   
         }
 
         public async Task<APIRespuestas> GetFavoritos(int idCliente)
         {
+            List<FavoritosDTO> favoritosDTOs = new List<FavoritosDTO>();
             try
             {
                 #region Corroboracion de existencia de las relaciones ->
@@ -52,14 +55,48 @@ namespace Api_Agendate_App.Services
                     _respuestas.Resultado = null;
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                 }
-                var Lista = _Mapper.Map<IEnumerable<FavoritosDTO>>(favoritosCliente).ToList();
-                _respuestas.Resultado = Lista;
+                List<int> idsServiciosFavoritos = favoritosCliente.Select(f => f.ServicioId).ToList();
+                var serviciosFavoritos = await _ServRepo.ObtenerTodos(s => idsServiciosFavoritos.Contains(s.Id));
+
+                if (!serviciosFavoritos.Any())
+                {
+
+                }
+
+                List<int> idsEmpresas = serviciosFavoritos.Select(f => f.EmpresaId).ToList();
+                var empresasFavoritos = await _EmpRepo.ObtenerTodos(s => idsEmpresas.Contains(s.Id));
+                if (!empresasFavoritos.Any())
+                {
+                    
+                }
+
+                foreach(var favorito in favoritosCliente)
+                {
+                    var servicio = serviciosFavoritos.Where(s => s.Id == favorito.ServicioId).FirstOrDefault();
+                    var empresa = empresasFavoritos.Where(e => e.Id == servicio.EmpresaId).FirstOrDefault();
+                    
+                    favoritosDTOs.Add(new FavoritosDTO
+                    {
+                        Id = favorito.Id,
+                        IdCliente = favorito.ClienteId,
+                        IdServicio = favorito.ServicioId,
+                        recibirNotificaciones = favorito.recibirNotificaciones,
+                        RazonSocial = empresa.RazonSocial,
+                        DireccionEmpresa = empresa.Direccion,
+                        Latitude = empresa.Latitude,
+                        Longitude = empresa.Longitude,
+                        NombreServicio = servicio.Nombre,
+                        TipoServicio = servicio.TipoServicio,
+                        ServicioActivo = empresa.Activo,
+                    });
+                }
+                
+                _respuestas.Resultado = favoritosDTOs;
                 return _respuestas;
             }
             catch (Exception ex)
             {
                 _respuestas.mensaje = ex.Message;
-
             }
             return _respuestas;
         }

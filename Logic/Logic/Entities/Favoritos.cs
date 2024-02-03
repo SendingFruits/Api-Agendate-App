@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Logic.Entities
 {
-    [PrimaryKey(nameof(Id), nameof(ClienteId), nameof(ServicioId))]
+    [PrimaryKey(nameof(ClienteId), nameof(ServicioId))]
     public class Favoritos
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

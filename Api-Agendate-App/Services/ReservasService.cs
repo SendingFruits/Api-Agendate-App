@@ -87,7 +87,7 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
-            var existeReserva = await _ReservaRepo.Obtener(res => res.FechaHoraTurno == nuevaReserva.FechaHoraTurno && res.ServicioId == nuevaReserva.IdServicio);
+            var existeReserva = await _ReservaRepo.Obtener(res => res.FechaHoraTurno == nuevaReserva.FechaHoraTurno && res.ServicioId == nuevaReserva.IdServicio && res.Estado != ConstantesReservas.EstadoReservaCancelada );
             if (existeReserva != null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteTurnoReservado;

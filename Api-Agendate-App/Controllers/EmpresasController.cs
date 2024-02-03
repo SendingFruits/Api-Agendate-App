@@ -138,27 +138,5 @@ namespace Api_Agendate_App.Controllers
             return Ok(respuesta);
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
-        {
-            APIRespuestas respuesta = new APIRespuestas();
-            try
-            {
-                APIRespuestas respuestas = await _empresasService.Delete(id);
-                if (respuestas.codigo != 0)
-                {
-                    respuestas.ObtenerMensaje(respuestas.codigo);
-                    return BadRequest(respuestas.mensaje);
-                }
-                
-            }
-            catch
-            {
-                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoEliminarEmpresa));
-            }
-
-            return Ok(respuesta.mensaje);
-        }
-
     }
 }

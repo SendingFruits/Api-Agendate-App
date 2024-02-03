@@ -41,29 +41,5 @@ namespace Api_Agendate_App.Controllers
             
             return Ok(respuesta.mensaje);
         }
-
-
-        [HttpDelete]
-        public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
-        {
-            APIRespuestas respuesta = new APIRespuestas();
-            try
-            {
-                respuesta = await _clientesService.Delete(id);
-
-                if (respuesta.codigo != 0)
-                {
-                    respuesta.ObtenerMensaje(respuesta.codigo);
-                    return BadRequest(respuesta.mensaje);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoEliminarCliente));
-            }
-
-            return Ok(respuesta);
-        }
-
     }
  }

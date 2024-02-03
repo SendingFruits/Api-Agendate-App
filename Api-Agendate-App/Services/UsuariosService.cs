@@ -115,5 +115,29 @@ namespace Api_Agendate_App.Services
                 throw new Exception();
             }
         }
+
+        public async Task<APIRespuestas> BajaUsuario(int id)
+        {
+            try
+            {
+                var existe = await _UsuRepo.Obtener(u => u.Id == id && u.Activo == true);
+
+                if (existe == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
+                existe.Activo = false;
+                await _UsuRepo.Actualizar(existe);
+                return _respuestas;
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+            }
+            return _respuestas;
+        }
     }
 }

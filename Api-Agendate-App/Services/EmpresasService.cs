@@ -192,28 +192,6 @@ namespace Api_Agendate_App.Services
             }
         }
 
-        public async Task<APIRespuestas> Delete(int id)
-        {
-            try
-            {
-                var existe = await _EmpRepo.Obtener(emp => emp.Id == id);
-                if (existe == null)
-                {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaNoEncontrada;
-                    return _respuestas;
-
-                }
-                existe.Activo = false;
-                await _EmpRepo.Actualizar(existe);
-                
-            }
-            catch (Exception ex)
-            {
-                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadExistente;
-            }
-            return _respuestas;
-        }
-
         private void ActualizarAtributos(ref Empresas empresaContext, EmpresaDatosBasicosDTO empresaMapeada)
         {
             try

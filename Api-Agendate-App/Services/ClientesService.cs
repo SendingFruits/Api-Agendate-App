@@ -123,29 +123,5 @@ namespace Api_Agendate_App.Services
             }
             return _respuestas;
         }
-
-        public async Task<APIRespuestas> Delete(int id)
-        {
-            try
-            {
-                var existe  = await _CliRepo.Obtener(cli => cli.Id == id && cli.Activo == true);
-
-                if (existe == null)
-                {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
-                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
-                    return _respuestas;
-                }
-
-                existe.Activo = false;
-                await _CliRepo.Actualizar(existe);
-                return _respuestas;
-            }
-            catch (Exception)
-            {
-                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
-            }
-            return _respuestas;
-        }
     }
 }

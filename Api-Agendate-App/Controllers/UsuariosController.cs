@@ -159,5 +159,28 @@ namespace Api_Agendate_App.Controllers
 
             return Ok(respuesta.mensaje);
         }
+
+
+        [HttpPut("EliminarUsuario")]
+        public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
+        {
+            APIRespuestas respuesta = new APIRespuestas();
+            try
+            {
+                respuesta = await _usuariosService.BajaUsuario(id);
+
+                if (respuesta.codigo != 0)
+                {
+                    return BadRequest(respuesta.mensaje);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoEliminarCliente));
+            }
+
+            return Ok(respuesta);
+        }
+
     }
 }

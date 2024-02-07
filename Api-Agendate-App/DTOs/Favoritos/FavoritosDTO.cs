@@ -12,6 +12,8 @@ namespace Api_Agendate_App.DTOs.Favoritos
 
         public string RazonSocial { get; set; }
 
+        public string DescripcionEmpresa { get; set; }
+
         public string DireccionEmpresa { get; set; }
 
         public float Latitude { get; set; }

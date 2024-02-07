@@ -74,7 +74,7 @@ namespace Api_Agendate_App.Services
                 {
                     var servicio = serviciosFavoritos.Where(s => s.Id == favorito.ServicioId).FirstOrDefault();
                     var empresa = empresasFavoritos.Where(e => e.Id == servicio.EmpresaId).FirstOrDefault();
-                    
+
                     favoritosDTOs.Add(new FavoritosDTO
                     {
                         Id = favorito.Id,
@@ -82,13 +82,14 @@ namespace Api_Agendate_App.Services
                         IdServicio = favorito.ServicioId,
                         recibirNotificaciones = favorito.recibirNotificaciones,
                         RazonSocial = empresa.RazonSocial,
+                        DescripcionEmpresa = empresa.Descripcion,
                         DireccionEmpresa = empresa.Direccion,
                         Latitude = empresa.Latitude,
                         Longitude = empresa.Longitude,
                         NombreServicio = servicio.Nombre,
                         TipoServicio = servicio.TipoServicio,
                         ServicioActivo = empresa.Activo,
-                    });
+                    }); ;
                 }
                 
                 _respuestas.Resultado = favoritosDTOs;

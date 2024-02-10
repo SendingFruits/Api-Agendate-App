@@ -91,6 +91,8 @@ namespace Api_Agendate_App.Constantes
         // Del 3001 al 3500
         #region Errores Generales funcionamiento -> ...
         public const int ErrorCredencialesIncorrectas = 3001;
+
+        public static int ErrorYaExisteElNombreDelaPromocion { get; internal set; }
         #endregion
 
         public static string DevolverMensaje(int codigoError)

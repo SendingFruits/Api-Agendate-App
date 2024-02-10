@@ -19,6 +19,7 @@ namespace Logic.Data
 
         public DbSet<Reservas> Reservas { get; set; }
 
+        public DbSet<Promociones> Promociones { get; set; }
         public DbSet<Favoritos> Favoritos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,6 +35,9 @@ namespace Logic.Data
 
             modelBuilder.Entity<Servicios>()
                 .ToTable("Servicios");
+
+            modelBuilder.Entity<Promociones>()
+                .ToTable("promociones");
 
             modelBuilder.Entity<Servicios>()
             .HasOne(s => s.Empresa)

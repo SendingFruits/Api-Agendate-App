@@ -22,12 +22,17 @@ namespace Logic.Entities
         public string Descripcion { get; set; }
         [StringLength(200)]
         public string Titulo { get; set;}
+        
+        public int EmpresaId { get; set; }
 
-        public virtual Empresas EmpresaE { get; set; }   
+        public virtual Empresas? Empresa { get; set; }   
+
+        public int ServicioId { get; set; }
+
+        public virtual Servicios? Servicio { get; set; }
 
 
-
-
-
+        public List<Clientes>? lClientes { get ; set;}
+        public bool Activo { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Api_Agendate_App.Constantes;
 using Api_Agendate_App.DTOs;
 using Api_Agendate_App.DTOs.Empresas;
-using Api_Agendate_App.DTOs.Favoritos;
+
 using Api_Agendate_App.DTOs.Promociones;
 using Api_Agendate_App.Services;
 using Api_Agendate_App.Utilidades;

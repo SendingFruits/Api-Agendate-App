@@ -130,7 +130,7 @@ namespace Api_Agendate_App.Controllers
                     return BadRequest(respuesta.mensaje);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ) 
             {
                 return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoActualizarEmpresa));
             }

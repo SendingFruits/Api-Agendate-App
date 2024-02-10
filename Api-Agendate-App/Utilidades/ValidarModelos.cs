@@ -1,5 +1,6 @@
 ﻿using Api_Agendate_App.DTOs;
 using Api_Agendate_App.DTOs.Empresas;
+using Api_Agendate_App.DTOs.Promociones;
 using Api_Agendate_App.DTOs.Reservas;
 using Api_Agendate_App.DTOs.Servicio;
 using Api_Agendate_App.DTOs.Usuarios;

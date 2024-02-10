@@ -131,9 +131,6 @@ namespace Api_Agendate_App.Constantes
                     <p>Te informamos que tu contraseña fue modificada correctamente.</p>
                     <p>En el caso que no hayas sido tú, debes contactarte inmediatamente con soporte@sendingfruits.com: </p>
                     <p></p>
-                    <p>Atte.</p>
-                    <p></p>
-                    <p> -> El equipo de Sending Fruits <- </p>
                     <img>
                     <p></p>
                     <p><em>Este es un correo automático. No contestar el mismo.</em></p>

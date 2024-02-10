@@ -52,6 +52,8 @@ namespace Api_Agendate_App.Services
                 passNueva = Encriptadores.Encriptar(passNueva);
                 usuario.Contrasenia = passNueva;
                 await _UsuRepo.Actualizar(usuario);
+                await _SNoticar.CreateMail(usuario.Correo, NotificacionesImportantes.ObtenerAsuntoCambioContrasenia(), NotificacionesImportantes.ObtenerCuerpoModificacionContrasenia(usuario.Nombre));
+
             }
             catch (Exception)
             {

@@ -31,7 +31,7 @@ namespace Api_Agendate_App.Services
 
         public async Task<APIRespuestas> Create([FromBody] PromocionDTO NuevaPromo)
         {
-            var Existe = await _promo.Obtener(pro => pro.Titulo == NuevaPromo.titulo && pro.Empresa.Id == NuevaPromo.IdEmpresa);
+            var Existe = await _promo.Obtener(pro => pro.Empresa.Id == NuevaPromo.EmpresaId);
             if (Existe != null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteElNombreDelaPromocion;
@@ -39,7 +39,7 @@ namespace Api_Agendate_App.Services
             }
 
 
-            var existeEmpresa = await _EmpresaRepo.Obtener(emp => emp.Id == NuevaPromo.IdEmpresa);
+            var existeEmpresa = await _EmpresaRepo.Obtener(emp => emp.Id == NuevaPromo.EmpresaId);
 
             if (existeEmpresa == null)
             {
@@ -85,11 +85,11 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> Modificar([FromBody] promoActualizarDTO entidad)
+        public async Task<APIRespuestas> Modificar([FromBody] PromocionDTO entidad)
         {
             try
             {
-                var PromoObtenido = await _promo.Obtener(c => c.Id == entidad.id && c.Activo == true);
+                var PromoObtenido = await _promo.Obtener(c => c.Id == entidad.Id);
                 if (PromoObtenido == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
@@ -108,28 +108,11 @@ namespace Api_Agendate_App.Services
             return _respuestas;
 
         }
-        public async Task<IEnumerable<PromocionDTO>> GetPromociones()
-        {
-            try
-            {
-                IEnumerable<Promociones> LPromo = await _promo.ObtenerTodos(p => p.Activo == true);
-                IEnumerable<PromocionDTO> Lista = _Mapper.Map<IEnumerable<PromocionDTO>>(LPromo);
-                _respuestas.Resultado = Lista;
-                return Lista;
-            }
-            catch (Exception ex)
-            {
-                _respuestas.mensaje = ex.Message;
-
-            }
-            return (IEnumerable<PromocionDTO>)_respuestas.Resultado;
-
-        }
         public async Task<IEnumerable<PromocionDTO>> GetPromocionesporEmpresa(int Empresaid)
         {
             try
             {
-                IEnumerable<Promociones> LPromo = await _promo.ObtenerTodos(p => p.Activo == true&& p.EmpresaId==Empresaid);
+                IEnumerable<Promociones> LPromo = await _promo.ObtenerTodos(p => p.EmpresaId==Empresaid);
                 IEnumerable<PromocionDTO> Lista = _Mapper.Map<IEnumerable<PromocionDTO>>(LPromo);
                 _respuestas.Resultado = Lista;
                 return Lista;
@@ -143,49 +126,41 @@ namespace Api_Agendate_App.Services
 
         }
 
-        public async Task<APIRespuestas> EnviarPromocion([FromBody] PromocionDTO entidad)
-        {
-            try
-            {
+        //public async Task<APIRespuestas> EnviarPromocion([FromBody] PromocionDTO entidad)
+        //{
+        //    try
+        //    {
+        //        var P = await _promo.Obtener(p => p.Id == entidad.Id);
+        //        if (P == null)
+        //        {
+        //            _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+        //            return _respuestas;
+        //        }
+        //        List<string> Mails = new List<string>();
+        //        foreach (Clientes c in cl)
+        //        {
+        //            string correo = c.Correo;
+        //            Mails.Add(correo);
+        //        }
 
-                var P = await _promo.Obtener(p => p.Id == entidad.id);
-                if (P == null)
-                {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
-                    return _respuestas;
-                }
-
-                List<Clientes> cl = P.lClientes;
-                List<string> Mails = new List<string>();
-                foreach (Clientes c in cl)
-                {
-                    string correo = c.Correo;
-                    Mails.Add(correo);
-                }
-
-
-               await _mens.CreateMail(Mails.ToString(), P.Titulo, P.Descripcion);
+        //       await _mens.CreateMail(Mails.ToString(), P.Titulo, P.Descripcion);
                 
-            }
-            catch (Exception ex)
-            {
-                _respuestas.mensaje = ex.Message;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _respuestas.mensaje = ex.Message;
 
-            }
-            return _respuestas;
-        }
-        private void ActualizarAtributos(ref Promociones PromoContext, promoActualizarDTO entidad)
+        //    }
+        //    return _respuestas;
+        //}
+        private void ActualizarAtributos(ref Promociones PromoContext, PromocionDTO entidad)
         {
-            if (PromoContext.Titulo != entidad.titulo)
-                PromoContext.Titulo = entidad.titulo;
-            if (PromoContext.Intervalo != entidad.intervalo)
-                PromoContext.Intervalo = entidad.intervalo;
-            if (PromoContext.FechaInicio != entidad.fechaInicio)
-                PromoContext.FechaInicio = entidad.fechaInicio;
-            if (PromoContext.FechaFin != entidad.fechaFin)
-                PromoContext.FechaFin = entidad.fechaFin;
-            if (PromoContext.Descripcion != entidad.descripcion)
-                PromoContext.Descripcion = entidad.descripcion;
+                if (PromoContext.CuerpoMensaje != entidad.CuerpoMensaje)
+                    PromoContext.CuerpoMensaje = entidad.CuerpoMensaje;
+                if (PromoContext.AsuntoMensaje != entidad.AsuntoMensaje)
+                    PromoContext.AsuntoMensaje = entidad.AsuntoMensaje;
+                if (PromoContext.Destinatarios != entidad.Destinatarios)
+                    PromoContext.Destinatarios = entidad.Destinatarios;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Api_Agendate_App.Controllers
         }
 
 
-        [HttpPut("Crear Promcion")]
+        [HttpPut("CrearPromocion")]
         public async Task<ActionResult<APIRespuestas>> CrearPromocion(PromocionDTO PromoN)
         {
             var respuesta = await _promoService.Create(PromoN);
@@ -40,30 +40,6 @@ namespace Api_Agendate_App.Controllers
             _respuestas.codigo = 0;
 
             return Ok(_respuestas.Resultado);
-        }
-        [HttpGet("ObtenerPromociones")]
-        public async Task<ActionResult> GetPromociones()
-        {
-            try
-            {
-                var respuesta = await _promoService.GetPromociones();
-                if (respuesta == null)
-                {
-                    _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
-                    _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
-                }
-                _respuestas.Resultado = respuesta;
-                _respuestas.codigo = 0;
-
-                return Ok(_respuestas.Resultado);
-
-            }
-            catch (Exception)
-            {
-                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
-                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
-                return BadRequest(_respuestas);
-            }
         }
 
         [HttpGet("ObtenrPromocionPorEmpresa")]
@@ -95,7 +71,7 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpPut("ActualizarPromocion")]
-        public async Task<ActionResult<promoActualizarDTO>> Actualizar(promoActualizarDTO dTO)
+        public async Task<ActionResult<PromocionDTO>> Actualizar(PromocionDTO dTO)
         {
             APIRespuestas respuesta = new APIRespuestas();
             try
@@ -137,12 +113,12 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpPut("EnviarPromocion")]
-        public async Task<ActionResult<APIRespuestas>> EnviarPromo(PromocionDTO p )
+        public async Task<ActionResult<APIRespuestas>> EnviarPromocion(PromocionDTO p)
         {
                 APIRespuestas respuesta = new APIRespuestas();
             try
             {
-                 respuesta= await _promoService.EnviarPromocion(p);
+                 //respuesta= await _promoService.EnviarPromocion(p);
                 if (respuesta.codigo != 0)
                 {
                     return BadRequest(respuesta.mensaje);

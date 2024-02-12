@@ -4,14 +4,17 @@ namespace Api_Agendate_App.DTOs.Promociones
 {
     public class PromocionDTO
     {
-        public int id { get; set; }
-        public string titulo { get; set; }
-        public string descripcion { get; set; }
-        public DateTime fechaInicio { get; set; }
-        public DateTime fechaFin { get; set; }
-        public int intervalo { get; set; }
-        public int IdEmpresa { get; internal set; }
-        public List<Clientes>? lClientes { get; set; }
-        public bool Activo { get; set; } = true;
+        public int Id { get; set; }
+
+        public DateTime UltimoEnvio { get; set; }
+
+        public string CuerpoMensaje { get; set; }
+
+        public string AsuntoMensaje { get; set; }
+
+        public string Destinatarios { get; set; }
+
+        public int EmpresaId { get; set; }
+
     }
 }

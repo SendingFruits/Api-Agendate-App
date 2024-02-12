@@ -13,26 +13,17 @@ namespace Logic.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int Intervalo { get; set; }
-        [Required]
-        public DateTime FechaInicio { get; set; }
-        [Required]
-        public DateTime FechaFin { get; set; }
-        [StringLength(200)]
-        public string Descripcion { get; set; }
-        [StringLength(200)]
-        public string Titulo { get; set;}
-        
+
+        public DateTime UltimoEnvio { get; set; }
+
+        public string CuerpoMensaje { get; set; }
+
+        public string AsuntoMensaje { get; set; }
+
+        public string Destinatarios { get; set; }
+
         public int EmpresaId { get; set; }
 
-        public virtual Empresas? Empresa { get; set; }   
-
-        public int ServicioId { get; set; }
-
-        public virtual Servicios? Servicio { get; set; }
-
-
-        public List<Clientes>? lClientes { get ; set;}
-        public bool Activo { get; set; }
+        public virtual Empresas Empresa { get; set; }
     }
 }

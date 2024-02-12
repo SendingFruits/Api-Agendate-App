@@ -18,20 +18,15 @@ namespace Logic.Entities
 
         [Column(TypeName = "datetime2(0)")]
         public DateTime FechaHoraTurno { get; set; }
-        
 
         public string Estado { get; set; }
 
-        // Clave externa para la relación con Clientes
         public int ClienteId { get; set; }
 
-        // Propiedad de navegación inversa
         public virtual Clientes Cliente { get; set; }
 
-        // Clave externa para la relación con Servicios
         public int ServicioId { get; set; }
 
-        // Propiedad de navegación inversa
         public virtual Servicios Servicio { get; set; }
     }
 }

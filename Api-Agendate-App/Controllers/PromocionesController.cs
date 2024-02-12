@@ -43,11 +43,11 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpGet("ObtenrPromocionPorEmpresa")]
-        public async Task<ActionResult> GetPromociones(int id)
+        public async Task<ActionResult> GetPromociones(int empresaId)
         {
             try
             {
-                var respuesta = await _promoService.GetPromocionesporEmpresa(id);
+                var respuesta = await _promoService.GetPromocionesporEmpresa(empresaId);
                 if (respuesta == null)
                 {
                   

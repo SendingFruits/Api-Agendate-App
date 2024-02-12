@@ -6,8 +6,8 @@ namespace Api_Agendate_App.Constantes
     public class Mensajeria
     {
         #region Configuracion Correo ->
-        private static string gmailUser = "leeroyjenkins2320@gmail.com";
-        private static string gmailPassword = "pqeeivadwqcwdthx";
+        private static string gmailUser = "mensajeriaagendateapp@gmail.com";
+        private static string gmailPassword = "eedbimjwhskkssvx";
         private static string servidor = "smtp.gmail.com";
         private static int puerto = 465;
 

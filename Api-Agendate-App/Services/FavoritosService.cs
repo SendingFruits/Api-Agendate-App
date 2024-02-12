@@ -80,6 +80,7 @@ namespace Api_Agendate_App.Services
                         Id = favorito.Id,
                         IdCliente = favorito.ClienteId,
                         IdServicio = favorito.ServicioId,
+                        IdEmpresa = empresa.Id,
                         recibirNotificaciones = favorito.recibirNotificaciones,
                         RazonSocial = empresa.RazonSocial,
                         DescripcionEmpresa = empresa.Descripcion,

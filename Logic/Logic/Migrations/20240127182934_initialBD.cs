@@ -221,10 +221,6 @@ namespace Logic.Migrations
                 table: "Usuarios",
                 column: "NombreUsuario",
                 unique: true);
-
-            string ruta = AppDomain.CurrentDomain.BaseDirectory;
-            string script = File.ReadAllText(Path.Combine(ruta, "Datos de Prueba", "Script-DatosPrueba.sql"));
-            migrationBuilder.Sql(script);
         }
 
         /// <inheritdoc />

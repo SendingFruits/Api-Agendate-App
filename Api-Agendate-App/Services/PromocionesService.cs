@@ -12,21 +12,21 @@ namespace Api_Agendate_App.Services
 {
     public class PromocionesService
     {
-
+        private readonly IReserva _reservaRepo;
         private readonly IPromocion _promo;
-        private readonly MensajeriaService _mens;
         private readonly IEmpresa _EmpresaRepo;
         private readonly IMapper _Mapper;
         private readonly APIRespuestas _respuestas;
-        // private readonly List<> _client;
+        private readonly MensajeriaService _mens;
 
-        public PromocionesService(MensajeriaService mens, IEmpresa empresaRepo, IMapper mapper, APIRespuestas respuestas, IPromocion promo)
+        public PromocionesService(MensajeriaService mens, IEmpresa empresaRepo, IMapper mapper, APIRespuestas respuestas, IPromocion promo, IReserva reservaRepo)
         {
-            _mens= mens;
+            _mens = mens;
             _Mapper = mapper;
             _respuestas = respuestas;
             _EmpresaRepo = empresaRepo;
             _promo = promo;
+            _reservaRepo = reservaRepo;
         }
 
         public async Task<APIRespuestas> Create([FromBody] PromocionDTO NuevaPromo)
@@ -58,8 +58,6 @@ namespace Api_Agendate_App.Services
 
             return _respuestas;
         }
-
-
         public async Task<APIRespuestas> Eliminar(int PromoId)
         {
             try
@@ -84,7 +82,6 @@ namespace Api_Agendate_App.Services
 
             return _respuestas;
         }
-
         public async Task<APIRespuestas> Modificar([FromBody] PromocionDTO entidad)
         {
             try
@@ -152,6 +149,28 @@ namespace Api_Agendate_App.Services
 
         //    }
         //    return _respuestas;
+        //}
+
+        //private async string ObtenerContactosParaPromocion(int idServicio)
+        //{
+        //    string contactos = "";
+        //    try
+        //    {
+        //        var reservas = await _reservaRepo.ObtenerTodos(r => r.ServicioId == idServicio);
+        //        if (reservas.Count() != 0 || !reservas.Any() || reservas == null)
+        //            return string.Empty;
+
+        //        foreach (var r in  reservas)
+        //        {
+        //            contactos = string.Concat(contactos, ',', r.Cliente.Correo);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return string.Empty;
+        //    }
+        //    return contactos;
         //}
         private void ActualizarAtributos(ref Promociones PromoContext, PromocionDTO entidad)
         {

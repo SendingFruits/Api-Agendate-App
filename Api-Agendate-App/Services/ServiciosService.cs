@@ -67,7 +67,8 @@ namespace Api_Agendate_App.Services
                     return _respuestas;
 
                 }
-                await _ServRepo.Remover(id);
+                existe.Activo = false;
+                await _ServRepo.Actualizar(existe);
 
             }
             catch (Exception ex)
@@ -153,6 +154,30 @@ namespace Api_Agendate_App.Services
 
                 ServicioDTO EServ = _Mapper.Map<ServicioDTO>(encontreServicio);
                 _respuestas.Resultado = EServ;
+                return _respuestas;
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.Message;
+                return null;
+            }
+
+        }
+
+        public async Task<APIRespuestas> ObtenerServiciosDeLaEmpresa(int id)
+        {
+            try
+            {
+                var encontreServicio = await _ServRepo.ObtenerTodos(i => i.Empresa.Id == id);
+                if (encontreServicio == null)
+                {
+                    _respuestas.Resultado = null;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorServicioNoEncontrado;
+                    return _respuestas;
+                }
+
+                IEnumerable<ServicioDTO> Lista = _Mapper.Map<IEnumerable<ServicioDTO>>(encontreServicio);
+                _respuestas.Resultado = Lista;
                 return _respuestas;
             }
             catch (Exception ex)

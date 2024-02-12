@@ -46,7 +46,32 @@ namespace Api_Agendate_App.Controllers
             }
         }
 
-        
+        [HttpGet("ObtenerServiciosDeLaEmpresa")]
+        public async Task<ActionResult<APIRespuestas>> ObtenerServiciosDeLaEmpresa(int id)
+        {
+            try
+            {
+                var respuesta = await _serviciosService.ObtenerServiciosDeLaEmpresa(id);
+                if (respuesta == null)
+                {
+                    _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
+                    _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
+                }
+                _respuestas.Resultado = respuesta.Resultado;
+                _respuestas.codigo = 0;
+
+                return Ok(_respuestas.Resultado);
+
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);
+                return BadRequest(_respuestas);
+            }
+        }
+
+
         [HttpGet("BuscarServicioPorNombreEmpresa")]
         public async Task<ActionResult<APIRespuestas>> BuscarServicioPorNombreEmpresa(string nombreEmpresa)
         {

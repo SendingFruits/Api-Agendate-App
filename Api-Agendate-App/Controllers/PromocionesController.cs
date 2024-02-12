@@ -42,7 +42,7 @@ namespace Api_Agendate_App.Controllers
             return Ok(_respuestas.Resultado);
         }
 
-        [HttpGet("ObtenrPromocionPorEmpresa")]
+        [HttpGet("ObtenerPromocionPorEmpresa")]
         public async Task<ActionResult> GetPromociones(int empresaId)
         {
             try

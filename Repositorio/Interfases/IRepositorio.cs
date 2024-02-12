@@ -12,6 +12,8 @@ namespace Repositorio.IRepositorio
 
         Task Remover(int id);
 
+        Task RemoverSegunEntidad(T entidad);
+
         Task Grabar();
 
     }

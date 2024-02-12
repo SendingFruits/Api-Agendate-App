@@ -65,5 +65,11 @@ namespace Repositorio
             dbSet.Remove(entity);
             await Grabar();
         }
+
+        public async Task RemoverSegunEntidad(T entidad)
+        {
+            dbSet.Remove(entidad);
+            await Grabar();
+        }
     }
 }

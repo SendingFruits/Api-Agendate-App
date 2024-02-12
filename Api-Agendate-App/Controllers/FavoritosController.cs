@@ -40,6 +40,21 @@ namespace Api_Agendate_App.Controllers
 
         }
 
+        [HttpGet("ObtenerIdFavorito")]
+        public async Task<ActionResult<APIRespuestas>> ObtenerIdFavorito(int idCliente,int idServicio)
+        {
+            var respuesta = await _favoritosService.GetFavoritosClienteServicio(idCliente, idServicio);
+            if (respuesta.Resultado == null)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorEntidadesInexistentes);
+            }
+            _respuestas.Resultado = respuesta.Resultado;
+            _respuestas.codigo = 0;
+
+            return Ok(_respuestas.Resultado);
+        }
+
         [HttpPost("AgregarFavorito")]
         public async Task<ActionResult<APIRespuestas>> AgregarFavorito(FavoritoCrearDTO nuevoFavorito)
         {

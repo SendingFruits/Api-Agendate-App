@@ -103,6 +103,43 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
+        public async Task<APIRespuestas> GetFavoritosClienteServicio(int idCliente, int idServicio)
+        {
+            try
+            {
+                #region Corroboracion de existencia de las relaciones ->
+                var cliente = await _CliRepo.Obtener(cli => cli.Id == idCliente);
+                if (cliente == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
+                    return _respuestas;
+                }
+
+                var serv = await _ServRepo.Obtener(ser => ser.Id == idServicio);
+                if (cliente == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorServicioConIdNoEncontrado;
+                    return _respuestas;
+                }
+                #endregion
+
+                var favoritoCliente = await _FavoRepo.Obtener(f => f.ClienteId == idCliente && f.ServicioId == idServicio);
+                if (favoritoCliente == null)
+                {
+                    _respuestas.Resultado = null;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                }
+                
+                _respuestas.Resultado = favoritoCliente.Id;
+                return _respuestas;
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.Message;
+            }
+            return _respuestas;
+        }
+
         public async Task<APIRespuestas> AddFavoritos(FavoritoCrearDTO favoritodto)
         {
             try

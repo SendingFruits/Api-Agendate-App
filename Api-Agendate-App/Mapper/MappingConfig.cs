@@ -23,7 +23,7 @@ namespace Api_Agendate_App.Mapper
             CreateMap<Reservas, ReservaDTO>().
                 ForMember(dest => dest.IdCliente, opt => opt.MapFrom(src => src.ClienteId)).
                 ForMember(dest => dest.IdServicio, opt => opt.MapFrom(src => src.ServicioId)).ReverseMap();
-            CreateMap<Favoritos, FavoritosDTO>().
+            CreateMap<Favoritos, FavoritoCrearDTO>().
                 ForMember(dest => dest.IdCliente, opt => opt.MapFrom(src => src.ClienteId)).
                 ForMember(dest => dest.IdServicio, opt => opt.MapFrom(src => src.ServicioId)).ReverseMap();
             CreateMap<Promociones, PromocionDTO>().

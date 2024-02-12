@@ -3,6 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api_Agendate_App.DTOs.Favoritos
 {
+    public class FavoritoCrearDTO
+    {
+        public int Id { get; set; }
+        public int IdCliente { get; set; }
+        public int IdServicio { get; set; }
+    }
     public class FavoritosDTO
     {
         public int Id { get; set; }

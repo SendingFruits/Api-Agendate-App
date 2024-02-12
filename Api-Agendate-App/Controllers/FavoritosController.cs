@@ -41,7 +41,7 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpPost("AgregarFavorito")]
-        public async Task<ActionResult<APIRespuestas>> AgregarFavorito(FavoritosDTO nuevoFavorito)
+        public async Task<ActionResult<APIRespuestas>> AgregarFavorito(FavoritoCrearDTO nuevoFavorito)
         {
             var respuesta = await _favoritosService.AddFavoritos(nuevoFavorito);
             if (respuesta.codigo != 0)
@@ -53,7 +53,23 @@ namespace Api_Agendate_App.Controllers
             _respuestas.Resultado = respuesta.Resultado;
             _respuestas.codigo = 0;
 
-            return Ok(_respuestas.Resultado);
+            return Ok(_respuestas.mensaje);
+        }
+
+        [HttpDelete("EliminarFavorito")]
+        public async Task<ActionResult<APIRespuestas>> EliminarFavorito(int id)
+        {
+            var respuesta = await _favoritosService.EliminarFavorito(id);
+            if (respuesta.codigo != 0)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidades;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidades);
+                return BadRequest(_respuestas.mensaje);
+            }
+            _respuestas.Resultado = respuesta.Resultado;
+            _respuestas.codigo = 0;
+
+            return Ok();
         }
 
         [HttpPut("ModificarNotificaciones")]

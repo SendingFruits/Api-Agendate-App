@@ -103,7 +103,7 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> AddFavoritos(FavoritosDTO favoritodto)
+        public async Task<APIRespuestas> AddFavoritos(FavoritoCrearDTO favoritodto)
         {
             try
             {
@@ -139,6 +139,27 @@ namespace Api_Agendate_App.Services
             {
                 _respuestas.mensaje = ex.Message;
 
+            }
+            return _respuestas;
+        }
+
+        public async Task<APIRespuestas> EliminarFavorito(int idFavorito)
+        {
+            try
+            {
+                var favorito = await _FavoRepo.Obtener(f => f.Id == idFavorito);
+                if (favorito == null)
+                {
+                    _respuestas.Resultado = null;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorServicioNoEncontrado;
+                    return _respuestas;
+                }
+
+                await _FavoRepo.RemoverSegunEntidad(favorito);
+            }
+            catch (Exception ex)
+            {
+                _respuestas.mensaje = ex.Message;
             }
             return _respuestas;
         }

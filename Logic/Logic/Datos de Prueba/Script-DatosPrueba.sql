@@ -196,4 +196,31 @@ Values
 	(2,4,0),
 	(2,5,0)
 Go
+
+INSERT INTO Promociones (UltimoEnvio, CuerpoMensaje, AsuntoMensaje, Destinatarios, EmpresaId) 
+VALUES ('2024-02-11', 'Cuerpo del mensaje para promoción 1', 'Asunto de la promoción 1', 'kevinmiranda621@gmail.com', 39);
+
+INSERT INTO Promociones (UltimoEnvio, CuerpoMensaje, AsuntoMensaje, Destinatarios, EmpresaId) 
+VALUES ('2024-02-11', 'Cuerpo del mensaje para promoción 2', 'Asunto de la promoción 2', 'estebanpiccardo1989@gmail.com', 40);
+
+INSERT INTO Promociones (UltimoEnvio, CuerpoMensaje, AsuntoMensaje, Destinatarios, EmpresaId) 
+VALUES ('2024-02-11', 'Cuerpo del mensaje para promoción 3', 'Asunto de la promoción 3', 'germantexeira@gmail.com', 41);
+
+INSERT INTO Promociones (UltimoEnvio, CuerpoMensaje, AsuntoMensaje, Destinatarios, EmpresaId) 
+VALUES ('2024-02-11', 'Cuerpo del mensaje para promoción 4', 'Asunto de la promoción 4', 'kevinmiranda621@gmail.com', 42);
+
+INSERT INTO Promociones (UltimoEnvio, CuerpoMensaje, AsuntoMensaje, Destinatarios, EmpresaId) 
+VALUES ('2024-02-11', 'Cuerpo del mensaje para promoción 5', 'Asunto de la promoción 5', 'estebanpiccardo1989@gmail.com', 43);
+
+INSERT INTO Promociones (UltimoEnvio, CuerpoMensaje, AsuntoMensaje, Destinatarios, EmpresaId) 
+VALUES ('2024-02-11', 'Cuerpo del mensaje para promoción 6', 'Asunto de la promoción 6', 'germantexeira@gmail.com', 44);
+
+INSERT INTO Promociones (UltimoEnvio, CuerpoMensaje, AsuntoMensaje, Destinatarios, EmpresaId) 
+VALUES ('2024-02-11', 'Cuerpo del mensaje para promoción 7', 'Asunto de la promoción 7', 'kevinmiranda621@gmail.com', 45);
+
+INSERT INTO Promociones (UltimoEnvio, CuerpoMensaje, AsuntoMensaje, Destinatarios, EmpresaId) 
+VALUES ('2024-02-11', 'Cuerpo del mensaje para promoción 8', 'Asunto de la promoción 8', 'estebanpiccardo1989@gmail.com', 46);
+
+
+GO
    

@@ -37,7 +37,7 @@ namespace Logic.Data
                 .ToTable("Servicios");
 
             modelBuilder.Entity<Promociones>()
-                .ToTable("promociones");
+                .ToTable("Promociones");
 
             modelBuilder.Entity<Servicios>()
             .HasOne(s => s.Empresa)

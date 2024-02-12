@@ -80,6 +80,7 @@ builder.Services.AddScoped<INotificaciones, NotificacionRepositortio>();
 builder.Services.AddScoped<IServicios, ServicioRepositorios>();
 builder.Services.AddScoped<IReserva, ReservaRepositorio>();
 builder.Services.AddScoped<IFavoritos, FavoritosRepositorio>();
+builder.Services.AddScoped<IPromocion, PromocionRepositorio>();
 var app = builder.Build();
 
 

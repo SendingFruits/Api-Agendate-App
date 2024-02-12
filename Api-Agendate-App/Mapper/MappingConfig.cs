@@ -5,6 +5,7 @@ using Api_Agendate_App.DTOs.Empresas;
 using Api_Agendate_App.DTOs.Servicio;
 using Api_Agendate_App.DTOs.Reservas;
 using Api_Agendate_App.DTOs.Favoritos;
+using Api_Agendate_App.DTOs.Promociones;
 
 namespace Api_Agendate_App.Mapper
 {
@@ -25,6 +26,8 @@ namespace Api_Agendate_App.Mapper
             CreateMap<Favoritos, FavoritosDTO>().
                 ForMember(dest => dest.IdCliente, opt => opt.MapFrom(src => src.ClienteId)).
                 ForMember(dest => dest.IdServicio, opt => opt.MapFrom(src => src.ServicioId)).ReverseMap();
+            CreateMap<Promociones, PromocionDTO>().
+               ForMember(dest => dest.EmpresaId, opt => opt.MapFrom(src => src.EmpresaId)).ReverseMap();
         }
     }
 }

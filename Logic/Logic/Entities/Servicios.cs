@@ -16,11 +16,7 @@ namespace Logic.Entities
 
         public string Nombre { get; set; }
 
-        public decimal HoraInicio { get; set; }
-
-        public decimal HoraFin { get; set; }
-
-        public string DiasDefinidosSemana { get; set; }
+        public string JSONDiasHorariosDisponibilidadServicio { get; set; }
 
         public int DuracionTurno { get; set; }
 
@@ -31,11 +27,11 @@ namespace Logic.Entities
         public string Descripcion { get; set; }
 
         public int EmpresaId { get; set; }
+
         public virtual Empresas Empresa { get; set; }
 
         public virtual ICollection<Reservas> Reservas { get; set; }
 
-        [Required(ErrorMessage = "El campo No puede ser nulo")]
         public bool Activo { get; set; } = true;
 
     }

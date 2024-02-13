@@ -35,7 +35,6 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
-
             var existeEmpresa = await _EmpresaRepo.Obtener(emp => emp.Id == NuevoServicio.IdEmpresa);
 
             if (existeEmpresa == null)
@@ -194,12 +193,8 @@ namespace Api_Agendate_App.Services
             {
                 if (servicioContext.Nombre != servicioMapeado.Nombre)
                     servicioContext.Nombre = servicioMapeado.Nombre;
-                if (servicioContext.HoraInicio != servicioMapeado.HoraInicio)
-                    servicioContext.HoraInicio = servicioMapeado.HoraInicio;
-                if (servicioContext.HoraFin != servicioMapeado.HoraFin)
-                    servicioContext.HoraFin = servicioMapeado.HoraFin;
-                if (servicioContext.DiasDefinidosSemana != servicioMapeado.DiasDefinidosSemana)
-                    servicioContext.DiasDefinidosSemana = servicioMapeado.DiasDefinidosSemana;
+                if (servicioContext.JSONDiasHorariosDisponibilidadServicio != servicioMapeado.JSONDiasHorariosDisponibilidadServicio)
+                    servicioContext.JSONDiasHorariosDisponibilidadServicio = servicioMapeado.JSONDiasHorariosDisponibilidadServicio;
                 if (servicioContext.DuracionTurno != servicioMapeado.DuracionTurno)
                     servicioContext.DuracionTurno = servicioMapeado.DuracionTurno;
                 if (servicioContext.TipoServicio != servicioMapeado.TipoServicio)

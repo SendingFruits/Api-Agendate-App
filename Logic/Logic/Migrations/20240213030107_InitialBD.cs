@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Logic.Migrations
 {
     /// <inheritdoc />
-    public partial class initialBD : Migration
+    public partial class InitialBD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,15 +94,36 @@ namespace Logic.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Promociones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UltimoEnvio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CuerpoMensaje = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AsuntoMensaje = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Destinatarios = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmpresaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Promociones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Promociones_Empresas_EmpresaId",
+                        column: x => x.EmpresaId,
+                        principalTable: "Empresas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Servicios",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HoraInicio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    HoraFin = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DiasDefinidosSemana = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JSONDiasHorariosDisponibilidadServicio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DuracionTurno = table.Column<int>(type: "int", nullable: false),
                     TipoServicio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Costo = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -125,15 +146,15 @@ namespace Logic.Migrations
                 name: "Favoritos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     ClienteId = table.Column<int>(type: "int", nullable: false),
                     ServicioId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     recibirNotificaciones = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Favoritos", x => new { x.Id, x.ClienteId, x.ServicioId });
+                    table.PrimaryKey("PK_Favoritos", x => new { x.ClienteId, x.ServicioId });
                     table.ForeignKey(
                         name: "FK_Favoritos_Clientes_ClienteId",
                         column: x => x.ClienteId,
@@ -192,14 +213,14 @@ namespace Logic.Migrations
                 filter: "[RutDocumento] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Favoritos_ClienteId",
-                table: "Favoritos",
-                column: "ClienteId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Favoritos_ServicioId",
                 table: "Favoritos",
                 column: "ServicioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Promociones_EmpresaId",
+                table: "Promociones",
+                column: "EmpresaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservas_ClienteId",
@@ -221,6 +242,10 @@ namespace Logic.Migrations
                 table: "Usuarios",
                 column: "NombreUsuario",
                 unique: true);
+
+            string ruta = AppDomain.CurrentDomain.BaseDirectory;
+            string script = File.ReadAllText(Path.Combine(ruta, "Datos de Prueba", "Script-DatosPrueba.sql"));
+            migrationBuilder.Sql(script);
         }
 
         /// <inheritdoc />
@@ -231,6 +256,9 @@ namespace Logic.Migrations
 
             migrationBuilder.DropTable(
                 name: "Notificaciones");
+
+            migrationBuilder.DropTable(
+                name: "Promociones");
 
             migrationBuilder.DropTable(
                 name: "Reservas");

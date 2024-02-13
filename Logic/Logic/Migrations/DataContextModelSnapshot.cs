@@ -161,21 +161,15 @@ namespace Logic.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DiasDefinidosSemana")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("DuracionTurno")
                         .HasColumnType("int");
 
                     b.Property<int>("EmpresaId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("HoraFin")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("HoraInicio")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("JSONDiasHorariosDisponibilidadServicio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()

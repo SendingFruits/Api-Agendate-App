@@ -162,17 +162,89 @@ insert into Empresas (
 go
 
 insert into Servicios (
-    Nombre, HoraInicio, HoraFin, DiasDefinidosSemana, DuracionTurno, TipoServicio , Costo, Descripcion, empresaId, Activo
+    Nombre, JSONDiasHorariosDisponibilidadServicio, DuracionTurno, TipoServicio , Costo, Descripcion, empresaId, Activo
 ) values
-    ('Entregas a Domicilio', 9.0, 18.0, 'Lunes;Miercoles;Viernes', 30, 'Gastronomia', 300.00,'Realizamos pedidos', 39,1),
-    ('Corte de Pelo', 9.0, 18.0, 'Lunes;Miercoles;Viernes', 1, 'Peluquería', 300.00,'Degradado y barba', 42,1),
-    ('Masaje Relajante', 10.0, 20.0, 'Martes:Jueves;Sabado', 1, 'Centro de Masajes', 800.00,'Masajes ', 46,1),
-    ('Café Gourmet', 8.0, 17.0, 'Lunes;Martes;Miercoles;Jueves;Viernes;Sabado;Domingo', 24, 'Cafetería', 500.00,'Date un gusto', 52,1),
-    ('Clases de Yoga', 17.0, 18.0, 'Lunes;Miercoles', 1, 'Centro de Yoga', 250.00,'Yoga para el alma', 54,1),
-    ('Sesion de Quiropráctica', 7.0, 15.0, 'Lunes;Martes;Miercoles;Jueves;Viernes;Sabado;Domingo', 1, 'Quiropráctica', 150.00,'Aliviamos tu cuerpo',56,1),
-    ('Tatuaje Personalizado', 13.0, 19.0, 'Viernes', 30, 'Estetica', 1500.00,'El tatuaje ideal ', 61,1),
-    ('Consultas Dentales', 9.0, 19.0, 'Lunes;Jueves', 30, 'Clinica dental', 500.00,'Tú sonrrisa Lista', 62,1),
-    ('Tatuajes', 9.0, 19.0, 'Martes:Jueves;Sabado', 1, 'Estetica', 2000.00,'Estamos con promociones del 50% hasta el mes de Junio', 41, 0)
+    ('Entregas a Domicilio', 
+    '{"Lunes": {"horaInicio": 9,"horaFin": 18},
+    "Martes": {"horaInicio": null,"horaFin": null},
+    "Miercoles": {"horaInicio": 9,"horaFin": 18},
+    "Jueves": {"horaInicio": null,"horaFin": null},
+    "Viernes": {"horaInicio": 9,"horaFin": 18},
+    "Sabado": {"horaInicio": null,"horaFin": null},
+    "Domingo": {"horaInicio": null,"horaFin": null}}', 30, 'Gastronomia', 300.00,'Realizamos pedidos', 39,1),
+
+    ('Corte de Pelo',
+    '{"Lunes": {"horaInicio": 9,"horaFin": 18},
+    "Martes": {"horaInicio": null,"horaFin": null},
+    "Miercoles": {"horaInicio": 9,"horaFin": 18},
+    "Jueves": {"horaInicio": null,"horaFin": null},
+    "Viernes": {"horaInicio": 9,"horaFin": 18},
+    "Sabado": {"horaInicio": null,"horaFin": null},
+    "Domingo": {"horaInicio": null,"horaFin": null}}', 1, 'Peluquería', 300.00,'Degradado y barba', 42,1),
+    
+    ('Masaje Relajante',
+    '{"Lunes": {"horaInicio": null,"horaFin": null},
+    "Martes": {"horaInicio": 8,"horaFin": 17},
+    "Miercoles": {"horaInicio": null,"horaFin": null},
+    "Jueves": {"horaInicio": 8,"horaFin": 17},
+    "Viernes": {"horaInicio": null,"horaFin": null},
+    "Sabado": {"horaInicio": 8,"horaFin": 12},
+    "Domingo": {"horaInicio": null,"horaFin": null}}', 1, 'Centro de Masajes', 800.00,'Masajes ', 46,1),
+
+    ('Café Gourmet',
+    '{"Lunes": {"horaInicio": 8,"horaFin": 17},
+    "Martes": {"horaInicio": 8,"horaFin": 17},
+    "Miercoles": {"horaInicio": 8,"horaFin": 17},
+    "Jueves": {"horaInicio": 8,"horaFin": 17},
+    "Viernes": {"horaInicio": 8,"horaFin": 17},
+    "Sabado": {"horaInicio": 8,"horaFin": 12},
+    "Domingo": {"horaInicio": 8,"horaFin": 17}}', 24, 'Cafetería', 500.00,'Date un gusto', 52,1),
+
+    ('Clases de Yoga',
+    '{"Lunes": {"horaInicio": 17,"horaFin": 18},
+    "Martes": {"horaInicio": null,"horaFin": null},
+    "Miercoles": {"horaInicio": 17,"horaFin": 18},
+    "Jueves": {"horaInicio": null,"horaFin": null},
+    "Viernes": {"horaInicio": null,"horaFin": null},
+    "Sabado": {"horaInicio": null,"horaFin": null},
+    "Domingo": {"horaInicio": null,"horaFin": null}}', 1, 'Centro de Yoga', 250.00,'Yoga para el alma', 54,1),
+
+    ('Sesion de Quiropráctica',
+    '{"Lunes": {"horaInicio": 7,"horaFin": 1},
+    "Martes": {"horaInicio": 7,"horaFin": 15},
+    "Miercoles": {"horaInicio": 7,"horaFin": 15},
+    "Jueves": {"horaInicio": 7,"horaFin": 15},
+    "Viernes": {"horaInicio": 7,"horaFin": 15},
+    "Sabado": {"horaInicio": 7,"horaFin": 15},
+    "Domingo": {"horaInicio": 7,"horaFin": 15}}', 1, 'Quiropráctica', 150.00,'Aliviamos tu cuerpo',56,1),
+
+    ('Tatuaje Personalizado', 
+    '{"Lunes": {"horaInicio": null,"horaFin": null},
+    "Martes": {"horaInicio": null,"horaFin": null},
+    "Miercoles": {"horaInicio": null,"horaFin": null},
+    "Jueves": {"horaInicio": null,"horaFin": null},
+    "Viernes": {"horaInicio": 13,"horaFin": 19},
+    "Sabado": {"horaInicio": null,"horaFin": null},
+    "Domingo": {"horaInicio": null,"horaFin": null}}', 30, 'Estetica', 1500.00,'El tatuaje ideal ', 61,1),
+
+
+    ('Consultas Dentales',
+    '{"Lunes": {"horaInicio": 9,"horaFin": 19},
+    "Martes": {"horaInicio": null,"horaFin": null},
+    "Miercoles": {"horaInicio": null,"horaFin": null},
+    "Jueves": {"horaInicio": 9,"horaFin": 19},
+    "Viernes": {"horaInicio": null,"horaFin": null},
+    "Sabado": {"horaInicio": null,"horaFin": null},
+    "Domingo": {"horaInicio": null,"horaFin": null}}', 30, 'Clinica dental', 500.00,'Tú sonrrisa Lista', 62,1),
+
+    ('Tatuajes',
+    '{"Lunes": {"horaInicio": null,"horaFin": null},
+    "Martes": {"horaInicio": 9,"horaFin": 19},
+    "Miercoles": {"horaInicio": null,"horaFin": null},
+    "Jueves": {"horaInicio": 9,"horaFin": 19},
+    "Viernes": {"horaInicio": null,"horaFin": null},
+    "Sabado": {"horaInicio": 9,"horaFin": 19},
+    "Domingo": {"horaInicio": null,"horaFin": null}}', 1, 'Estetica', 2000.00,'Estamos con promociones del 50% hasta el mes de Junio', 41, 0)
 ;
 
 go

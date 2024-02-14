@@ -38,11 +38,7 @@ namespace Api_Agendate_App.DTOs.Reservas
         public string Estado { get; set; }
         public string NombreServicio { get; set; }
 
-        public decimal HoraInicioServicio { get; set; }
-
-        public decimal HoraFinServicio { get; set; }
-
-        public string DiasDefinidosSemana { get; set; }
+        public string JSONDiasHorariosDisponibilidadServicio { get; set; }
 
         public int DuracionTurno { get; set; }
 

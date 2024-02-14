@@ -6,9 +6,12 @@ using Api_Agendate_App.Utilidades;
 using AutoMapper;
 using Logic.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Repositorio.Interfases;
 using Repositorio.IRepositorio;
+using System;
 using System.Globalization;
+using System.Reflection;
 using System.Text;
 
 namespace Api_Agendate_App.Services
@@ -68,19 +71,19 @@ namespace Api_Agendate_App.Services
             }
 
             #endregion
-
-            //Si el dia del turno el servicio esta disponible
-            string diaDeLaFechaSinTilde = UtilidadesParaFechas.DevolverDiaDeSemanaEspanol(nuevaReserva.FechaHoraTurno);
-            if (!servicio.DiasDefinidosSemana.Contains(diaDeLaFechaSinTilde))
+            string diaDeLaReserva = UtilidadesParaFechas.DevolverDiaDeSemanaEspanol(nuevaReserva.FechaHoraTurno);
+            HorarioSemana horarioServicio = JsonConvert.DeserializeObject<HorarioSemana>(servicio.JSONDiasHorariosDisponibilidadServicio);
+            PropertyInfo propiedadDia = horarioServicio.GetType().GetProperty(diaDeLaReserva);
+            var dia = (HorarioDia)propiedadDia.GetValue(horarioServicio);
+            if (dia.HoraInicio == null || dia.HoraFin == null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorDiasDefinidosServicioNoMatcheaFechaReserva;
                 _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                 return _respuestas;
-
             }
 
             //Fecha del turno esta dentro del rango del horario del servicio
-            if (!FechaTurnoCorrectaParaRangoHorarioServicio(servicio.HoraInicio,servicio.HoraFin,nuevaReserva.FechaHoraTurno))
+            if (!FechaTurnoCorrectaParaRangoHorarioServicio((decimal)dia.HoraInicio, (decimal)dia.HoraFin,nuevaReserva.FechaHoraTurno))
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorHorarioTurnoNoEstaDentroDelRangoHorarioServicio;
                 _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
@@ -91,6 +94,7 @@ namespace Api_Agendate_App.Services
             if (existeReserva != null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteTurnoReservado;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                 return _respuestas;
             }
 
@@ -250,14 +254,17 @@ namespace Api_Agendate_App.Services
             }
 
             string diaDeLaFechaSinTilde = UtilidadesParaFechas.DevolverDiaDeSemanaEspanol(fecha);
+            HorarioSemana horario = JsonConvert.DeserializeObject<HorarioSemana>(servicio.JSONDiasHorariosDisponibilidadServicio);
+            PropertyInfo propiedadDia = horario.GetType().GetProperty(diaDeLaFechaSinTilde);
 
-            if (!servicio.DiasDefinidosSemana.Contains(diaDeLaFechaSinTilde))
+            var dia = (HorarioDia)propiedadDia.GetValue(horario);
+            if (dia.HoraInicio == null || dia.HoraFin == null)
             {
                 _respuestas.codigo = ConstantesDeErrores.ErrorDiasDefinidosServicioNoMatcheaFechaReserva;
                 _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                 return _respuestas;
-                
             }
+
             var listaHorarios = await ObtenerHorariosServicioSegunFecha(servicio, fecha);
 
             if (listaHorarios == null)
@@ -288,8 +295,20 @@ namespace Api_Agendate_App.Services
                 return _respuestas;
             }
 
-            DateTime fechaDesde = CrearFechaSegunHoraDecimales(servicio.HoraInicio, fecha);
-            DateTime fechaHasta = CrearFechaSegunHoraDecimales(servicio.HoraFin, fecha);
+            string diaDeLaFechaSinTilde = UtilidadesParaFechas.DevolverDiaDeSemanaEspanol(fecha);
+            HorarioSemana horario = JsonConvert.DeserializeObject<HorarioSemana>(servicio.JSONDiasHorariosDisponibilidadServicio);
+            PropertyInfo propiedadDia = horario.GetType().GetProperty(diaDeLaFechaSinTilde);
+
+            var dia = (HorarioDia)propiedadDia.GetValue(horario);
+            if (dia.HoraInicio == null || dia.HoraFin == null)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorDiasDefinidosServicioNoMatcheaFechaReserva;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return _respuestas;
+            }
+
+            DateTime fechaDesde = CrearFechaSegunHoraDecimales((decimal)dia.HoraInicio, fecha);
+            DateTime fechaHasta = CrearFechaSegunHoraDecimales((decimal)dia.HoraFin, fecha);
             var reservasServicio = await _ReservaRepo.ObtenerTodos(r => r.ServicioId == idServicio && r.FechaHoraTurno >= fechaDesde && r.FechaHoraTurno <= fechaHasta);
             if (reservasServicio == null && reservasServicio.Count() == 0)
             {
@@ -366,9 +385,7 @@ namespace Api_Agendate_App.Services
                     FechaHoraTurno = reserva.FechaHoraTurno,
                     Estado = reserva.Estado,
                     NombreServicio = servicio.Nombre,
-                    HoraInicioServicio = servicio.HoraInicio,
-                    HoraFinServicio = servicio.HoraFin,
-                    DiasDefinidosSemana = servicio.DiasDefinidosSemana,
+                    JSONDiasHorariosDisponibilidadServicio = servicio.JSONDiasHorariosDisponibilidadServicio,
                     DuracionTurno = servicio.DuracionTurno,
                     Costo = servicio.Costo,
                     Descripcion = servicio.Descripcion,
@@ -400,10 +417,20 @@ namespace Api_Agendate_App.Services
         /// <returns>Una lista de HorariosDTO. Excluyendo los horarios menores a la fecha y la hora actual</returns>
         private async Task<List<HorariosDTO>> ObtenerHorariosServicioSegunFecha(Servicios servicioAsociado, DateTime diaDeConsulta)
         {
-
             List<HorariosDTO> listaHorarios = new List<HorariosDTO>();
-            DateTime fechaPosibleTurno = CrearFechaSegunHoraDecimales(servicioAsociado.HoraInicio, diaDeConsulta); //Parto del horario inicio del servicio
-            DateTime fechaHastaPosibleHorario = CrearFechaSegunHoraDecimales(servicioAsociado.HoraFin, diaDeConsulta);
+            string diaDeLaFechaSinTilde = UtilidadesParaFechas.DevolverDiaDeSemanaEspanol(diaDeConsulta);
+            HorarioSemana horario = JsonConvert.DeserializeObject<HorarioSemana>(servicioAsociado.JSONDiasHorariosDisponibilidadServicio);
+            PropertyInfo propiedadDia = horario.GetType().GetProperty(diaDeLaFechaSinTilde);
+
+            var dia = (HorarioDia)propiedadDia.GetValue(horario);
+            if (dia.HoraInicio == null || dia.HoraFin == null)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorDiasDefinidosServicioNoMatcheaFechaReserva;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                return null;
+            }
+            DateTime fechaPosibleTurno = CrearFechaSegunHoraDecimales((decimal)dia.HoraInicio, diaDeConsulta); //Parto del horario inicio del servicio
+            DateTime fechaHastaPosibleHorario = CrearFechaSegunHoraDecimales((decimal)dia.HoraFin, diaDeConsulta);
 
             var reservasParaLaFecha = await _ReservaRepo.ObtenerTodos(r => r.FechaHoraTurno >= fechaPosibleTurno && r.FechaHoraTurno <= fechaHastaPosibleHorario);
             double intervaloHorarioServicio = servicioAsociado.DuracionTurno == 30 ? 0.5 : 1;

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240127182934_initialBD")]
-    partial class initialBD
+    [Migration("20240213030107_InitialBD")]
+    partial class InitialBD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,24 +27,22 @@ namespace Logic.Migrations
 
             modelBuilder.Entity("Logic.Entities.Favoritos", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<int>("ServicioId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<bool>("recibirNotificaciones")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id", "ClienteId", "ServicioId");
-
-                    b.HasIndex("ClienteId");
+                    b.HasKey("ClienteId", "ServicioId");
 
                     b.HasIndex("ServicioId");
 
@@ -80,6 +78,39 @@ namespace Logic.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Notificaciones");
+                });
+
+            modelBuilder.Entity("Logic.Entities.Promociones", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AsuntoMensaje")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CuerpoMensaje")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Destinatarios")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UltimoEnvio")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
+
+                    b.ToTable("Promociones", (string)null);
                 });
 
             modelBuilder.Entity("Logic.Entities.Reservas", b =>
@@ -133,21 +164,15 @@ namespace Logic.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DiasDefinidosSemana")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("DuracionTurno")
                         .HasColumnType("int");
 
                     b.Property<int>("EmpresaId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("HoraFin")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("HoraInicio")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("JSONDiasHorariosDisponibilidadServicio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -300,6 +325,17 @@ namespace Logic.Migrations
                     b.Navigation("Cliente");
 
                     b.Navigation("Servicio");
+                });
+
+            modelBuilder.Entity("Logic.Entities.Promociones", b =>
+                {
+                    b.HasOne("Logic.Entities.Empresas", "Empresa")
+                        .WithMany()
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Empresa");
                 });
 
             modelBuilder.Entity("Logic.Entities.Reservas", b =>

@@ -25,7 +25,6 @@ namespace Api_Agendate_App.Controllers
             _SNoticar = sNoticar;
         }
 
-
         [HttpPut("CrearPromocion")]
         public async Task<ActionResult<APIRespuestas>> CrearPromocion(PromocionDTO PromoN)
         {
@@ -118,7 +117,7 @@ namespace Api_Agendate_App.Controllers
                 APIRespuestas respuesta = new APIRespuestas();
             try
             {
-                 //respuesta= await _promoService.EnviarPromocion(p);
+                respuesta= await _promoService.EnviarPromocion(p);
                 if (respuesta.codigo != 0)
                 {
                     return BadRequest(respuesta.mensaje);
@@ -132,7 +131,19 @@ namespace Api_Agendate_App.Controllers
             }
             return Ok(respuesta);
         }
+
+        [HttpPost("ObtenerContactosPromocion")]
+        public async Task<ActionResult<APIRespuestas>> ObtenerContactosParaPromocion(int idPromocion, int idServicio)
+        {
+            try
+            {
+                var respuesta = await _promoService.ObtenerContactosParaPromocion(idServicio, idPromocion);
+                return Ok(respuesta.mensaje);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
-
-
 }

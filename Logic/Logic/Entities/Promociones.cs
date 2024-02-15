@@ -20,8 +20,6 @@ namespace Logic.Entities
 
         public string AsuntoMensaje { get; set; }
 
-        public string Destinatarios { get; set; }
-
         public int EmpresaId { get; set; }
 
         public virtual Empresas Empresa { get; set; }

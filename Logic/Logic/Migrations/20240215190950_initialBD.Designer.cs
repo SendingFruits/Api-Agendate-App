@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240213030107_InitialBD")]
-    partial class InitialBD
+    [Migration("20240215190950_initialBD")]
+    partial class initialBD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,10 +93,6 @@ namespace Logic.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CuerpoMensaje")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Destinatarios")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

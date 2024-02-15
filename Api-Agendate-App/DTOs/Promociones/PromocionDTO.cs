@@ -12,8 +12,6 @@ namespace Api_Agendate_App.DTOs.Promociones
 
         public string AsuntoMensaje { get; set; }
 
-        public string Destinatarios { get; set; }
-
         public int EmpresaId { get; set; }
 
     }

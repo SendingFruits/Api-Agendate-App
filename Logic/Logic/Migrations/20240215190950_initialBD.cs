@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Logic.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialBD : Migration
+    public partial class initialBD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -102,7 +102,6 @@ namespace Logic.Migrations
                     UltimoEnvio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CuerpoMensaje = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AsuntoMensaje = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Destinatarios = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmpresaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

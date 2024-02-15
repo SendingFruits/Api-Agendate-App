@@ -2,9 +2,9 @@
 {
     public class ContactoPromocionDTO
     {
-        int id {  get; set; }
-        string Nombre { get; set; }
+        public int id {  get; set; }
+        public string Nombre { get; set; }
 
-        string Correo { get; set; }
+        public string Correo { get; set; }
     }
 }

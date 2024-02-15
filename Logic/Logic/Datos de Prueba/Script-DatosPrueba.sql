@@ -305,16 +305,16 @@ insert into Favoritos (ClienteId, ServicioId, recibirNotificaciones
 
 go
 
-insert into Promociones (UltimoEnvio, CuerpoMensaje, AsuntoMensaje, Destinatarios, EmpresaId
+insert into Promociones (UltimoEnvio, CuerpoMensaje, AsuntoMensaje, EmpresaId
 ) values 
-    ('2024-04-02', 'Cuerpo del mensaje para promoción 1', 'Asunto de la promoción 1', 'kevinmiranda621@gmail.com', 56),
-    ('2024-04-05', 'Cuerpo del mensaje para promoción 2', 'Asunto de la promoción 2', 'estebanpiccardo1989@gmail.com', 56),
-    ('2024-05-11', 'Cuerpo del mensaje para promoción 3', 'Asunto de la promoción 3', 'germantexeira@gmail.com', 56),
-    ('2024-05-12', 'Cuerpo del mensaje para promoción 4', 'Asunto de la promoción 4', 'kevinmiranda621@gmail.com', 41),
-    ('2024-06-08', 'Cuerpo del mensaje para promoción 5', 'Asunto de la promoción 5', 'estebanpiccardo1989@gmail.com', 41),
-    ('2024-06-10', 'Cuerpo del mensaje para promoción 6', 'Asunto de la promoción 6', 'germantexeira@gmail.com', 39),
-    ('2024-06-11', 'Cuerpo del mensaje para promoción 7', 'Asunto de la promoción 7', 'kevinmiranda621@gmail.com', 39),
-    ('2024-06-13', 'Cuerpo del mensaje para promoción 8', 'Asunto de la promoción 8', 'estebanpiccardo1989@gmail.com', 39)
+    ('2024-04-02', 'Cuerpo del mensaje para promoción 1', 'Asunto de la promoción 1', 56),
+    ('2024-04-05', 'Cuerpo del mensaje para promoción 2', 'Asunto de la promoción 2', 56),
+    ('2024-05-11', 'Cuerpo del mensaje para promoción 3', 'Asunto de la promoción 3', 56),
+    ('2024-05-12', 'Cuerpo del mensaje para promoción 4', 'Asunto de la promoción 4',  41),
+    ('2024-06-08', 'Cuerpo del mensaje para promoción 5', 'Asunto de la promoción 5',  41),
+    ('2024-06-10', 'Cuerpo del mensaje para promoción 6', 'Asunto de la promoción 6',  39),
+    ('2024-06-11', 'Cuerpo del mensaje para promoción 7', 'Asunto de la promoción 7',  39),
+    ('2024-06-13', 'Cuerpo del mensaje para promoción 8', 'Asunto de la promoción 8',  39)
 ;
 
 go

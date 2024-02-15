@@ -93,10 +93,6 @@ namespace Logic.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Destinatarios")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("EmpresaId")
                         .HasColumnType("int");
 

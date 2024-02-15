@@ -111,13 +111,13 @@ namespace Api_Agendate_App.Controllers
             return Ok(respuesta);
         }
 
-        [HttpPut("EnviarPromocion")]
-        public async Task<ActionResult<APIRespuestas>> EnviarPromocion(PromocionDTO p)
+        [HttpPost("EnviarPromocion")]
+        public async Task<ActionResult<APIRespuestas>> EnviarPromocion(int idPromocion)
         {
                 APIRespuestas respuesta = new APIRespuestas();
             try
             {
-                respuesta= await _promoService.EnviarPromocion(p);
+                respuesta= await _promoService.EnviarPromocion(idPromocion);
                 if (respuesta.codigo != 0)
                 {
                     return BadRequest(respuesta.mensaje);
@@ -130,20 +130,6 @@ namespace Api_Agendate_App.Controllers
                 return StatusCode(500, ConstantesDeErrores.DevolverMensaje(ConstantesDeErrores.ErrorInesperadoEliminarCliente));
             }
             return Ok(respuesta);
-        }
-
-        [HttpPost("ObtenerContactosPromocion")]
-        public async Task<ActionResult<APIRespuestas>> ObtenerContactosParaPromocion(int idPromocion, int idServicio)
-        {
-            try
-            {
-                var respuesta = await _promoService.ObtenerContactosParaPromocion(idServicio, idPromocion);
-                return Ok(respuesta.mensaje);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
     }
 }

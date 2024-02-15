@@ -19,11 +19,8 @@ namespace Repositorio.EntidadesDeRepositorio
 
         public async Task<Promociones> Actualizar(Promociones entidad)
         {
-            var Encontre = _db.Promociones.FirstOrDefault(Pro =>Pro.Id == entidad.Id);
-            if (Encontre != null)
-            {
-                await Modificar(Encontre);
-            }
+            await Modificar(entidad);
+
             return entidad;
         }
 

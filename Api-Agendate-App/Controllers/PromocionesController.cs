@@ -15,12 +15,12 @@ namespace Api_Agendate_App.Controllers
     public class PromocionesController : ControllerBase
     {
         private readonly APIRespuestas _respuestas;
-        private readonly PromocionesService _promoService;
+        private readonly PromocionesService _promoRepoService;
         private readonly MensajeriaService _SNoticar;
 
         public PromocionesController(PromocionesService promoService, APIRespuestas respuestas, MensajeriaService sNoticar)
         {
-            _promoService = promoService;
+            _promoRepoService = promoService;
             _respuestas = respuestas;
             _SNoticar = sNoticar;
         }
@@ -28,7 +28,7 @@ namespace Api_Agendate_App.Controllers
         [HttpPut("CrearPromocion")]
         public async Task<ActionResult<APIRespuestas>> CrearPromocion(PromocionDTO PromoN)
         {
-            var respuesta = await _promoService.Create(PromoN);
+            var respuesta = await _promoRepoService.Create(PromoN);
             if (respuesta.codigo != 0)
             {
                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidades;
@@ -46,7 +46,7 @@ namespace Api_Agendate_App.Controllers
         {
             try
             {
-                var respuesta = await _promoService.GetPromocionesporEmpresa(empresaId);
+                var respuesta = await _promoRepoService.GetPromocionesporEmpresa(empresaId);
                 if (respuesta == null)
                 {
                   
@@ -70,12 +70,12 @@ namespace Api_Agendate_App.Controllers
         }
 
         [HttpPut("ActualizarPromocion")]
-        public async Task<ActionResult<PromocionDTO>> Actualizar(PromocionDTO dTO)
+        public async Task<ActionResult<PromocionDTO>> Actualizar(PromocionDTOActualizar dTO)
         {
             APIRespuestas respuesta = new APIRespuestas();
             try
             {
-                respuesta = await _promoService.Modificar(dTO);
+                respuesta = await _promoRepoService.Modificar(dTO);
                 if (respuesta.codigo != 0)
                 {
                     respuesta.ObtenerMensaje(respuesta.codigo);
@@ -96,7 +96,7 @@ namespace Api_Agendate_App.Controllers
             APIRespuestas respuesta = new APIRespuestas();
             try
             {
-                respuesta = await _promoService.Eliminar(id);
+                respuesta = await _promoRepoService.Eliminar(id);
 
                 if (respuesta.codigo != 0)
                 {
@@ -117,7 +117,7 @@ namespace Api_Agendate_App.Controllers
                 APIRespuestas respuesta = new APIRespuestas();
             try
             {
-                respuesta= await _promoService.EnviarPromocion(idPromocion);
+                respuesta= await _promoRepoService.EnviarPromocion(idPromocion);
                 if (respuesta.codigo != 0)
                 {
                     return BadRequest(respuesta.mensaje);

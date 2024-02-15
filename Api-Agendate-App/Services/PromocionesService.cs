@@ -18,7 +18,7 @@ namespace Api_Agendate_App.Services
     {
         private readonly IReserva _reservaRepo;
         private readonly ICliente _clienteRepo;
-        private readonly IPromocion _promo;
+        private readonly IPromocion _promoRepo;
         private readonly IEmpresa _EmpresaRepo;
         private readonly IServicios _serviciosRepo;
         private readonly IMapper _Mapper;
@@ -31,7 +31,7 @@ namespace Api_Agendate_App.Services
             _Mapper = mapper;
             _respuestas = respuestas;
             _EmpresaRepo = empresaRepo;
-            _promo = promo;
+            _promoRepo = promo;
             _reservaRepo = reservaRepo;
             _clienteRepo = cliente;
             _serviciosRepo = servicios;
@@ -41,7 +41,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var Existe = await _promo.Obtener(pro => pro.Empresa.Id == NuevaPromo.EmpresaId);
+                var Existe = await _promoRepo.Obtener(pro => pro.Empresa.Id == NuevaPromo.EmpresaId);
                 if (Existe != null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteElNombreDelaPromocion;
@@ -64,7 +64,7 @@ namespace Api_Agendate_App.Services
                 if (empresa != null)
                     P.Empresa = empresa;
 
-                await _promo.Crear(P);
+                await _promoRepo.Crear(P);
             }
             catch (Exception ex)
             {
@@ -76,17 +76,13 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var Existe = _promo.Obtener(pro => pro.Id == PromoId);
+                var Existe = await _promoRepo.Obtener(pro => pro.Id == PromoId);
                 if (Existe == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
                     return _respuestas;
-
-
                 }
-                await _promo.Remover(PromoId);
-
-
+                await _promoRepo.RemoverSegunEntidad(Existe);
             }
             catch (Exception ex)
             {
@@ -96,11 +92,11 @@ namespace Api_Agendate_App.Services
 
             return _respuestas;
         }
-        public async Task<APIRespuestas> Modificar([FromBody] PromocionDTO entidad)
+        public async Task<APIRespuestas> Modificar([FromBody] PromocionDTOActualizar entidad)
         {
             try
             {
-                var PromoObtenido = await _promo.Obtener(c => c.Id == entidad.Id);
+                var PromoObtenido = await _promoRepo.Obtener(c => c.Id == entidad.Id);
                 if (PromoObtenido == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
@@ -108,7 +104,7 @@ namespace Api_Agendate_App.Services
                 }
 
                 ActualizarAtributos(ref PromoObtenido, entidad);
-                await _promo.Actualizar(PromoObtenido);
+                await _promoRepo.Actualizar(PromoObtenido);
 
             }
             catch (Exception)
@@ -123,7 +119,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                IEnumerable<Promociones> LPromo = await _promo.ObtenerTodos(p => p.EmpresaId==Empresaid);
+                IEnumerable<Promociones> LPromo = await _promoRepo.ObtenerTodos(p => p.EmpresaId==Empresaid);
                 IEnumerable<PromocionDTO> Lista = _Mapper.Map<IEnumerable<PromocionDTO>>(LPromo);
                 _respuestas.Resultado = Lista;
                 return Lista;
@@ -141,7 +137,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var promocion = await _promo.Obtener(p => p.Id == idPromocion);
+                var promocion = await _promoRepo.Obtener(p => p.Id == idPromocion);
                 if (promocion == null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
@@ -156,6 +152,8 @@ namespace Api_Agendate_App.Services
 
                 var destinatarios = await ObtenerContactosParaPromocion(servicio.Id);
                 await _mens.EnviarEmailPromocion(destinatarios, promocion.AsuntoMensaje, promocion.CuerpoMensaje);
+                promocion.UltimoEnvio = DateTime.Now;
+                await _promoRepo.Actualizar(promocion);
 
             }
             catch (Exception ex)
@@ -192,7 +190,7 @@ namespace Api_Agendate_App.Services
             return contactosNombreCorreo;
         }
 
-        private void ActualizarAtributos(ref Promociones PromoContext, PromocionDTO entidad)
+        private void ActualizarAtributos(ref Promociones PromoContext, PromocionDTOActualizar entidad)
         {
                 if (PromoContext.CuerpoMensaje != entidad.CuerpoMensaje)
                     PromoContext.CuerpoMensaje = entidad.CuerpoMensaje;

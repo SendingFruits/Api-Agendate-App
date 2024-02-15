@@ -220,7 +220,7 @@ namespace Api_Agendate_App.Services
 
 
             reserva.Estado = nuevoEstado;
-            _ReservaRepo.Actualizar(reserva);
+            await _ReservaRepo.Actualizar(reserva);
 
             return _respuestas;
         }

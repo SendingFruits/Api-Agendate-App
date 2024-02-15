@@ -106,9 +106,9 @@ namespace Logic.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Promociones", x => x.Id);
+                    table.PrimaryKey("PK_promoRepociones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Promociones_Empresas_EmpresaId",
+                        name: "FK_promoRepociones_Empresas_EmpresaId",
                         column: x => x.EmpresaId,
                         principalTable: "Empresas",
                         principalColumn: "Id",
@@ -217,7 +217,7 @@ namespace Logic.Migrations
                 column: "ServicioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Promociones_EmpresaId",
+                name: "IX_promoRepociones_EmpresaId",
                 table: "Promociones",
                 column: "EmpresaId");
 

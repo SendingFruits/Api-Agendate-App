@@ -122,7 +122,7 @@ namespace Api_Agendate_App.Services
                 notificacionNueva.asunto = asuntoCorreo;
                 notificacionNueva.cuerpo = cuerpoCorreo;
                 notificacionNueva.IdEmpresa = null;
-                _NotiRepo.Crear(notificacionNueva);
+                await _NotiRepo.Crear(notificacionNueva);
 
                 return (_respuestas);
 

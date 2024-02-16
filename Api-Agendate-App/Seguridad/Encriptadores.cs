@@ -62,5 +62,30 @@ namespace Api_Agendate_App.Seguridad
                 }
             }
         }
+
+        public static string GenerarContraseniaRecuperacion()
+        {
+            string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+";
+
+            // Generador de números aleatorios seguro
+            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+            {
+                // Crear un array de bytes para almacenar los valores aleatorios generados
+                byte[] randomBytes = new byte[6];
+                rng.GetBytes(randomBytes);
+
+                // Crear un array de caracteres para la contraseña
+                char[] password = new char[6];
+
+                // Llenar la contraseña con caracteres aleatorios
+                for (int i = 0; i < 6; i++)
+                {
+                    // Convertir el byte aleatorio en un índice dentro de la cadena de caracteres permitidos
+                    password[i] = chars[randomBytes[i] % chars.Length];
+                }
+
+                return new string(password);
+            }
+        }
     }
 }

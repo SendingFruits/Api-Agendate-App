@@ -92,11 +92,11 @@ var app = builder.Build();
 
 //Para iniciar una base de datos la primera vez que se ejecute el proyecto.
 
-using (var scope = app.Services.CreateScope())
-{
-    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
-    Context.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
+//    Context.Database.Migrate();
+//}
 
 if (app.Environment.IsProduction())
         {

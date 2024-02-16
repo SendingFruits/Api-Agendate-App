@@ -129,7 +129,29 @@ namespace Api_Agendate_App.Constantes
                   <body>
                     <p>¡Hola {nombreUsuario}!</p>
                     <p>Te informamos que tu contraseña fue modificada correctamente.</p>
-                    <p>En el caso que no hayas sido tú, debes contactarte inmediatamente con soporte@sendingfruits.com: </p>
+                    <p>En el caso que no hayas sido tú, debes contactarte inmediatamente con soporte@sendingfruits.com </p>
+                    <p></p>
+                    <img>
+                    <p></p>
+                    <p><em>Este es un correo automático. No contestar el mismo.</em></p>
+                  </body>
+                </html>
+                ";
+        }
+
+        public static string ObtenerAsuntoContraseniaNueva()
+        {
+            return $"Nueva contraseña - AgendateApp";
+        }
+
+        public static string ObtenerCuerpoContraseniaNueva(string nombreUsuario, string nuevaPass)
+        {
+            return $@"
+                <html>
+                  <body>
+                    <p>¡Hola {nombreUsuario}!</p>
+                    <p>Te informamos que solicitaste un cambio de contraseña y la nueva contraseña es: {nuevaPass}</p>
+                    <p>En el caso que no hayas sido tú, debes contactarte inmediatamente con soporte@sendingfruits.com </p>
                     <p></p>
                     <img>
                     <p></p>

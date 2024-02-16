@@ -1,12 +1,10 @@
 ﻿using Microsoft.Identity.Client;
+using System.ComponentModel;
 
 namespace Api_Agendate_App.Constantes
 {
     public class ConstantesDeErrores
     {   
-        // Del 1001 al 2000
-        #region Errores por entidad (Singular)
-
         public const int ErrorEntidadExistente = 1001;
         public const int ErrorInsertandoEntidad = 1002;
         public const int ErrorEntidadInexistente = 1003;
@@ -73,27 +71,24 @@ namespace Api_Agendate_App.Constantes
         public const int ErrorFavoritoConIdInexistente = 1702;
         #endregion
 
-        #region Errores Generales 1901 al 2000 -> ...
-        public const int ErrorClaveViejaIngresadaConfirmarVacia = 1901;
-        public const int ErrorClaveNuevaIngresadaConfirmarVacia = 1902;
-
+        #region Promociones 1801 al 1900
+        public const int ErrorInesperadoAlCrearPromocion = 1801;
+        public const int ErrorInesperadoAlEliminarPromocion = 1802;
+        public const int ErrorInesperadoAlModificarPromocion = 1803;
+        public const int ErrorInesperadoAlEnviarPromocion = 1804;
+        public const int ErrorPromocionConIdNoEncontrada = 1805;
+        public const int ErrorYaExisteElNombreDelaPromocion = 1806;
         #endregion
 
+        #region Errores Generales 2000 al 3000 -> ...
+        public const int ErrorClaveViejaIngresadaConfirmarVacia = 2001;
+        public const int ErrorClaveNuevaIngresadaConfirmarVacia = 2002;
+        public const int ErrorCredencialesIncorrectas = 2003;
+        public const int ErrorInesperadoAlGenerarContraseniaRecuperacion = 2004;
         #endregion
 
-        // Del 2001 al 3000
-        #region Errores por entidades (Plural) -> ...
-        public const int ErrorEntidadesExistentes = 2001;
-        public const int ErrorInsertandoEntidades = 2002;
-        public const int ErrorEntidadesInexistentes = 2003;
-        #endregion
-
-        // Del 3001 al 3500
-        #region Errores Generales funcionamiento -> ...
-        public const int ErrorCredencialesIncorrectas = 3001;
-
-        public static int ErrorYaExisteElNombreDelaPromocion { get; internal set; }
-        #endregion
+        public const int ErrorEntidadesInexistentes = 5000;
+        public const int ErrorInsertandoEntidades = 50001;
 
         public static string DevolverMensaje(int codigoError)
         {
@@ -279,6 +274,11 @@ namespace Api_Agendate_App.Constantes
                         break;
                 }
             }
+
+
+            #endregion
+
+            #region Errores de Mensajeria
             else if (codigoError >= 1601 && codigoError <= 1700)
             {
                 switch (codigoError)
@@ -288,7 +288,9 @@ namespace Api_Agendate_App.Constantes
                         break;
                 }
             }
+            #endregion
 
+            #region Errores de Favoritos
             else if (codigoError >= 1701 && codigoError <= 1800)
             {
                 switch (codigoError)
@@ -299,13 +301,40 @@ namespace Api_Agendate_App.Constantes
                     case ErrorFavoritoConIdInexistente:
                         mensaje = "El favorito que se intenta modificar no fue encontrado";
                         break;
+                    
                 }
             }
-
             #endregion
 
-            #region Errores generales en singular --> ...
-            else if (codigoError >= 1901 && codigoError <= 2000)
+            #region Errores de Promociones
+            else if (codigoError >= 1801 && codigoError <= 1900)
+            {
+                switch (codigoError)
+                {
+                    case ErrorInesperadoAlCrearPromocion:
+                        mensaje = "Error inesperado al crear la promoción";
+                        break;
+                    case ErrorInesperadoAlEliminarPromocion:
+                        mensaje = "Error inesperado al eliminar la promoción";
+                        break;
+                    case ErrorInesperadoAlModificarPromocion:
+                        mensaje = "Error inesperado al modificar la promoción";
+                        break;
+                    case ErrorInesperadoAlEnviarPromocion:
+                        mensaje = "Error inesperado al enviar la promoción";
+                        break;
+                    case ErrorPromocionConIdNoEncontrada:
+                        mensaje = "La promoción con la ID enviada no fue encontrada.";
+                        break;
+                    case ErrorYaExisteElNombreDelaPromocion:
+                        mensaje = "Ya existe una promoción con el nombre ingresado";
+                        break;
+                }
+            }
+            #endregion
+
+            #region Errores generales
+            else if (codigoError >= 2001 && codigoError <= 3000)
             {
                 switch (codigoError)
                 {
@@ -315,41 +344,30 @@ namespace Api_Agendate_App.Constantes
                     case ErrorClaveNuevaIngresadaConfirmarVacia:
                         mensaje = "La clave nueva ingresada no puede ser vacía";
                         break;
-                }
-
-            }
-            #endregion
-
-            #region Errores por entidades(Plural) --> ...
-            else if (codigoError >= 2001 && codigoError <= 3000)
-            {
-                switch (codigoError)
-                {
-                    case ErrorEntidadExistente:
-                        mensaje = "Las entidades a crear ya existen en el sistema";
-                        break;
-                    case ErrorInsertandoEntidad:
-                        mensaje = "Error: insertando las entidades en el sistema";
-                        break;
-                    case ErrorEntidadInexistente:
-                        mensaje = "Las entidades no existen";
-                        break;
-                }
-            }
-            #endregion
-
-            #region Errores Generales --> ...
-            else if (codigoError >= 3001 && codigoError <= 3500)
-            {
-                switch (codigoError)
-                {
                     case ErrorCredencialesIncorrectas:
                         mensaje = "Las credenciales ingresadas no son correctas";
                         break;
+                    case ErrorInesperadoAlGenerarContraseniaRecuperacion:
+                        mensaje = "Error inesperado al intentar generar la contraseña de recuperación";
+                        break;
                 }
+
             }
             #endregion
 
+            else if (codigoError >= 5000 && codigoError <= 6000)
+            {
+                switch (codigoError)
+                {
+                    case ErrorEntidadesInexistentes:
+                        mensaje = "Error no existen entidades en el sistema";
+                        break;
+                    case ErrorInsertandoEntidades:
+                        mensaje = "Error insertando entidad en el sistema";
+                        break;
+                }
+
+            }
             return mensaje;
         }
     }

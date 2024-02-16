@@ -245,6 +245,9 @@ namespace Logic.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("tieneNotificaciones")
+                        .HasColumnType("bit");
+
                     b.HasIndex("Documento")
                         .IsUnique()
                         .HasFilter("[Documento] IS NOT NULL");

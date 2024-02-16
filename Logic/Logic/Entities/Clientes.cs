@@ -12,6 +12,8 @@ namespace Logic.Entities
         [Required(ErrorMessage = "El camnpo No puede ser nulo o vacio")]
         public string Documento { get; set; }
 
+        public bool tieneNotificaciones { get; set; } = true;
+
         public virtual ICollection<Reservas> Reservas { get; set; }
 
         public virtual ICollection<Favoritos> Favoritos { get; set; }

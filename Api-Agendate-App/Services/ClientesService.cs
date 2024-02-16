@@ -83,45 +83,30 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> Buscar(string ci)
+        public async Task<APIRespuestas> ModificarNotificaciones(int idCliente, bool notificaciones)
         {
             try
             {
-                var encontre = await _CliRepo.Obtener(cli => cli.Documento == ci && cli.Activo == true);
-                if (encontre != null)
-                {
-                    _respuestas.codigo = 0;
-                    _respuestas.Resultado = encontre;
+                var esta = await _CliRepo.Obtener(cli => cli.Id == idCliente && cli.Activo == true);
 
+                if (esta == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
                 }
 
-
+                esta.tieneNotificaciones = notificaciones;
+                await _CliRepo.Actualizar(esta);
             }
             catch (Exception)
             {
-
-                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
-
-            }
-            return _respuestas;
-        }
-
-        public async Task<ActionResult<APIRespuestas>> GetClientes()
-        {
-            try
-            {
-                IEnumerable<Clientes> UsuarioList = await _CliRepo.ObtenerTodos(cli => cli.Activo == true);
-                IEnumerable<ClienteDTO> UsuariosList = _Mapper.Map<IEnumerable<ClienteDTO>>(UsuarioList);
-                _respuestas.Resultado = UsuariosList;
+                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoActualizarCliente;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                 return _respuestas;
-
-            }
-            catch (Exception ex)
-            {
-                _respuestas.mensaje = ex.ToString();
-                _respuestas.codigo = ConstantesDeErrores.ErrorInsertandoEntidad;
             }
             return _respuestas;
         }
+        
     }
 }

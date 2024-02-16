@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Logic.Migrations
 {
     /// <inheritdoc />
-    public partial class initialBD : Migration
+    public partial class InitialBD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,7 +53,8 @@ namespace Logic.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Documento = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Documento = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    tieneNotificaciones = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,9 +107,9 @@ namespace Logic.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_promoRepociones", x => x.Id);
+                    table.PrimaryKey("PK_Promociones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_promoRepociones_Empresas_EmpresaId",
+                        name: "FK_Promociones_Empresas_EmpresaId",
                         column: x => x.EmpresaId,
                         principalTable: "Empresas",
                         principalColumn: "Id",
@@ -217,7 +218,7 @@ namespace Logic.Migrations
                 column: "ServicioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_promoRepociones_EmpresaId",
+                name: "IX_Promociones_EmpresaId",
                 table: "Promociones",
                 column: "EmpresaId");
 

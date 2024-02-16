@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Api_Agendate_App.Constantes;
 using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.DTOs.Usuarios;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Api_Agendate_App.Controllers
 {
@@ -160,7 +161,6 @@ namespace Api_Agendate_App.Controllers
             return Ok(respuesta.mensaje);
         }
 
-
         [HttpPut("EliminarUsuario")]
         public async Task<ActionResult<APIRespuestas>> Eliminar(int id)
         {
@@ -180,6 +180,27 @@ namespace Api_Agendate_App.Controllers
             }
 
             return Ok(respuesta);
+        }
+
+        [HttpPost("GenerarClaveRecuperacionUsuario")]
+        public async Task<ActionResult<APIRespuestas>> GenerarClaveRecuperacionUsuario(string nomUsuario, string correoUsuario,string celular)
+        {
+            APIRespuestas respuesta = new APIRespuestas();
+            try
+            {
+                if (nomUsuario.IsNullOrEmpty() || correoUsuario.IsNullOrEmpty() || celular.IsNullOrEmpty())
+                {
+                    return BadRequest("Los campos son obligatorios y no pueden ser vacíos.");    
+                }
+
+                respuesta = await _usuariosService.GenerarClaveRecuperacion(nomUsuario, correoUsuario, celular);
+            }
+            catch (Exception ex)
+            {
+                respuesta.codigo = ConstantesDeErrores.ErrorInesperadoAlGenerarContraseniaRecuperacion;
+                respuesta.mensaje = ConstantesDeErrores.DevolverMensaje(respuesta.codigo);
+            }
+            return respuesta;
         }
 
     }

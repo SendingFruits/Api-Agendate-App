@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240215190950_initialBD")]
-    partial class initialBD
+    [Migration("20240216171405_InitialBD")]
+    partial class InitialBD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -247,6 +247,9 @@ namespace Logic.Migrations
                     b.Property<string>("Documento")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("tieneNotificaciones")
+                        .HasColumnType("bit");
 
                     b.HasIndex("Documento")
                         .IsUnique()

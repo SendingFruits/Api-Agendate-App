@@ -88,6 +88,57 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
+        public async Task<APIRespuestas> BajaUsuario(int id)
+        {
+            try
+            {
+                var existe = await _UsuRepo.Obtener(u => u.Id == id && u.Activo == true);
+
+                if (existe == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
+                existe.Activo = false;
+                await _UsuRepo.Actualizar(existe);
+                return _respuestas;
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+            }
+            return _respuestas;
+        }
+
+        public async Task<APIRespuestas> GenerarClaveRecuperacion(string nomUsuario, string correoUsuario,string celularUsuario)
+        {
+            try
+            {
+                var existe = await _UsuRepo.Obtener(u => u.NombreUsuario == nomUsuario && u.Correo == correoUsuario && u.Celular == celularUsuario && u.Activo == true);
+
+                if (existe == null)
+                {
+                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    return _respuestas;
+                }
+
+                string contraseniaNueva = Encriptadores.GenerarContraseniaRecuperacion();
+                existe.Contrasenia = Encriptadores.Encriptar(contraseniaNueva);
+                await _UsuRepo.Actualizar(existe);
+                await _SNoticar.CreateMail(existe.Correo, NotificacionesImportantes.ObtenerAsuntoContraseniaNueva(),
+                                                NotificacionesImportantes.ObtenerCuerpoContraseniaNueva(existe.Nombre, contraseniaNueva));
+                return _respuestas;
+            }
+            catch (Exception)
+            {
+                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+            }
+            return _respuestas;
+        }
+
         private void ActualizarAtributos(ref Usuarios entidadBase, UsuarioDatosBasicosDTO entidadModificada)
         {
             try
@@ -118,28 +169,5 @@ namespace Api_Agendate_App.Services
             }
         }
 
-        public async Task<APIRespuestas> BajaUsuario(int id)
-        {
-            try
-            {
-                var existe = await _UsuRepo.Obtener(u => u.Id == id && u.Activo == true);
-
-                if (existe == null)
-                {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
-                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
-                    return _respuestas;
-                }
-
-                existe.Activo = false;
-                await _UsuRepo.Actualizar(existe);
-                return _respuestas;
-            }
-            catch (Exception)
-            {
-                _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
-            }
-            return _respuestas;
-        }
     }
 }

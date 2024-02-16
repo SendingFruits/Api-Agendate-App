@@ -41,19 +41,20 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var Existe = await _promoRepo.Obtener(pro => pro.Empresa.Id == NuevaPromo.EmpresaId);
+                var Existe = await _promoRepo.Obtener(pro => pro.Empresa.Id == NuevaPromo.EmpresaId && pro.AsuntoMensaje == pro.AsuntoMensaje);
                 if (Existe != null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteElNombreDelaPromocion;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
-
 
                 var existeEmpresa = await _EmpresaRepo.Obtener(emp => emp.Id == NuevaPromo.EmpresaId);
 
                 if (existeEmpresa == null)
                 {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEmpresaNoEncontrada;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
 
@@ -68,8 +69,10 @@ namespace Api_Agendate_App.Services
             }
             catch (Exception ex)
             {
-
+                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoAlCrearPromocion;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
             }
+
             return _respuestas;
         }
         public async Task<APIRespuestas> Eliminar(int PromoId)
@@ -86,8 +89,8 @@ namespace Api_Agendate_App.Services
             }
             catch (Exception ex)
             {
-                _respuestas.codigo = 9999;
-                _respuestas.mensaje = ex.Message;
+                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoAlEliminarPromocion;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
             }
 
             return _respuestas;
@@ -99,7 +102,8 @@ namespace Api_Agendate_App.Services
                 var PromoObtenido = await _promoRepo.Obtener(c => c.Id == entidad.Id);
                 if (PromoObtenido == null)
                 {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoAlModificarPromocion;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
 
@@ -140,14 +144,16 @@ namespace Api_Agendate_App.Services
                 var promocion = await _promoRepo.Obtener(p => p.Id == idPromocion);
                 if (promocion == null)
                 {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    _respuestas.codigo = ConstantesDeErrores.ErrorPromocionConIdNoEncontrada;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
 
                 var servicio = await _serviciosRepo.Obtener(s => s.EmpresaId == promocion.EmpresaId && s.Activo == true);
                 if (servicio == null)
                 {
-
+                    _respuestas.codigo = ConstantesDeErrores.ErrorServicioConIdNoEncontrado;
+                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
                 }
 
                 var destinatarios = await ObtenerContactosParaPromocion(servicio.Id);
@@ -158,8 +164,8 @@ namespace Api_Agendate_App.Services
             }
             catch (Exception ex)
             {
-                _respuestas.mensaje = ex.Message;
-
+                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoAlEnviarPromocion;
+                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
             }
             return _respuestas;
         }
@@ -173,8 +179,9 @@ namespace Api_Agendate_App.Services
                 if (reservas.Count() == 0 || !reservas.Any() || reservas == null)
                     return contactosNombreCorreo;
 
-                var idsClientes =  reservas.Select(r => r.ClienteId).ToList().Take(500);
-                var clientes = await _clienteRepo.ObtenerTodos(c => idsClientes.Contains(c.Id));
+                var idsClientes =  reservas.Select(r => r.ClienteId).ToList();
+                var clientes = await _clienteRepo.ObtenerTodos(c => idsClientes.Contains(c.Id) && c.Activo == true && c.tieneNotificaciones == true);
+                clientes.ToList().Take(500);
                 foreach (var c in clientes)
                 {
                     if (contactosNombreCorreo.ContainsValue(c.Correo))

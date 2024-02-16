@@ -4,6 +4,6 @@
     {
         public string documento { get; set; }
 
-        //public string foto { get; set; }
+        public bool tieneNotificaciones { get; set; }
     }
 }

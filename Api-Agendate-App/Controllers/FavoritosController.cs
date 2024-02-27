@@ -86,21 +86,5 @@ namespace Api_Agendate_App.Controllers
 
             return Ok();
         }
-
-        [HttpPut("ModificarNotificaciones")]
-        public async Task<ActionResult<APIRespuestas>> ModificarNotificacionesFavoritos(int idFavorito, bool quiereNotificacion)
-        {
-            var respuesta = await _favoritosService.ModificarNotificacionFavorito(idFavorito, quiereNotificacion);
-            if (respuesta.codigo != 0)
-            {
-                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidades;
-                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidades);
-                return BadRequest(_respuestas.mensaje);
-            }
-
-            _respuestas.Resultado = respuesta.Resultado;
-
-            return Ok(_respuestas.Resultado);
-        }
     }
 }

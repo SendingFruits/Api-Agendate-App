@@ -14,10 +14,12 @@ namespace Api_Agendate_App.Controllers
     public class ClientesController : ControllerBase
     {
         private readonly ClientesService _clientesService;
+        private readonly APIRespuestas _respuestas;
 
-        public ClientesController(ClientesService clientesService)
+        public ClientesController(ClientesService clientesService, APIRespuestas respuestas)
         {
             _clientesService = clientesService;
+            _respuestas = respuestas;
         }
 
         [HttpPost("RegistrarCliente")]
@@ -40,6 +42,22 @@ namespace Api_Agendate_App.Controllers
             }
             
             return Ok(respuesta.mensaje);
+        }
+
+        [HttpPut("ModificarNotificaciones")]
+        public async Task<ActionResult<APIRespuestas>> ModificarNotificacionesFavoritos(int idCliente, bool quiereNotificacion)
+        {
+            var respuesta = await _clientesService.ModificarNotificaciones(idCliente, quiereNotificacion);
+            if (respuesta.codigo != 0)
+            {
+                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidades;
+                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidades);
+                return BadRequest(_respuestas.mensaje);
+            }
+
+            _respuestas.Resultado = respuesta.Resultado;
+
+            return Ok(_respuestas.Resultado);
         }
     }
  }

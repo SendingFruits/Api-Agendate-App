@@ -201,30 +201,5 @@ namespace Api_Agendate_App.Services
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> ModificarNotificacionFavorito(int idFavoritos, bool notificacion)
-        {
-            try
-            {
-                var favorito = await _FavoRepo.Obtener(r => r.Id == idFavoritos);
-                if (favorito == null)
-                {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorFavoritoConIdInexistente;
-                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
-                    return _respuestas;
-                }
-
-                favorito.recibirNotificaciones = notificacion;
-                await _FavoRepo.Actualizar(favorito);
-            }
-            catch (Exception ex)
-            {
-                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoAlCancelarReserva;
-                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
-                return _respuestas;
-            }
-
-            return _respuestas;
-        }
-
     }
 }

@@ -12,6 +12,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Api_Agendate_App.Mapper;
+using Serilog.Sinks.MSSqlServer;
+using Serilog;
+using System.Collections.ObjectModel;
+using System.Data;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Security.Principal;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +53,8 @@ var secretKey = builder.Configuration.GetSection("settings").GetSection("secretk
 var keyBytes= Encoding.UTF8.GetBytes(secretKey);
 //hasta aca 
 //aqui implementa Jwt
+
+
 builder.Services.AddAuthentication(config =>
 {
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -92,22 +100,49 @@ var app = builder.Build();
 
 //Para iniciar una base de datos la primera vez que se ejecute el proyecto.
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
-//    Context.Database.Migrate();
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var Context = scope.ServiceProvider.GetRequiredService<DataContext>();
+    Context.Database.Migrate();
+}
 
-if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
 
+#region Serilog --> 
+ColumnOptions columnsOptions = new ColumnOptions();
+
+// Remover todas las columnas estándar
+columnsOptions.Store.Remove(StandardColumn.LogEvent);
+columnsOptions.Store.Remove(StandardColumn.Message);
+columnsOptions.Store.Remove(StandardColumn.MessageTemplate);
+columnsOptions.Store.Remove(StandardColumn.Level);
+//columnsOptions.Store.Remove(StandardColumn.TimeStamp);
+columnsOptions.Store.Remove(StandardColumn.Exception);
+columnsOptions.Store.Remove(StandardColumn.Properties);
+
+// Agregar columnas personalizadas
+columnsOptions.AdditionalColumns = new Collection<SqlColumn>
+{
+    new SqlColumn {ColumnName = "Usuario", DataType = SqlDbType.NVarChar, DataLength = 255},
+    new SqlColumn {ColumnName = "Operacion", DataType = SqlDbType.NVarChar, DataLength = 50},
+    new SqlColumn {ColumnName = "Mensaje", DataType = SqlDbType.NVarChar, DataLength = 255},
+    new SqlColumn {ColumnName = "Excepcion", DataType = SqlDbType.NVarChar, DataLength = 255},
+
+    // Agregar más columnas personalizadas según tus necesidades
+};
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.MSSqlServer(
+        connectionString: builder.Configuration.GetConnectionString("BdConnectionString"),
+        sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs", AutoCreateSqlTable = true},
+        columnOptions: columnsOptions)
+    .CreateLogger();
+
+#endregion
+app.UseSwagger();
+
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
-
-
 
 app.UseAuthentication();
 

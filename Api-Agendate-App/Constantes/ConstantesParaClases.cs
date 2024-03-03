@@ -7,4 +7,9 @@
         public const string EstadoReservaCancelada = "Cancelada";
         public const string EstadoReservaRechazada = "Rechazada";
     }
+
+    public static class ConstantesLog
+    {
+        public const string TemplateLog = "{Usuario} {Operacion} {Mensaje} {Excepcion}";
+    }
 }

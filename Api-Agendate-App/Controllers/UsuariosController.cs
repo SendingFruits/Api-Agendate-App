@@ -6,6 +6,8 @@ using Api_Agendate_App.Constantes;
 using Api_Agendate_App.Seguridad;
 using Api_Agendate_App.DTOs.Usuarios;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+
 
 namespace Api_Agendate_App.Controllers
 {
@@ -29,6 +31,8 @@ namespace Api_Agendate_App.Controllers
         {
             APIRespuestas resp = new APIRespuestas();
             UsuarioDTO usuario = null;
+
+            
             try
             {
                 if (string.IsNullOrWhiteSpace(pUsuario) && string.IsNullOrWhiteSpace(pContrasenia))
@@ -52,6 +56,7 @@ namespace Api_Agendate_App.Controllers
                 return BadRequest(ex.Message);
             }
 
+            Log.Information(ConstantesLog.TemplateLog, usuario.NombreUsuario, "LoginUsuario", "Logueado Correctamente");
             return Ok(usuario);
         }
 

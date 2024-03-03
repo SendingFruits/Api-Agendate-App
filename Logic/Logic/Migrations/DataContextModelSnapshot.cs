@@ -245,6 +245,9 @@ namespace Logic.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Foto")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("tieneNotificaciones")
                         .HasColumnType("bit");
 

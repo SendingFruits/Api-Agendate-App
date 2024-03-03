@@ -54,7 +54,8 @@ namespace Logic.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     Documento = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    tieneNotificaciones = table.Column<bool>(type: "bit", nullable: false)
+                    tieneNotificaciones = table.Column<bool>(type: "bit", nullable: false),
+                    Foto = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

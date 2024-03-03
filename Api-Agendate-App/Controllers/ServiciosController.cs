@@ -38,7 +38,7 @@ namespace Api_Agendate_App.Controllers
                 return Ok(_respuestas.Resultado);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidad;
                 _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidad);

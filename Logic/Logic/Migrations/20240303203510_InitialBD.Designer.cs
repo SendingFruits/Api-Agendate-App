@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240216171405_InitialBD")]
+    [Migration("20240303203510_InitialBD")]
     partial class InitialBD
     {
         /// <inheritdoc />
@@ -247,6 +247,9 @@ namespace Logic.Migrations
                     b.Property<string>("Documento")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Foto")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("tieneNotificaciones")
                         .HasColumnType("bit");

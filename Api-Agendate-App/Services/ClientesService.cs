@@ -1,5 +1,6 @@
 ﻿using Api_Agendate_App.Constantes;
 using Api_Agendate_App.DTOs;
+using Api_Agendate_App.DTOs.Usuarios;
 using Api_Agendate_App.Utilidades;
 using AutoMapper;
 using Logic.Entities;
@@ -77,36 +78,73 @@ namespace Api_Agendate_App.Services
             }
             catch (Exception )
             {
-
                 _respuestas.codigo= ConstantesDeErrores.ErrorInsertandoEntidad;
             }
             return _respuestas;
         }
 
-        public async Task<APIRespuestas> ModificarNotificaciones(int idCliente, bool notificaciones)
+
+        public async Task<APIRespuestas> ActualizarDatosBasicosCliente(ClienteDTOBasico usuario)
         {
+
             try
             {
-                var esta = await _CliRepo.Obtener(cli => cli.Id == idCliente && cli.Activo == true);
-
+                var esta = await _CliRepo.Obtener(c => c.Id == usuario.Id);
                 if (esta == null)
                 {
-                    _respuestas.codigo = ConstantesDeErrores.ErrorClienteConIdNoEncontrado;
-                    _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
+                    _respuestas.codigo = ConstantesDeErrores.ErrorEntidadInexistente;
+                    _respuestas.ObtenerMensaje(_respuestas.codigo);
                     return _respuestas;
                 }
 
-                esta.tieneNotificaciones = notificaciones;
-                await _CliRepo.Actualizar(esta);
+                ActualizarAtributos(ref esta, usuario);
+                await _UsuRepo.Actualizar(esta);
+
             }
             catch (Exception)
             {
-                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoActualizarCliente;
-                _respuestas.mensaje = ConstantesDeErrores.DevolverMensaje(_respuestas.codigo);
-                return _respuestas;
+                _respuestas.codigo = ConstantesDeErrores.ErrorInesperadoActualizarUsuario;
             }
             return _respuestas;
         }
-        
+
+        private void ActualizarAtributos(ref Clientes entidadBase, ClienteDTOBasico entidadModificada)
+        {
+            try
+            {
+                if (entidadBase.Nombre != entidadModificada.Nombre)
+                {
+                    entidadBase.Nombre = entidadModificada.Nombre;
+                }
+                if (entidadBase.Apellido != entidadModificada.Apellido)
+                {
+                    entidadBase.Apellido = entidadModificada.Apellido;
+                }
+                if (entidadBase.Correo != entidadModificada.Correo)
+                {
+                    entidadBase.Correo = entidadModificada.Correo;
+                }
+                if (entidadBase.Celular != entidadModificada.Celular)
+                {
+                    entidadBase.Celular = entidadModificada.Celular;
+                }
+                if (entidadBase.Documento != entidadModificada.Documento)
+                {
+                    entidadBase.Documento = entidadModificada.Documento;
+                }
+                if (entidadBase.tieneNotificaciones != entidadModificada.tieneNotificaciones)
+                {
+                    entidadBase.tieneNotificaciones = entidadModificada.tieneNotificaciones;
+                }
+                if (entidadBase.Foto != entidadModificada.Foto)
+                {
+                    entidadBase.Foto = entidadModificada.Foto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
     }
 }

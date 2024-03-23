@@ -6,7 +6,7 @@ namespace Api_Agendate_App.DTOs.Promociones
     {
         public int Id { get; set; }
 
-        public DateTime UltimoEnvio { get; set; }
+        public DateTime? UltimoEnvio { get; set; }
 
         public string CuerpoMensaje { get; set; }
 

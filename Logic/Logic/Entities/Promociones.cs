@@ -14,7 +14,7 @@ namespace Logic.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public DateTime UltimoEnvio { get; set; }
+        public DateTime? UltimoEnvio { get; set; }
 
         public string CuerpoMensaje { get; set; }
 

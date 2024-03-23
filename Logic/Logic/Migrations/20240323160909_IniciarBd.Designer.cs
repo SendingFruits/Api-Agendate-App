@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Logic.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240303203510_InitialBD")]
-    partial class InitialBD
+    [Migration("20240323160909_IniciarBd")]
+    partial class IniciarBd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,7 +99,7 @@ namespace Logic.Migrations
                     b.Property<int>("EmpresaId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UltimoEnvio")
+                    b.Property<DateTime?>("UltimoEnvio")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

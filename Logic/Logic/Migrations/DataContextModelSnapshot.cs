@@ -96,7 +96,7 @@ namespace Logic.Migrations
                     b.Property<int>("EmpresaId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UltimoEnvio")
+                    b.Property<DateTime?>("UltimoEnvio")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

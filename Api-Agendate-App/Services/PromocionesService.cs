@@ -41,7 +41,7 @@ namespace Api_Agendate_App.Services
         {
             try
             {
-                var Existe = await _promoRepo.Obtener(pro => pro.Empresa.Id == NuevaPromo.EmpresaId && pro.AsuntoMensaje == pro.AsuntoMensaje);
+                var Existe = await _promoRepo.Obtener(pro => pro.Empresa.Id == NuevaPromo.EmpresaId && pro.AsuntoMensaje == NuevaPromo.AsuntoMensaje);
                 if (Existe != null)
                 {
                     _respuestas.codigo = ConstantesDeErrores.ErrorYaExisteElNombreDelaPromocion;

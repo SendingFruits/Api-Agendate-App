@@ -31,14 +31,11 @@ namespace Api_Agendate_App.Controllers
             var respuesta = await _promoRepoService.Create(PromoN);
             if (respuesta.codigo != 0)
             {
-                _respuestas.codigo = Constantes.ConstantesDeErrores.ErrorInsertandoEntidades;
-                _respuestas.ObtenerMensaje(Constantes.ConstantesDeErrores.ErrorInsertandoEntidades);
-                return BadRequest(_respuestas.mensaje);
+                
+                return BadRequest(respuesta.mensaje);
             }
-            _respuestas.Resultado = respuesta.Resultado;
-            _respuestas.codigo = 0;
 
-            return Ok(_respuestas.Resultado);
+            return Ok(respuesta.Resultado);
         }
 
         [HttpGet("ObtenerPromocionPorEmpresa")]

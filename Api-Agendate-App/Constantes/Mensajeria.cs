@@ -72,12 +72,19 @@ namespace Api_Agendate_App.Constantes
 
         public static string ObtenerCuerpoReservaExitosa(string nombreUsuario, string nombreServicio, DateTime fechaTurno, string nombreEmpresa, string direccionEmpresa, string? celularEmpresa, string? correoEmpresa)
         {
+            string minutos = "";
+            if (fechaTurno.Minute == 0)
+                minutos = "00";
+            else
+                minutos = fechaTurno.Minute.ToString();
+
             string Cuerpo =  $@"
                 <html>
                   <body>
                     <p>¡Hola {nombreUsuario}!</p>
-                    <p>Te informamos que tu reserva para el servicio: {nombreServicio}, de la empresa: {nombreEmpresa} fue registrada correctamente.</p>
-                    <p>Recuerda presentarte el día: <b>{UtilidadesParaFechas.DevolverDiaDeSemanaEspanol(fechaTurno)}</b> {fechaTurno.Date.Day} de {UtilidadesParaFechas.DevolverMesEspanol(fechaTurno)} a las {fechaTurno.Hour}:{fechaTurno.Minute} </p>
+                    <p>Te informamos que tu reserva para el servicio: {nombreServicio}</p>
+                    <p>de la empresa: {nombreEmpresa}, </p>fue registrada correctamente.
+                    <p>Recuerda presentarte el día: <b>{UtilidadesParaFechas.DevolverDiaDeSemanaEspanol(fechaTurno)}</b> {fechaTurno.Date.Day} de {UtilidadesParaFechas.DevolverMesEspanol(fechaTurno)} a las <b>{fechaTurno.Hour}:{minutos}</b> </p>
                     <p>La dirección de donde debes presentarte es: {direccionEmpresa}</p>
                     
                     {(celularEmpresa == null && correoEmpresa == null ? "<p><b>La empresa no proporcionó información de contacto por lo que debes presentarte en la dirección o buscar otro método de contacto</b></p>" :
